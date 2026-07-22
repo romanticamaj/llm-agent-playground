@@ -41,16 +41,18 @@ function injectCSS() {
     background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:10px 20px;cursor:pointer}
   .ds-unit{transition:opacity .5s ${EASE_OUT}, filter .5s ${EASE_OUT}}
   .ds-dim{opacity:.22;filter:blur(1.5px) saturate(.6);pointer-events:none}
-  .ds-bar{flex:none;display:flex;align-items:center;gap:24px;padding:18px 32px 22px;
+  .ds-bar{flex:none;position:relative;display:flex;align-items:center;justify-content:center;
+    min-height:88px;padding:18px 240px 22px;
     border-top:1px solid var(--line);background:rgba(8,9,10,.55);backdrop-filter:blur(14px)}
-  .ds-dots{display:flex;gap:7px;flex:none}
+  .ds-dots{display:flex;gap:7px;flex:none;position:absolute;left:32px;top:50%;transform:translateY(-50%)}
   .ds-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.16);transition:all .3s}
   .ds-dot.on{background:var(--accent);box-shadow:0 0 10px var(--accent);transform:scale(1.3)}
   .ds-dot.done{background:rgba(255,255,255,.4)}
-  .ds-narr{flex:1;min-width:0;font-size:clamp(20px,1.9vw,28px);font-weight:500;line-height:1.6;
+  .ds-narr{flex:none;min-width:0;max-width:min(72vw,1040px);text-align:center;
+    font-size:clamp(20px,1.9vw,28px);font-weight:500;line-height:1.55;
     color:var(--text);letter-spacing:-0.011em}
   .ds-narr b,.ds-narr strong{color:var(--accent)}
-  .ds-nav{display:flex;gap:10px;flex:none;align-items:center}
+  .ds-nav{display:flex;gap:10px;flex:none;align-items:center;position:absolute;right:24px;top:50%;transform:translateY(-50%)}
   .ds-back{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);background:none;
     border:1px solid var(--line);border-radius:999px;width:38px;height:38px;cursor:pointer;transition:all .25s}
   .ds-back:hover{color:var(--text);border-color:var(--text)}
@@ -64,7 +66,9 @@ function injectCSS() {
     animation:dsPulse 2s ease-in-out infinite}
   @keyframes dsPulse{50%{opacity:.55}}
   .ds-hintkey{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--text-dim)}
-  @media (max-width:760px){.ds-bar{flex-wrap:wrap;gap:12px}.ds-narr{width:100%;order:-1;font-size:17px}}
+  @media (max-width:900px){.ds-bar{padding:14px 16px 64px;min-height:0}.ds-narr{max-width:100%;font-size:17px}
+  .ds-dots{left:16px;top:auto;bottom:18px;transform:none}
+  .ds-nav{right:12px;top:auto;bottom:10px;transform:none}}
   `
   document.head.appendChild(s)
 }
