@@ -677,3 +677,6 @@ body.presentation .hud-bl { left: 24px; }
 }
 *::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); background-clip: content-box; }
 *::-webkit-scrollbar-corner { background: transparent; }
+
+/* demo 開啟時隱藏上課模式的快捷鍵提示（避免壓住字幕旁白） */
+body:has(.demo-overlay.open) .pres-hud { opacity: 0 !important; pointer-events: none; }
