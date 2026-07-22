@@ -13,8 +13,8 @@ export default function mount(el, ctx) {
   .${P}-main{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
   .${P}-band{flex:1;min-width:320px}
   .${P}-grp{margin-bottom:14px}
-  .${P}-grp .lab{font-size:14px;letter-spacing:.06em;color:#8b91a4;margin-bottom:7px;display:flex;gap:8px;align-items:center}
-  .${P}-grp .lab .badge{font-size:11px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.07);color:#9aa0b0}
+  .${P}-grp .lab{font-size:15.5px;letter-spacing:.06em;color:#8b91a4;margin-bottom:7px;display:flex;gap:8px;align-items:center}
+  .${P}-grp .lab .badge{font-size:12.5px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.07);color:#9aa0b0}
   .${P}-grp.stable .lab .badge{background:${accent}28;color:${accent}}
   .${P}-cells{display:flex;flex-wrap:wrap;gap:5px}
   .${P}-cell{width:20px;height:20px;border-radius:5px;background:#232838;transition:all .25s;position:relative;cursor:default}
@@ -27,24 +27,24 @@ export default function mount(el, ctx) {
   .${P}-cell.edited::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f87171' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 20 h4 L18 10 L14 6 L4 16 Z'/><path d='M13 7 L17 11'/></svg>") center/13px no-repeat}
   .${P}-side{width:250px;display:flex;flex-direction:column;gap:14px}
   .${P}-box{border:1px solid var(--line);border-radius:12px;padding:14px}
-  .${P}-box h4{margin:0 0 10px;font-size:13px;letter-spacing:.14em;color:#8b91a4;font-weight:600}
+  .${P}-box h4{margin:0 0 10px;font-size:15px;letter-spacing:.14em;color:#8b91a4;font-weight:600}
   .${P}-row{display:flex;justify-content:space-between;font-size:15px;padding:3px 0;color:#c7cbd8}
   .${P}-row .v{font-family:var(--font-mono,monospace)}
   .${P}-row.warm .v{color:#fbbf24}.${P}-row.hot .v{color:${accent}}
   .${P}-row.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
   .${P}-bills{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
   .${P}-bill{flex:1;min-width:150px;border:1px solid var(--line);border-radius:12px;padding:12px}
-  .${P}-bill h5{margin:0 0 6px;font-size:12px;letter-spacing:.1em;color:#8b91a4;font-weight:600}
+  .${P}-bill h5{margin:0 0 6px;font-size:14px;letter-spacing:.1em;color:#8b91a4;font-weight:600}
   .${P}-bill .amt{font-size:26px;font-weight:700;font-family:var(--font-mono,monospace)}
   .${P}-bill.cache .amt{color:#4ade80}.${P}-bill.nocache .amt{color:#f87171}
-  .${P}-bill .sub{font-size:12px;color:#8b91a4;margin-top:3px}
+  .${P}-bill .sub{font-size:14px;color:#8b91a4;margin-top:3px}
   .${P}-ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
   .${P}-btn{font-family:var(--font-tc);font-size:15px;color:var(--text);background:rgba(255,255,255,.04);
     border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s}
   .${P}-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .${P}-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .${P}-ctrls.hide{display:none}
-  .${P}-hint{font-size:14px;color:#8b91a4}
+  .${P}-hint{font-size:15.5px;color:#8b91a4}
   `
   el.appendChild(style)
 

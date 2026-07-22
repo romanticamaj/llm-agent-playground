@@ -23,20 +23,20 @@ export default function mount(el, ctx) {
   .${P}-col{flex:1;display:flex;flex-direction:column;gap:10px;min-width:200px}
   .${P}-box{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;transition:all .3s;background:#12151d;flex:1;display:flex;flex-direction:column}
   .${P}-box.active{border-color:${accent};box-shadow:0 0 18px rgba(91,140,255,.35)}
-  .${P}-box h5{margin:0 0 8px;font-size:13px;letter-spacing:.1em;color:#8b91a4;font-weight:600;display:flex;align-items:center;gap:7px}
+  .${P}-box h5{margin:0 0 8px;font-size:15px;letter-spacing:.1em;color:#8b91a4;font-weight:600;display:flex;align-items:center;gap:7px}
   .${P}-msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:7px}
   .${P}-msg{font-size:15px;padding:7px 10px;border-radius:8px;background:rgba(255,255,255,.05);border-left:2px solid #454b5c;opacity:0;transform:translateY(6px);transition:all .35s;font-family:var(--font-mono,monospace)}
   .${P}-msg.show{opacity:1;transform:none}
-  .${P}-msg .k{color:#8b91a4;font-size:11px;letter-spacing:.08em}
+  .${P}-msg .k{color:#8b91a4;font-size:12.5px;letter-spacing:.08em}
   .${P}-msg.tuse{border-left-color:${accent}}.${P}-msg.tres{border-left-color:#4ade80}
   .${P}-brain{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px}
   .${P}-brain .em{display:inline-flex;transition:transform .3s}
   .${P}-box.active .${P}-brain .em{transform:scale(1.12)}
-  .${P}-brain .cap{font-size:14px;color:#8b91a4}
+  .${P}-brain .cap{font-size:15.5px;color:#8b91a4}
   .${P}-gear{display:inline-flex;transition:transform .2s}
   .${P}-gear.spin{animation:${P}-spin 1s linear infinite}
   @keyframes ${P}-spin{to{transform:rotate(360deg)}}
-  .${P}-fly{position:absolute;z-index:20;font-size:13px;font-family:var(--font-mono,monospace);padding:7px 11px;border-radius:9px;background:${accent};color:#05060a;font-weight:600;transform:translate(-50%,-50%);transition:all .68s cubic-bezier(.5,0,.3,1);box-shadow:0 6px 20px rgba(0,0,0,.4);pointer-events:none;white-space:nowrap}
+  .${P}-fly{position:absolute;z-index:20;font-size:15px;font-family:var(--font-mono,monospace);padding:7px 11px;border-radius:9px;background:${accent};color:#05060a;font-weight:600;transform:translate(-50%,-50%);transition:all .68s cubic-bezier(.5,0,.3,1);box-shadow:0 6px 20px rgba(0,0,0,.4);pointer-events:none;white-space:nowrap}
   .${P}-fly.res{background:#4ade80}
   .${P}-desc{font-size:15px;line-height:1.6;color:#c7cbd8;margin-top:14px;min-height:20px}
   .${P}-desc.hide{display:none}.${P}-desc b{color:${accent}}
@@ -45,19 +45,19 @@ export default function mount(el, ctx) {
   .${P}-btn{font-family:var(--font-tc);font-size:15px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s}
   .${P}-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .${P}-slots{display:flex;flex-direction:column;gap:10px}
-  .${P}-slot{border:1px dashed rgba(255,255,255,.25);border-radius:10px;padding:10px;font-size:14px;font-family:var(--font-mono,monospace)}
+  .${P}-slot{border:1px dashed rgba(255,255,255,.25);border-radius:10px;padding:10px;font-size:15.5px;font-family:var(--font-mono,monospace)}
   .${P}-slot .id{color:${accent};font-weight:700}
-  .${P}-slot .drop{margin-top:8px;min-height:34px;border-radius:8px;border:1px dashed rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#6b7183;font-size:13px;transition:all .2s}
+  .${P}-slot .drop{margin-top:8px;min-height:34px;border-radius:8px;border:1px dashed rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#6b7183;font-size:15px;transition:all .2s}
   .${P}-slot.filled{border-color:#4ade80}
   .${P}-slot.filled .drop{border-style:solid;border-color:#4ade80;background:rgba(74,222,128,.1);color:#4ade80}
   .${P}-slot.wrong{animation:${P}-shake .4s}
   @keyframes ${P}-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
   .${P}-tray{display:flex;flex-direction:column;gap:9px}
-  .${P}-rescard{border:1px solid rgba(74,222,128,.5);background:rgba(74,222,128,.08);border-radius:10px;padding:9px 11px;font-size:14px;cursor:pointer;font-family:var(--font-mono,monospace);transition:all .2s}
+  .${P}-rescard{border:1px solid rgba(74,222,128,.5);background:rgba(74,222,128,.08);border-radius:10px;padding:9px 11px;font-size:15.5px;cursor:pointer;font-family:var(--font-mono,monospace);transition:all .2s}
   .${P}-rescard:hover{border-color:#4ade80}
   .${P}-rescard.sel{outline:2px solid #4ade80;outline-offset:1px}
   .${P}-rescard.used{opacity:.25;pointer-events:none;text-decoration:line-through}
-  .${P}-rescard .id{color:#8b91a4;font-size:11px}
+  .${P}-rescard .id{color:#8b91a4;font-size:12.5px}
   `
   el.appendChild(style)
 

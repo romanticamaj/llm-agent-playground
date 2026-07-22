@@ -10,21 +10,21 @@ export default function mount(el, ctx) {
   style.textContent = `
   .${P}-sliderwrap{display:flex;align-items:center;gap:16px;margin-bottom:6px}
   .${P}-endlabel{font-size:16px;font-weight:700;white-space:nowrap;color:#e8ebf2}
-  .${P}-endlabel small{display:block;font-size:12px;font-weight:400;color:#7b8296;letter-spacing:.1em}
+  .${P}-endlabel small{display:block;font-size:14px;font-weight:400;color:#7b8296;letter-spacing:.1em}
   .${P}-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;
     background:linear-gradient(90deg,#3a6df0,${accent});outline:none;cursor:pointer}
   .${P}-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
     background:#fff;border:3px solid ${accent};box-shadow:0 0 14px ${accent};cursor:grab}
   .${P}-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid ${accent};cursor:grab}
   .${P}-anchors{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0 16px}
-  .${P}-anchors .demo-btn{font-size:14px;padding:7px 14px}
+  .${P}-anchors .demo-btn{font-size:15.5px;padding:7px 14px}
   .${P}-anchors .demo-btn.on{background:${accent};color:#05060a;border-color:${accent}}
   .${P}-stage{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;overflow:hidden;margin-bottom:16px}
   .${P}-canvas{display:block;width:100%;height:280px}
-  .${P}-scene{position:absolute;top:12px;left:14px;font-size:14px;letter-spacing:.04em;color:#cfd4e0;background:rgba(0,0,0,.4);padding:4px 12px;border-radius:8px}
+  .${P}-scene{position:absolute;top:12px;left:14px;font-size:15.5px;letter-spacing:.04em;color:#cfd4e0;background:rgba(0,0,0,.4);padding:4px 12px;border-radius:8px}
   .${P}-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   .${P}-metric{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.02)}
-  .${P}-metric .lab{font-size:12.5px;color:#8b93a7;letter-spacing:.06em}
+  .${P}-metric .lab{font-size:14px;color:#8b93a7;letter-spacing:.06em}
   .${P}-metric .val{font-size:26px;font-weight:800;margin:4px 0 8px;font-family:var(--font-en,'Space Grotesk');color:#e8ebf2}
   .${P}-bar{height:8px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
   .${P}-bar>i{display:block;height:100%;border-radius:8px;transition:width .35s ease,background .35s}
@@ -41,7 +41,7 @@ export default function mount(el, ctx) {
   const anchors = document.createElement('div')
   anchors.className = `${P}-anchors ds-unit`
   anchors.innerHTML = `
-    <span style="font-size:14px;color:#7b8296">光譜錨點 →</span>
+    <span style="font-size:15.5px;color:#7b8296">光譜錨點 →</span>
     <button class="demo-btn" data-a="22">Divide &amp; Conquer</button>
     <button class="demo-btn" data-a="48">Human in the Loop</button>
     <button class="demo-btn" data-a="68">TDD + Autonomous</button>

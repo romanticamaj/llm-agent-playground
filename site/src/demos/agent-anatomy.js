@@ -18,8 +18,8 @@ export default function mount(el, ctx) {
   .${P}-part.on{border-color:#4ade80;background:rgba(74,222,128,.08)}
   .${P}-part.locked{cursor:default}.${P}-part.locked:hover{border-color:rgba(255,255,255,.14);transform:none}
   .${P}-part .tt{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600}
-  .${P}-part .ss{font-size:14px;color:#8b91a4;margin-top:4px;padding-left:33px}
-  .${P}-part .st{font-size:13px;margin-top:6px;padding-left:33px;color:#8b91a4}
+  .${P}-part .ss{font-size:15.5px;color:#8b91a4;margin-top:4px;padding-left:33px}
+  .${P}-part .st{font-size:15px;margin-top:6px;padding-left:33px;color:#8b91a4}
   .${P}-part.on .st{color:#4ade80}
   .${P}-stage{flex:1;min-width:300px;display:flex;flex-direction:column;gap:14px}
   .${P}-figbox{display:flex;gap:18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.015);padding:16px;min-height:280px}
@@ -33,16 +33,16 @@ export default function mount(el, ctx) {
   .${P}-eye{fill:#2a2f3d;transition:all .4s}
   .${P}-fig.alive .${P}-eye{fill:#4ade80;filter:drop-shadow(0 0 6px #4ade80)}
   .${P}-run{flex:1;display:flex;flex-direction:column;min-width:0}
-  .${P}-run h4{margin:0 0 8px;font-size:13px;letter-spacing:.14em;color:#8b91a4;font-weight:600}
+  .${P}-run h4{margin:0 0 8px;font-size:15px;letter-spacing:.14em;color:#8b91a4;font-weight:600}
   .${P}-log{flex:1;overflow:auto;font-size:15px;line-height:1.7;font-family:var(--font-mono,monospace)}
   .${P}-line{padding:4px 0;opacity:0;transform:translateY(6px);transition:all .3s;color:#c7cbd8}
   .${P}-line.show{opacity:1;transform:none}
   .${P}-line.bad{color:#f87171}.${P}-line.good{color:#4ade80}
   .${P}-line .who{color:#8b91a4;margin-right:7px}
   .${P}-ctx{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-  .${P}-ctx .lab{font-size:14px;letter-spacing:.06em;color:#8b91a4;margin-bottom:9px;display:flex;justify-content:space-between}
+  .${P}-ctx .lab{font-size:15.5px;letter-spacing:.06em;color:#8b91a4;margin-bottom:9px;display:flex;justify-content:space-between}
   .${P}-slots{display:flex;gap:10px;flex-wrap:wrap;min-height:34px}
-  .${P}-card{font-size:13px;font-family:var(--font-mono,monospace);padding:6px 12px;border-radius:8px;background:rgba(255,194,75,.12);border:1px solid rgba(255,194,75,.5);color:#ffc24b;opacity:0;transform:translateX(-40px) scale(.8);transition:all .5s cubic-bezier(.3,1.3,.5,1)}
+  .${P}-card{font-size:15px;font-family:var(--font-mono,monospace);padding:6px 12px;border-radius:8px;background:rgba(255,194,75,.12);border:1px solid rgba(255,194,75,.5);color:#ffc24b;opacity:0;transform:translateX(-40px) scale(.8);transition:all .5s cubic-bezier(.3,1.3,.5,1)}
   .${P}-card.in{opacity:1;transform:none}
   .${P}-ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
   .${P}-ctrls.hide{display:none}
@@ -50,7 +50,7 @@ export default function mount(el, ctx) {
   .${P}-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .${P}-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .${P}-btn:disabled{opacity:.4;cursor:default}
-  .${P}-note{font-size:14px;color:#8b91a4}
+  .${P}-note{font-size:15.5px;color:#8b91a4}
   `
   el.appendChild(style)
 

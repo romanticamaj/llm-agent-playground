@@ -34,9 +34,9 @@ export default function mount(el, ctx) {
     background:rgba(255,255,255,.02);overflow:hidden;min-height:280px}
   .fp-col.win{border-color:${OK}55}
   .fp-top{padding:12px 14px;border-bottom:1px solid var(--line)}
-  .fp-tag{font-size:13px;letter-spacing:.12em;font-weight:700;text-transform:uppercase}
+  .fp-tag{font-size:15px;letter-spacing:.12em;font-weight:700;text-transform:uppercase}
   .fp-col.vague .fp-tag{color:${BAD}}.fp-col.win .fp-tag{color:${OK}}
-  .fp-prompt{margin-top:6px;font-size:14px;color:var(--text-dim);line-height:1.5;font-family:var(--font-mono)}
+  .fp-prompt{margin-top:6px;font-size:15.5px;color:var(--text-dim);line-height:1.5;font-family:var(--font-mono)}
   .fp-log{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:9px;min-height:150px}
   .fp-b{max-width:90%;padding:8px 12px;border-radius:12px;font-size:15px;line-height:1.45;
     display:flex;gap:7px;align-items:flex-start}
@@ -45,14 +45,14 @@ export default function mount(el, ctx) {
   .fp-b.user{align-self:flex-end;background:${BAD}18;border:1px solid ${BAD}55;color:#ffd6d6}
   .fp-b.ok{align-self:flex-end;background:${OK}1c;border:1px solid ${OK}66;color:#c9ffd8;font-weight:600}
   .fp-foot{padding:9px 14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;
-    font-size:14px;color:var(--text-dim)}
+    font-size:15.5px;color:var(--text-dim)}
   .fp-foot b{color:var(--text);font-size:16px}
   .fp-dash{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
   .fp-cell{border:1px solid var(--line);border-radius:12px;padding:11px 14px;background:rgba(255,255,255,.02)}
-  .fp-cell .k{font-size:12px;letter-spacing:.06em;color:var(--text-dim);text-transform:uppercase}
+  .fp-cell .k{font-size:14px;letter-spacing:.06em;color:var(--text-dim);text-transform:uppercase}
   .fp-cell .v{font-size:24px;font-weight:700;margin-top:3px;font-family:var(--font-mono)}
   .fp-ctrl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .fp-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);
+  .fp-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);
     border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s ${EASE}}
   .fp-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .fp-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}

@@ -21,9 +21,9 @@ export default function mount(el, ctx) {
     .ac-layer{background:#101319;border:1px solid #232838;border-radius:10px;padding:10px 12px;transition:opacity .25s}
     .ac-layer.locked{opacity:.4}
     .ac-lhead{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
-    .ac-lhead .n{font-family:var(--font-en,'Space Grotesk');font-size:13px;font-weight:700;color:${accent};background:#161b28;border-radius:6px;padding:1px 7px}
+    .ac-lhead .n{font-family:var(--font-en,'Space Grotesk');font-size:15px;font-weight:700;color:${accent};background:#161b28;border-radius:6px;padding:1px 7px}
     .ac-lhead h4{margin:0;font-size:16px;font-weight:700}
-    .ac-lhead .q{font-size:14px;color:#8b90a2}
+    .ac-lhead .q{font-size:15.5px;color:#8b90a2}
     .ac-opts{display:flex;flex-wrap:wrap;gap:7px}
     .ac-opt{font-size:15px;padding:7px 12px;border-radius:8px;border:1px solid #2a3040;background:#181c26;color:#c3c8d8;cursor:pointer;transition:.15s}
     .ac-opt:hover:not(.dis){border-color:${accent}}
@@ -34,20 +34,20 @@ export default function mount(el, ctx) {
     .ac-sys{background:#101319;border:1px solid #232838;border-radius:10px;padding:10px 12px;transition:.25s}
     .ac-sys.hot{border-color:${accent};box-shadow:0 0 0 1px ${accent} inset,0 0 24px -6px ${accent}}
     .ac-sys h5{margin:0 0 3px;font-size:16px}
-    .ac-sys p{margin:0;font-size:14px;color:#8b90a2;line-height:1.5}
-    .ac-sys .why{color:${accent};font-size:14px;margin-top:5px;display:none}
+    .ac-sys p{margin:0;font-size:15.5px;color:#8b90a2;line-height:1.5}
+    .ac-sys .why{color:${accent};font-size:15.5px;margin-top:5px;display:none}
     .ac-sys.hot .why{display:block}
     .ac-l4{background:#0e1119;border:1px solid #232838;border-radius:10px;padding:12px;display:none}
     .ac-l4.show{display:block;animation:ac-in .3s ease}
     .ac-l4 h4{margin:0 0 4px;font-size:16px}
-    .ac-l4 .sub{font-size:14px;color:#8b90a2;margin-bottom:10px}
+    .ac-l4 .sub{font-size:15.5px;color:#8b90a2;margin-bottom:10px}
     .ac-wire{display:flex;align-items:center;gap:8px;margin:8px 0}
-    .ac-node{flex:none;width:56px;text-align:center;font-size:14px}
+    .ac-node{flex:none;width:56px;text-align:center;font-size:15.5px}
     .ac-node .box{width:44px;height:44px;margin:0 auto 3px;border-radius:50%;background:#181c26;border:1.6px solid ${accent};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:${accent};font-family:var(--font-en,'Space Grotesk'),sans-serif}
     .ac-track{flex:1;height:14px;border-radius:7px;background:#0c0f16;position:relative;overflow:hidden}
     .ac-track>.msg{position:absolute;top:1px;height:12px;border-radius:6px;left:-30%;width:26%;background:${accent}}
     .ac-recv{margin-top:6px}
-    .ac-recv .lbl{font-size:14px;color:#7c8296;display:flex;justify-content:space-between}
+    .ac-recv .lbl{font-size:15.5px;color:#7c8296;display:flex;justify-content:space-between}
     .ac-recv .bar{height:14px;border-radius:7px;background:#0c0f16;overflow:hidden;margin-top:3px}
     .ac-recv .bar>span{display:block;height:100%;width:20%;background:${GREEN};transition:width .6s ease}
     .ac-l4btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
@@ -93,7 +93,7 @@ export default function mount(el, ctx) {
         <div class="ac-sys ds-unit" data-sys="openclaw"><h5>OpenClaw</h5><p>WebSocket Gateway 當中央樞紐，agent 都連到中心。</p><div class="why">即時、雙向，適合 same/network 的 star。</div></div>
         <div class="ac-sys ds-unit" data-sys="a2a"><h5>Google A2A</h5><p>Agent Card 做 discovery、JSON-RPC 跨網路互通。</p><div class="why">跨組織 open internet 的 peer 互通。</div></div>
         <div class="ac-l4 ds-unit" data-l="4">
-          <h4>L4 · Content Contract <span style="font-weight:400;color:#8b90a2;font-size:14px">傳什麼？</span></h4>
+          <h4>L4 · Content Contract <span style="font-weight:400;color:#8b90a2;font-size:15.5px">傳什麼？</span></h4>
           <div class="sub">前四層只是把 bytes 送到。這一層決定對方能不能用。</div>
           <div class="ac-wire">
             <div class="ac-node"><div class="box">A</div>Agent A</div>

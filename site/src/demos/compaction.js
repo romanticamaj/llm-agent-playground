@@ -45,7 +45,7 @@ export default function mount(el, ctx) {
     background:repeating-linear-gradient(90deg,rgba(255,255,255,.4) 0 16px,transparent 16px 34px)}
   .cp-flag{position:absolute;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;
     align-items:center;color:#727a90;transition:color .5s}
-  .cp-flag .lb{font-size:13px;margin-top:2px;letter-spacing:.04em}
+  .cp-flag .lb{font-size:15px;margin-top:2px;letter-spacing:.04em}
   .cp-flag.reached{color:${accent}}
   .cp-truck{position:absolute;bottom:22px;left:9%;transform:translateX(-50%);
     transition:left 1.2s ${EASE},bottom .7s ${EASE},opacity .7s,filter .7s;z-index:4}
@@ -62,12 +62,12 @@ export default function mount(el, ctx) {
     transition:left 1.3s ${EASE};z-index:5}
   .cp-warehouse{position:absolute;bottom:22px;left:${P.miaoli}%;transform:translateX(-50%);z-index:2}
   .cp-ware{position:absolute;left:calc(50% - 62px);bottom:98px;width:150px;display:flex;flex-direction:column;gap:4px}
-  .cp-witem{font-size:11.5px;color:#d3d7e2;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;
+  .cp-witem{font-size:12.5px;color:#d3d7e2;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;
     background:${GREEN}18;border:1px solid ${GREEN}44;font-family:var(--font-mono)}
   .cp-witem .dot{width:8px;height:8px;border-radius:2px;background:${GOLD};flex:none}
   .cp-hidden{opacity:0;pointer-events:none}
   .cp-fly{position:absolute;width:16px;height:16px;border-radius:3px;z-index:40;pointer-events:none}
-  .cp-score{position:absolute;top:14px;right:16px;font-family:var(--font-mono);font-size:13px;
+  .cp-score{position:absolute;top:14px;right:16px;font-family:var(--font-mono);font-size:15px;
     padding:8px 14px;border-radius:999px;background:rgba(10,12,18,.7);border:1px solid var(--line);color:#d3d7e2}
   .cp-score b{font-size:16px}.cp-score.full b{color:${GREEN}}.cp-score.hurt b{color:${RED}}
   .cp-gauge{display:flex;align-items:center;gap:16px}
@@ -76,9 +76,9 @@ export default function mount(el, ctx) {
   .cp-fill.warn{background:linear-gradient(90deg,${GOLD},${RED});animation:cpFlash .5s infinite}
   @keyframes cpFlash{50%{opacity:.45}}
   .cp-pct{font-family:var(--font-mono);font-size:19px;font-weight:600;color:var(--text);min-width:168px;text-align:right}
-  .cp-pct small{font-size:12px;color:var(--text-dim);font-weight:400}
+  .cp-pct small{font-size:14px;color:var(--text-dim);font-weight:400}
   .cp-ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-  .cp-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);
+  .cp-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);
     border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s ${EASE}}
   .cp-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .cp-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}

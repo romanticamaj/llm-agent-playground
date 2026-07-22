@@ -85,7 +85,7 @@ export default function mount(el, ctx) {
     transform:translateY(.06em);animation:ntp-blink 1s steps(1) infinite;border-radius:2px}
   @keyframes ntp-blink{50%{opacity:0}}
   .ntp-cands-unit{display:flex;flex-direction:column;gap:12px}
-  .ntp-ptitle{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)}
+  .ntp-ptitle{font-family:var(--font-mono);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)}
   .ntp-cands{display:flex;flex-direction:column;gap:11px}
   .ntp-cand{display:flex;align-items:center;gap:18px;padding:8px 12px;border-radius:12px;
     border:1px solid transparent;transition:background .16s,border-color .16s}

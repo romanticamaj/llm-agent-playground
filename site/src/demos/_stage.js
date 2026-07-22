@@ -24,7 +24,21 @@ function injectCSS() {
   s.id = 'ds-stage-css'
   s.textContent = `
   .ds-root{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
-  .ds-body{position:relative;flex:1;overflow:auto;padding:28px 36px 16px}
+  .ds-body{position:relative;flex:1;overflow:auto;padding:28px 40px 16px;
+    display:flex;flex-direction:column;font-size:16px}
+  .ds-body::before,.ds-body::after{content:'';flex:1 0 10px}
+  .ds-body>*{width:min(1240px,100%);margin-left:auto;margin-right:auto;flex:none}
+  /* 唯一子元素且未自訂 display 時，垂直置中其內容（:where 零特異性，demo 自訂樣式優先） */
+  .ds-body>:where(:only-child){display:flex;flex-direction:column;justify-content:center;gap:18px}
+  /* 原生元件基礎樣式（避免 demo 出現未 styled 的元件） */
+  .ds-body input[type=range]{accent-color:var(--accent);height:26px;cursor:pointer}
+  .ds-body select{font-family:var(--font-tc);font-size:15px;color:var(--text);
+    background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
+  .ds-body select:focus{outline:none;border-color:var(--accent)}
+  .ds-body input[type=text]{font-family:var(--font-tc);font-size:15px;color:var(--text);
+    background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+  .ds-body button:not([class]){font-family:var(--font-tc);font-size:15px;color:var(--text);
+    background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:10px 20px;cursor:pointer}
   .ds-unit{transition:opacity .5s ${EASE_OUT}, filter .5s ${EASE_OUT}}
   .ds-dim{opacity:.22;filter:blur(1.5px) saturate(.6);pointer-events:none}
   .ds-bar{flex:none;display:flex;align-items:center;gap:24px;padding:18px 32px 22px;
@@ -33,7 +47,7 @@ function injectCSS() {
   .ds-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.16);transition:all .3s}
   .ds-dot.on{background:var(--accent);box-shadow:0 0 10px var(--accent);transform:scale(1.3)}
   .ds-dot.done{background:rgba(255,255,255,.4)}
-  .ds-narr{flex:1;min-width:0;font-size:clamp(18px,1.6vw,24px);font-weight:500;line-height:1.6;
+  .ds-narr{flex:1;min-width:0;font-size:clamp(20px,1.9vw,28px);font-weight:500;line-height:1.6;
     color:var(--text);letter-spacing:-0.011em}
   .ds-narr b,.ds-narr strong{color:var(--accent)}
   .ds-nav{display:flex;gap:10px;flex:none;align-items:center}

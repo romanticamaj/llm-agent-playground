@@ -18,12 +18,12 @@ export default function mount(el, ctx) {
   .cpr-edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   .cpr-node{position:absolute;width:212px;box-sizing:border-box;padding:9px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:#161a24;transform:translate(-50%,0);transition:all .45s cubic-bezier(.4,0,.2,1);opacity:0}
   .cpr-node.show{opacity:1}
-  .cpr-node .r{font-size:12px;letter-spacing:.12em;opacity:.6;margin-bottom:3px;font-family:var(--font-mono)}
+  .cpr-node .r{font-size:14px;letter-spacing:.12em;opacity:.6;margin-bottom:3px;font-family:var(--font-mono)}
   .cpr-node .t{font-size:15px;line-height:1.45;color:#e7e9f0}
   .cpr-node.user{background:#1a1f2b}
   .cpr-node.pick{cursor:pointer;border-color:${accent};box-shadow:0 0 0 1px ${accent} inset}
   .cpr-node.pick:hover{background:#1e2740}
-  .cpr-node.pick::after{content:'點我標成誤解';position:absolute;right:8px;top:-9px;font-size:10px;background:${accent};color:#05060a;padding:2px 7px;border-radius:8px;letter-spacing:.05em}
+  .cpr-node.pick::after{content:'點我標成誤解';position:absolute;right:8px;top:-9px;font-size:12.5px;background:${accent};color:#05060a;padding:2px 7px;border-radius:8px;letter-spacing:.05em}
   .cpr-node.polluted{border-color:${RED};background:#2a1618;box-shadow:0 0 18px ${RED}73}
   .cpr-node.polluted .r{color:${RED};opacity:.9}
   .cpr-node.origin{animation:cpr-pulse 1.6s ease-in-out infinite}
@@ -33,7 +33,7 @@ export default function mount(el, ctx) {
   .cpr-side{width:220px;display:flex;flex-direction:column;gap:14px}
   @media (max-width:760px){.cpr-side{width:auto}}
   .cpr-box{border:1px solid var(--line);border-radius:12px;padding:14px}
-  .cpr-box h4{margin:0 0 10px;font-size:13px;letter-spacing:.14em;color:#8b91a4;font-weight:600;font-family:var(--font-mono)}
+  .cpr-box h4{margin:0 0 10px;font-size:15px;letter-spacing:.14em;color:#8b91a4;font-weight:600;font-family:var(--font-mono)}
   .cpr-score{font-size:40px;font-weight:700;font-family:var(--font-en,'Space Grotesk',sans-serif);line-height:1}
   .cpr-track{height:9px;border-radius:6px;background:rgba(255,255,255,.08);margin-top:12px;overflow:hidden}
   .cpr-fill{height:100%;width:95%;border-radius:6px;transition:width .6s ease,background .6s}
@@ -43,7 +43,7 @@ export default function mount(el, ctx) {
   .cpr-btn:hover{border-color:var(--text)}
   .cpr-btn:disabled{opacity:.4;cursor:default}
   .cpr-btn.hide{display:none}
-  .cpr-tag{font-size:13px;padding:3px 9px;border-radius:20px;letter-spacing:.05em}
+  .cpr-tag{font-size:15px;padding:3px 9px;border-radius:20px;letter-spacing:.05em}
   .cpr-tag.red{background:${RED}29;color:${RED}}.cpr-tag.green{background:${GREEN}29;color:${GREEN}}
   .cpr-tag.hide{display:none}
   `

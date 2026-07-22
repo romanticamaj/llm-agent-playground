@@ -15,28 +15,28 @@ export default function mount(el, ctx) {
   .sl-main{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:14px}
   @media (max-width:760px){.sl-main{grid-template-columns:1fr}}
   .sl-col{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);display:flex;flex-direction:column;overflow:hidden;min-height:320px}
-  .sl-h{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px;letter-spacing:.08em;color:#8b91a2;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono)}
+  .sl-h{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-size:15px;letter-spacing:.08em;color:#8b91a2;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono)}
   .sl-chat{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
   .sl-msg{max-width:82%;padding:9px 13px;border-radius:12px;font-size:15.5px;line-height:1.5;animation:sl-in .28s ease}
   @keyframes sl-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .sl-msg.user{align-self:flex-end;background:${accent};color:#05060a;font-weight:500;border-bottom-right-radius:3px}
   .sl-msg.ai{align-self:flex-start;background:rgba(255,255,255,.07);color:#e6e9f0;border-bottom-left-radius:3px}
   .sl-msg.ai.fail{background:${RED}1f;color:#fca5a5;border:1px solid ${RED}4d}
-  .sl-msg.sys{align-self:center;font-size:13px;color:#6b7180;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}
+  .sl-msg.sys{align-self:center;font-size:15px;color:#6b7180;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}
   .sl-scope{flex:1;position:relative;padding:14px;display:flex;flex-direction:column;gap:8px;overflow:auto}
-  .sl-note{font-size:14px;color:#7d8496;text-align:center;margin:auto;line-height:1.5}
+  .sl-note{font-size:15.5px;color:#7d8496;text-align:center;margin:auto;line-height:1.5}
   .sl-pkt{display:flex;flex-direction:column;gap:7px}
-  .sl-card{border-radius:9px;padding:8px 12px;font-size:14.5px;border:1px solid rgba(255,255,255,.14);display:flex;gap:9px;align-items:center;opacity:0;transform:translateX(28px)}
+  .sl-card{border-radius:9px;padding:8px 12px;font-size:15.5px;border:1px solid rgba(255,255,255,.14);display:flex;gap:9px;align-items:center;opacity:0;transform:translateX(28px)}
   .sl-card.show{opacity:1;transform:none;transition:all .34s cubic-bezier(.2,.7,.2,1)}
-  .sl-card .tag{font-size:12px;letter-spacing:.06em;padding:2px 7px;border-radius:5px;flex:none;font-weight:600;font-family:var(--font-mono)}
+  .sl-card .tag{font-size:14px;letter-spacing:.06em;padding:2px 7px;border-radius:5px;flex:none;font-weight:600;font-family:var(--font-mono)}
   .sl-card.sys{background:${accent}14}.sl-card.sys .tag{background:${accent}40;color:#bcd0ff}
   .sl-card.user{background:rgba(255,255,255,.05)}.sl-card.user .tag{background:rgba(255,255,255,.14);color:#cfd4e0}
   .sl-card.ai{background:rgba(255,255,255,.03)}.sl-card.ai .tag{background:rgba(255,255,255,.08);color:#9aa0b0}
   .sl-card .body{color:#dfe3ec;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .sl-foot{font-size:14px;color:#8b91a2;padding:8px 4px 0;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between}
+  .sl-foot{font-size:15.5px;color:#8b91a2;padding:8px 4px 0;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between}
   .sl-foot b{color:${accent};font-variant-numeric:tabular-nums}
   .sl-ctrls{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .sl-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .2s}
+  .sl-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:10px 18px;cursor:pointer;transition:all .2s}
   .sl-btn:hover{border-color:var(--text)}
   .sl-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .sl-btn:disabled{opacity:.4;cursor:default}
@@ -46,7 +46,7 @@ export default function mount(el, ctx) {
   .sl-sw{width:38px;height:21px;border-radius:999px;background:rgba(255,255,255,.14);position:relative;transition:background .2s;flex:none}
   .sl-sw::after{content:'';position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .2s}
   .sl-toggle.on .sl-sw{background:${accent}}.sl-toggle.on .sl-sw::after{transform:translateX(17px)}
-  .sl-prev{font-size:14.5px;color:#8b91a2}
+  .sl-prev{font-size:15.5px;color:#8b91a2}
   .sl-prev code{color:#e8ebf2;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:5px}
   `
   el.appendChild(style)

@@ -11,11 +11,11 @@ export default function mount(el, ctx) {
   style.textContent = `
     .sia-top{display:flex;gap:16px;flex-wrap:wrap;align-items:stretch;margin-bottom:14px}
     .sia-gate{flex:1;min-width:200px;background:#12151d;border:1px solid #232838;border-radius:12px;padding:12px 14px}
-    .sia-gate h4{margin:0 0 8px;font-size:14px;color:#9aa0b0;font-weight:600}
+    .sia-gate h4{margin:0 0 8px;font-size:15.5px;color:#9aa0b0;font-weight:600}
     .sia-bar{height:12px;border-radius:6px;background:#1c2130;overflow:hidden;margin:6px 0 2px}
     .sia-bar>span{display:block;height:100%;width:0;transition:width .4s ease}
     .sia-bar .fill-t{background:${accent}}.sia-bar .fill-s{background:#a78bfa}
-    .sia-barlbl{font-size:13px;color:#7c8296;display:flex;justify-content:space-between;font-family:var(--font-mono)}
+    .sia-barlbl{font-size:15px;color:#7c8296;display:flex;justify-content:space-between;font-family:var(--font-mono)}
     .sia-tokens{display:flex;align-items:center;gap:10px}
     .sia-tokens .num{font-family:var(--font-en,'Space Grotesk');font-size:26px;font-weight:700;color:#e6e9f2}
     .sia-veri{display:flex;align-items:center;gap:10px;background:#12151d;border:1px solid #232838;border-radius:12px;padding:12px 14px}
@@ -23,27 +23,27 @@ export default function mount(el, ctx) {
     .sia-switch.on{background:#1e3a2a;border-color:#2f5c42}
     .sia-switch>i{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:${RED};transition:.25s}
     .sia-switch.on>i{left:26px;background:${GREEN}}
-    .sia-veri-txt{font-size:14.5px;color:#e6e9f2}.sia-veri-txt small{display:block;color:#7c8296;font-size:12.5px}
+    .sia-veri-txt{font-size:15.5px;color:#e6e9f2}.sia-veri-txt small{display:block;color:#7c8296;font-size:14px}
     .sia-pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
     .sia-col{background:#101319;border:1px solid #232838;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:190px;transition:border-color .3s,box-shadow .3s}
     .sia-col.polluted{border-color:${RED};box-shadow:0 0 0 1px ${RED} inset}
     .sia-col h3{margin:0;font-size:16px;font-weight:700;color:#e6e9f2}
-    .sia-col .tag{font-size:12px;color:#7c8296;font-weight:400}
+    .sia-col .tag{font-size:14px;color:#7c8296;font-weight:400}
     .sia-cards{display:flex;flex-direction:column;gap:6px;overflow:auto}
-    .sia-card{background:#181c26;border:1px solid #2a3040;border-radius:8px;padding:7px 9px;font-size:14px;line-height:1.45;color:#dfe3ec;animation:sia-in .35s ease}
+    .sia-card{background:#181c26;border:1px solid #2a3040;border-radius:8px;padding:7px 9px;font-size:15.5px;line-height:1.45;color:#dfe3ec;animation:sia-in .35s ease}
     .sia-card.obs{border-left:3px solid ${accent}}
     .sia-card.bad{border-left-color:${RED};color:#f2b8b8}
     .sia-card.rejected{opacity:.5;text-decoration:line-through;border-left-color:${RED}}
     .sia-card .kv{color:#9aa0b0}
-    .sia-inst{background:#1a1f2b;border:1px solid #2f3547;border-radius:8px;padding:8px 9px;font-size:14px;color:#e6e9f2;animation:sia-in .35s ease}
+    .sia-inst{background:#1a1f2b;border:1px solid #2f3547;border-radius:8px;padding:8px 9px;font-size:15.5px;color:#e6e9f2;animation:sia-in .35s ease}
     .sia-inst.good{border-left:3px solid ${GREEN}}
     .sia-inst.bad{border-left:3px solid ${RED};background:#241417;color:#f2b8b8}
     .sia-conf{height:8px;border-radius:4px;background:#0e1118;margin-top:6px;overflow:hidden}
     .sia-conf>span{display:block;height:100%;transition:width .5s ease}
-    .sia-confnum{font-family:var(--font-mono);font-size:12px;color:#9aa0b0;margin-top:3px}
+    .sia-confnum{font-family:var(--font-mono);font-size:14px;color:#9aa0b0;margin-top:3px}
     .sia-ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .sia-ctrls .demo-btn{font-size:15px}
-    .sia-note{font-size:14px;color:#8b90a2;flex:1;min-width:160px;line-height:1.5}
+    .sia-note{font-size:15.5px;color:#8b90a2;flex:1;min-width:160px;line-height:1.5}
     .sia-note .warn{color:${RED};font-weight:600}.sia-note .good{color:${GREEN};font-weight:600}
     @keyframes sia-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   `
@@ -61,7 +61,7 @@ export default function mount(el, ctx) {
     </div>
     <div class="sia-gate ds-unit" data-u="tok">
       <h4>Token 成本</h4>
-      <div class="sia-tokens"><span class="num">0</span><span style="color:#7c8296;font-size:12px">capture 便宜 · consolidate 貴</span></div>
+      <div class="sia-tokens"><span class="num">0</span><span style="color:#7c8296;font-size:14px">capture 便宜 · consolidate 貴</span></div>
     </div>
     <div class="sia-veri ds-unit" data-u="veri">
       <div class="sia-switch on"><i></i></div>

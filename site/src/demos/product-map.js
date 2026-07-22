@@ -29,7 +29,7 @@ export default function mount(el, ctx) {
   const style = document.createElement('style')
   style.textContent = `
   .pm-task{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-  .pm-task .hint{font-size:14px;color:#7d8496}
+  .pm-task .hint{font-size:15.5px;color:#7d8496}
   .pm-task .q{font-size:16px;color:#c3c8d4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:8px 15px;border-radius:10px}
   .pm-task .q b{color:#e8ebf2}
   .pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
@@ -39,26 +39,26 @@ export default function mount(el, ctx) {
   .pm-card.wall,.pm-card.partial{border-color:rgba(251,191,36,.38)}
   .pm-ch{padding:13px 15px 10px}
   .pm-ch .nm{font-size:16px;font-weight:600;color:#eef1f7;line-height:1.35}
-  .pm-ch .tg{font-size:13px;color:#828a9c;margin-top:3px}
+  .pm-ch .tg{font-size:15px;color:#828a9c;margin-top:3px}
   .pm-bar{height:7px;background:rgba(255,255,255,.06);border-radius:99px;margin:4px 15px;overflow:hidden}
   .pm-bar i{display:block;height:100%;width:0;border-radius:99px;transition:width .1s linear}
   .pm-steps{padding:8px 15px 4px;display:flex;flex-direction:column;gap:5px;flex:1}
-  .pm-step{font-size:14px;color:#5f6577;display:flex;align-items:flex-start;gap:7px;line-height:1.4;opacity:.35;transition:opacity .25s,color .25s}
+  .pm-step{font-size:15.5px;color:#5f6577;display:flex;align-items:flex-start;gap:7px;line-height:1.4;opacity:.35;transition:opacity .25s,color .25s}
   .pm-step.on{opacity:1;color:#c3c8d4}
   .pm-step .dot{width:14px;height:14px;flex-shrink:0;margin-top:2px}
-  .pm-badge{margin:6px 15px 12px;font-size:14px;font-weight:600;padding:7px 11px;border-radius:9px;display:none;align-items:flex-start;gap:7px;line-height:1.45}
+  .pm-badge{margin:6px 15px 12px;font-size:15.5px;font-weight:600;padding:7px 11px;border-radius:9px;display:none;align-items:flex-start;gap:7px;line-height:1.45}
   .pm-badge.show{display:flex}
   .pm-badge.stop{color:${AMBER};background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.32)}
   .pm-badge.ok{color:${GREEN};background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.32)}
   .pm-badge .icon{flex-shrink:0;margin-top:1px}
-  .pm-more{margin:0 15px 12px;font-size:13px;color:#8b91a2;cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:5px}
+  .pm-more{margin:0 15px 12px;font-size:15px;color:#8b91a2;cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:5px}
   .pm-more:hover{color:#c3c8d4}
   .pm-spec{margin:0 15px 12px;display:none;flex-direction:column;gap:6px;border-top:1px dashed rgba(255,255,255,.14);padding-top:10px}
   .pm-spec.show{display:flex}
-  .pm-spec .r{font-size:13px;line-height:1.45;color:#aeb4c2;display:flex;gap:7px}
+  .pm-spec .r{font-size:15px;line-height:1.45;color:#aeb4c2;display:flex;gap:7px}
   .pm-spec .r b{color:#e8ebf2;font-weight:600;flex-shrink:0;min-width:4.6em}
   .pm-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .pm-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .2s}
+  .pm-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .2s}
   .pm-btn:hover{border-color:var(--text)}
   .pm-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .pm-btn.hide{display:none}

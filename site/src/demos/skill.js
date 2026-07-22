@@ -26,9 +26,9 @@ export default function mount(el, ctx) {
   .sk-stage{display:flex;gap:22px;align-items:stretch;flex-wrap:wrap;min-height:100%}
   .sk-col{flex:1;min-width:290px;display:flex;flex-direction:column;gap:11px}
   .sk-mid{flex:none;width:300px;display:flex;flex-direction:column;justify-content:center}
-  .sk-htitle{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#7d8496;display:flex;align-items:center;gap:8px}
+  .sk-htitle{font-size:15px;letter-spacing:.09em;text-transform:uppercase;color:#7d8496;display:flex;align-items:center;gap:8px}
   .sk-flow{display:flex;flex-direction:column;gap:8px;position:relative;transition:transform .5s}
-  .sk-retype{display:none;align-items:center;gap:9px;font-size:13.5px;color:${RED};font-family:var(--font-mono);padding:2px 2px 6px}
+  .sk-retype{display:none;align-items:center;gap:9px;font-size:15px;color:${RED};font-family:var(--font-mono);padding:2px 2px 6px}
   .sk-left.retyping .sk-retype{display:flex}
   .sk-retype i{width:6px;height:6px;border-radius:50%;background:${RED};animation:sk-blink 1s infinite}
   .sk-retype i:nth-child(2){animation-delay:.15s}.sk-retype i:nth-child(3){animation-delay:.3s}
@@ -37,7 +37,7 @@ export default function mount(el, ctx) {
   .sk-card.in{opacity:1;transform:none}
   .sk-card .ic{width:32px;height:32px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);color:#8b91a2;transition:all .4s}
   .sk-card .tx{font-size:15.5px;color:#c3c8d4;line-height:1.4;flex:1}
-  .sk-card .tx small{display:block;font-size:13px;color:#7d8496;margin-top:2px}
+  .sk-card .tx small{display:block;font-size:15px;color:#7d8496;margin-top:2px}
   .sk-card .tx b{color:${accent};font-variant-numeric:tabular-nums}
   .sk-card .ck{color:${GREEN};opacity:0;transform:scale(.5);transition:all .3s;flex:none}
   .sk-card.on{border-color:${accent}66;background:rgba(91,140,255,.08)}
@@ -61,9 +61,9 @@ export default function mount(el, ctx) {
   .sk-pack.drag{transform:scale(1.04) rotate(-1deg);box-shadow:0 26px 60px rgba(0,0,0,.6)}
   .sk-pack .ph{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:#eef1f8;margin-bottom:13px;font-family:var(--font-mono)}
   .sk-pack .ph svg{color:${accent}}
-  .sk-pack .ln{font-size:13.5px;color:#aab0c0;line-height:1.5;font-family:var(--font-mono);margin-top:6px;display:flex;gap:7px}
+  .sk-pack .ln{font-size:15px;color:#aab0c0;line-height:1.5;font-family:var(--font-mono);margin-top:6px;display:flex;gap:7px}
   .sk-pack .ln b{color:#e8ebf2;font-weight:600;flex:none;min-width:34px}
-  .sk-packcap{font-size:12px;color:${accent};letter-spacing:.14em;text-transform:uppercase;text-align:center;margin-top:12px;font-family:var(--font-mono);opacity:.85}
+  .sk-packcap{font-size:14px;color:${accent};letter-spacing:.14em;text-transform:uppercase;text-align:center;margin-top:12px;font-family:var(--font-mono);opacity:.85}
   /* agent 面板 */
   .sk-agent{border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);padding:16px;display:flex;flex-direction:column;gap:13px;
     opacity:0;transform:translateX(34px);pointer-events:none;transition:opacity .5s,transform .5s;flex:1}
@@ -73,28 +73,28 @@ export default function mount(el, ctx) {
   .sk-slots{display:flex;flex-direction:column;gap:11px}
   .sk-slot{border-radius:11px;border:1.6px dashed rgba(255,255,255,.18);padding:13px;display:flex;align-items:center;gap:11px;min-height:56px;transition:all .25s;cursor:pointer}
   .sk-slot .sl-ic{color:#7d8496;flex:none}
-  .sk-slot .sl-tx{font-size:14.5px;color:#8b91a2;line-height:1.4}
+  .sk-slot .sl-tx{font-size:15.5px;color:#8b91a2;line-height:1.4}
   .sk-slot .sl-tx b{color:#c3c8d4}
   .sk-slot.hover{border-color:${accent};background:${accent}12}
   .sk-slot.wrong.hover{border-color:${RED};background:${RED}12}
   .sk-slot.filled{border-style:solid;border-color:${GREEN}88;background:${GREEN}10;cursor:default;box-shadow:0 0 0 1px ${GREEN}33,0 0 22px -6px ${GREEN}}
   .sk-slot.filled .sl-ic{color:${GREEN}}
   .sk-slash{position:relative;margin-top:2px}
-  .sk-slashbtn{font-family:var(--font-mono);font-size:14px;color:#c3c8d4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+  .sk-slashbtn{font-family:var(--font-mono);font-size:15.5px;color:#c3c8d4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
   .sk-slashbtn:hover{border-color:${accent};color:#e8ebf2}
   .sk-slashbtn svg{color:${accent}}
   .sk-menu{position:absolute;left:0;top:calc(100% + 7px);z-index:20;min-width:244px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:#12141c;box-shadow:0 16px 46px rgba(0,0,0,.6);padding:6px;display:none}
   .sk-menu.show{display:block;animation:sk-pop .2s ease-out}
   @keyframes sk-pop{from{transform:translateY(-6px) scale(.96);opacity:0}to{transform:none;opacity:1}}
-  .sk-menu .mh{font-size:12px;color:#7d8496;padding:6px 9px 4px;letter-spacing:.06em}
-  .sk-cmd{display:flex;align-items:center;gap:9px;padding:10px;border-radius:8px;cursor:pointer;font-family:var(--font-mono);font-size:14.5px;color:#eef1f8}
+  .sk-menu .mh{font-size:14px;color:#7d8496;padding:6px 9px 4px;letter-spacing:.06em}
+  .sk-cmd{display:flex;align-items:center;gap:9px;padding:10px;border-radius:8px;cursor:pointer;font-family:var(--font-mono);font-size:15.5px;color:#eef1f8}
   .sk-cmd:hover{background:${accent}1e}
   .sk-cmd svg{color:${accent}}
-  .sk-cmd small{color:#7d8496;font-family:var(--font-tc);font-size:12.5px;margin-left:auto}
-  .sk-empty{font-size:13px;color:${RED};padding:9px 10px;line-height:1.5}
+  .sk-cmd small{color:#7d8496;font-family:var(--font-tc);font-size:14px;margin-left:auto}
+  .sk-empty{font-size:15px;color:${RED};padding:9px 10px;line-height:1.5}
   .sk-controls{display:none;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
   .sk-controls.show{display:flex}
-  .sk-controls .demo-btn{font-size:14px}
+  .sk-controls .demo-btn{font-size:15.5px}
   `
 
   const stage = createStage(el, ctx, { beats: buildBeats() })

@@ -25,7 +25,7 @@ export default function mount(el, ctx) {
   style.textContent = `
   .cb-slider-wrap{padding:6px 4px}
   .cb-ticks{display:flex;justify-content:space-between;margin-bottom:8px}
-  .cb-tick{font-size:14px;color:#7d8496;transition:color .25s;flex:1;text-align:center}
+  .cb-tick{font-size:15.5px;color:#7d8496;transition:color .25s;flex:1;text-align:center}
   .cb-tick.on{color:${accent};font-weight:600}
   .cb-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:5px;background:linear-gradient(90deg,${accent},${GOLD},${GREEN});outline:none}
   .cb-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#e8ebf2;border:3px solid ${accent};cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5)}
@@ -35,28 +35,28 @@ export default function mount(el, ctx) {
   .cb-card .ch{display:flex;align-items:center;gap:10px;margin-bottom:8px}
   .cb-card .ch .bi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);flex:none}
   .cb-card .ch .nm{font-size:17px;color:#e8ebf2;font-weight:600}
-  .cb-card .ch .md{font-size:13px;color:#7d8496;font-family:var(--font-mono,monospace)}
-  .cb-card .cx{font-size:13.5px;color:#8b91a2;margin-bottom:8px;font-variant-numeric:tabular-nums}
-  .cb-card .cd{font-size:14.5px;color:#9aa0b0;line-height:1.55}
+  .cb-card .ch .md{font-size:15px;color:#7d8496;font-family:var(--font-mono,monospace)}
+  .cb-card .cx{font-size:15px;color:#8b91a2;margin-bottom:8px;font-variant-numeric:tabular-nums}
+  .cb-card .cd{font-size:15.5px;color:#9aa0b0;line-height:1.55}
   .cb-card.rec{border-color:var(--tone);background:color-mix(in srgb,var(--tone) 9%,transparent);box-shadow:0 0 0 1px var(--tone) inset}
   .cb-card.rec .bi{background:color-mix(in srgb,var(--tone) 22%,transparent);color:var(--tone)}
   .cb-card:not(.rec) .bi{color:#8b91a2}
-  .cb-badge{position:absolute;top:12px;right:12px;font-size:12px;padding:3px 9px;border-radius:20px;background:var(--tone);color:#05060a;font-weight:700;opacity:0;transition:opacity .3s}
+  .cb-badge{position:absolute;top:12px;right:12px;font-size:14px;padding:3px 9px;border-radius:20px;background:var(--tone);color:#05060a;font-weight:700;opacity:0;transition:opacity .3s}
   .cb-card.rec .cb-badge{opacity:1}
   .cb-lab{margin-top:16px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:15px 17px}
   .cb-run{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
   .cb-counter{font-size:15px;color:#c3c8d4;font-variant-numeric:tabular-nums}
   .cb-counter b{font-size:24px;color:#e8ebf2}
-  .cb-using{font-size:13.5px;padding:4px 11px;border-radius:20px;border:1px solid rgba(255,255,255,.16);color:#c3c8d4}
+  .cb-using{font-size:15px;padding:4px 11px;border-radius:20px;border:1px solid rgba(255,255,255,.16);color:#c3c8d4}
   .cb-chatlog{height:150px;overflow:auto;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);padding:11px 13px;display:flex;flex-direction:column;gap:7px}
-  .cb-msg{font-size:13.5px;line-height:1.45;padding:6px 10px;border-radius:8px;max-width:88%}
+  .cb-msg{font-size:15px;line-height:1.45;padding:6px 10px;border-radius:8px;max-width:88%}
   .cb-msg.q{align-self:flex-end;background:${accent}1c;color:#c3c8d4}
   .cb-msg.a{align-self:flex-start;background:rgba(255,255,255,.05);color:#c3c8d4}
   .cb-msg.a.halluc{background:${RED}18;color:${RED};border:1px solid ${RED}44}
   .cb-msg.a.ok{border-left:2px solid ${GREEN}}
   .cb-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
   .cb-controls.hide{display:none}
-  .cb-note{font-size:14px;color:#7d8496;line-height:1.5;margin-left:auto;max-width:50%;text-align:right}
+  .cb-note{font-size:15.5px;color:#7d8496;line-height:1.5;margin-left:auto;max-width:50%;text-align:right}
   .cb-note.bad{color:${RED}}.cb-note.good{color:${GREEN}}
   .cb-btn{font-family:var(--font-tc);font-size:15px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s}
   .cb-btn:hover{border-color:var(--text);transform:translateY(-1px)}

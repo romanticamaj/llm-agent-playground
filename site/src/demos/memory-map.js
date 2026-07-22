@@ -14,7 +14,7 @@ export default function mount(el, ctx) {
   .${P}-chat{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;display:flex;flex-direction:column;min-height:300px}
   .${P}-chat h3{margin:0;padding:12px 14px;font-size:16px;border-bottom:1px solid rgba(255,255,255,.08);
     display:flex;align-items:center;gap:8px;color:#e8ebf2}
-  .${P}-tag{font-family:var(--font-mono);font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;letter-spacing:.08em}
+  .${P}-tag{font-family:var(--font-mono);font-size:12.5px;padding:2px 9px;border-radius:20px;font-weight:600;letter-spacing:.08em}
   .${P}-tag.off{background:rgba(248,113,113,.15);color:${RED}}
   .${P}-tag.on{background:rgba(74,222,128,.15);color:${GREEN}}
   .${P}-msgs{flex:1;padding:14px;display:flex;flex-direction:column;gap:9px;overflow:auto}
@@ -23,23 +23,23 @@ export default function mount(el, ctx) {
   .${P}-b.ai{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#e8ebf2}
   .${P}-b.ai.fail{border-color:rgba(248,113,113,.5);color:#ffd5d5}
   .${P}-b.ai b{color:${accent}}
-  .${P}-b.sys{align-self:center;font-size:12.5px;color:#8b93a7;background:none;border:1px dashed rgba(255,255,255,.18);border-radius:20px;padding:4px 12px}
+  .${P}-b.sys{align-self:center;font-size:14px;color:#8b93a7;background:none;border:1px dashed rgba(255,255,255,.18);border-radius:20px;padding:4px 12px}
   .${P}-inject{align-self:flex-start;max-width:92%;border:1px solid ${accent};border-radius:12px;padding:8px 10px;
     background:rgba(255,194,75,.08)}
-  .${P}-inject .h{color:${accent};font-weight:600;margin-bottom:5px;font-size:12.5px;letter-spacing:.04em}
+  .${P}-inject .h{color:${accent};font-weight:600;margin-bottom:5px;font-size:14px;letter-spacing:.04em}
   .${P}-card{display:inline-block;background:rgba(255,194,75,.14);border:1px solid rgba(255,194,75,.4);
-    border-radius:8px;padding:3px 9px;margin:2px 4px 2px 0;font-size:13.5px;color:#f4e3c3}
+    border-radius:8px;padding:3px 9px;margin:2px 4px 2px 0;font-size:15px;color:#f4e3c3}
   .${P}-ctrls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
   .${P}-adv{margin-top:8px;border-top:1px solid rgba(255,255,255,.1);padding-top:16px}
   .${P}-adv h3{margin:0 0 4px;font-size:17px;color:#e8ebf2}
-  .${P}-adv .sub{font-size:13.5px;color:#8b93a7;margin-bottom:12px}
+  .${P}-adv .sub{font-size:15px;color:#8b93a7;margin-bottom:12px}
   .${P}-q{font-size:15px;color:#dfe3ec;background:rgba(91,140,240,.14);border:1px solid rgba(91,140,240,.32);
     border-radius:10px;padding:8px 12px;display:inline-block;margin-bottom:12px}
   .${P}-advctrls{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
   .${P}-advctrls .demo-btn.on{background:${accent};color:#120a00;border-color:${accent}}
   .${P}-stage2{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:16px;min-height:170px}
   .${P}-vecwrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-  .${P}-frag{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 12px;font-size:14px;background:rgba(255,255,255,.03);color:#d3d7e2}
+  .${P}-frag{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 12px;font-size:15.5px;background:rgba(255,255,255,.03);color:#d3d7e2}
   .${P}-canvas{display:block;width:100%;height:150px}
   .${P}-answer{margin-top:12px;font-size:15px;min-height:24px}
   .${P}-answer .ok{color:${GREEN};font-weight:600}.${P}-answer .bad{color:${RED};font-weight:600}
@@ -78,7 +78,7 @@ export default function mount(el, ctx) {
     </div>
     <div class="${P}-stage2">
       <div data-vecbox>
-        <div style="font-size:12.5px;color:#8b93a7;margin-bottom:8px;letter-spacing:.04em">語意相似的片段（湊不出答案）：</div>
+        <div style="font-size:14px;color:#8b93a7;margin-bottom:8px;letter-spacing:.04em">語意相似的片段（湊不出答案）：</div>
         <div class="${P}-vecwrap">
           <div class="${P}-frag">賈伯斯</div><div class="${P}-frag">庫克</div>
           <div class="${P}-frag">Apple</div><div class="${P}-frag">iPhone</div><div class="${P}-frag">CEO</div>

@@ -16,42 +16,42 @@ export default function mount(el, ctx) {
   const style = document.createElement('style')
   style.textContent = `
   .ns-pipewrap{margin-bottom:16px}
-  .ns-pipehd{font-size:13.5px;letter-spacing:.08em;color:#8a90a2;margin-bottom:8px}
-  .ns-keep{display:inline-block;margin-left:10px;font-size:13px;color:${OK};border:1px solid ${OK}55;border-radius:20px;padding:2px 10px;opacity:0;transition:opacity .3s}
+  .ns-pipehd{font-size:15px;letter-spacing:.08em;color:#8a90a2;margin-bottom:8px}
+  .ns-keep{display:inline-block;margin-left:10px;font-size:15px;color:${OK};border:1px solid ${OK}55;border-radius:20px;padding:2px 10px;opacity:0;transition:opacity .3s}
   .ns-keep.show{opacity:1}
   .ns-pipe{display:flex;align-items:center;gap:0}
   .ns-node{flex:1;text-align:center;padding:10px 6px;border:1px solid rgba(255,255,255,.14);border-radius:10px;font-size:15px;color:#8a90a2;background:rgba(255,255,255,.03);transition:all .3s}
   .ns-node.on{color:#fff;border-color:${BLUE};box-shadow:0 0 14px ${BLUE}55;background:rgba(91,140,255,.12)}
   .ns-arrow{width:24px;text-align:center;color:#5a6072}
   .ns-out{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;background:rgba(255,255,255,.03);margin-bottom:16px}
-  .ns-out h4{margin:0 0 8px;font-size:14px;letter-spacing:.1em;color:#aeb3c4}
+  .ns-out h4{margin:0 0 8px;font-size:15.5px;letter-spacing:.1em;color:#aeb3c4}
   .ns-row{font-size:15.5px;line-height:1.6;color:#cfd3de}
   .ns-flaw{color:${BAD};border-bottom:1px dashed ${BAD}}
   .ns-branch{border-left:2px solid ${PUR};padding-left:14px;margin-bottom:16px;opacity:0;max-height:0;overflow:hidden;transition:opacity .4s}
   .ns-branch.show{opacity:1;max-height:600px}
   .ns-sub{display:flex;align-items:center;gap:10px;font-size:15px;color:#e7e9f0;margin-bottom:10px;flex-wrap:wrap}
-  .ns-chip{font-size:13px;padding:3px 10px;border-radius:20px;border:1px solid ${PUR}66;color:${PUR};background:${PUR}18}
+  .ns-chip{font-size:15px;padding:3px 10px;border-radius:20px;border:1px solid ${PUR}66;color:${PUR};background:${PUR}18}
   .ns-diff{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .ns-diff>div{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.5}
   .ns-diff .old{border-color:${BAD}44}.ns-diff .new{border-color:${OK}55}
-  .ns-diff .lbl{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;color:#8a90a2}
+  .ns-diff .lbl{font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;color:#8a90a2}
   .ns-add{color:${OK}}
   .ns-dash{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
   .ns-cell{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 14px;background:rgba(255,255,255,.03)}
-  .ns-cell .k{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a90a2}
+  .ns-cell .k{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#8a90a2}
   .ns-cell .v{font-size:15px;margin-top:4px;line-height:1.5;color:#cfd3de}
   .ns-tpl{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.02);margin-bottom:16px}
-  .ns-tpl h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8a90a2}
+  .ns-tpl h4{margin:0 0 8px;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:#8a90a2}
   .ns-tpl .t{font-size:15px;color:#cfd3de;line-height:1.55;margin:5px 0;font-family:var(--font-en,monospace)}
   .ns-tpl .t b{color:#38e1c6}
   .ns-ctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .ns-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .2s}
+  .ns-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .2s}
   .ns-btn:hover:not(:disabled){border-color:var(--text)}
   .ns-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .ns-btn:disabled{opacity:.35;cursor:default}
   .ns-btn.hide{display:none}
-  .ns-sel{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:#9aa0b0}
-  .ns-sel button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#c7cbd8;border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer;font-family:inherit}
+  .ns-sel{display:inline-flex;gap:6px;align-items:center;font-size:15.5px;color:#9aa0b0}
+  .ns-sel button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#c7cbd8;border-radius:8px;padding:8px 12px;font-size:15.5px;cursor:pointer;font-family:inherit}
   .ns-sel button.on{border-color:var(--acc,${accent});color:${accent}}
   @media(max-width:760px){.ns-diff,.ns-dash{grid-template-columns:1fr}}
   `
@@ -68,7 +68,7 @@ export default function mount(el, ctx) {
   const branch = document.createElement('div')
   branch.className = 'ns-branch ds-unit'
   branch.innerHTML = `
-    <div class="ns-sub">↳ <span>spawn sub-agent</span><span class="ns-chip" id="nsChip">新訊號</span><span style="color:#8a90a2;font-size:14px">帶不同 context 開新路驗證</span></div>
+    <div class="ns-sub">↳ <span>spawn sub-agent</span><span class="ns-chip" id="nsChip">新訊號</span><span style="color:#8a90a2;font-size:15.5px">帶不同 context 開新路驗證</span></div>
     <div class="ns-diff">
       <div class="old"><div class="lbl">原 output（歪的地方）</div><div id="nsD1"></div></div>
       <div class="new"><div class="lbl">拉回來對照 diff</div><div id="nsD2"></div></div>

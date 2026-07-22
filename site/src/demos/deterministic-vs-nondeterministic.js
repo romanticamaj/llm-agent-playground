@@ -29,12 +29,12 @@ export default function mount(el, ctx) {
   .dvn-card{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);display:flex;flex-direction:column;overflow:hidden;min-height:300px}
   .dvn-head{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:baseline;gap:10px}
   .dvn-head .t{font-size:19px;font-weight:600;color:#eef1f7}
-  .dvn-head .s{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-mono)}
+  .dvn-head .s{font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-mono)}
   .dvn-in{font-size:15px;color:#8b91a2;padding:8px 18px 0}
   .dvn-in code{color:#e8ebf2;background:rgba(255,255,255,.06);padding:2px 7px;border-radius:5px}
   .dvn-cbox{flex:1;position:relative;min-height:130px}
   .dvn-cbox canvas{position:absolute;inset:0;width:100%;height:100%}
-  .dvn-tag{position:absolute;top:10px;right:12px;font-size:13px;padding:3px 9px;border-radius:999px;font-weight:600;font-family:var(--font-mono)}
+  .dvn-tag{position:absolute;top:10px;right:12px;font-size:15px;padding:3px 9px;border-radius:999px;font-weight:600;font-family:var(--font-mono)}
   .dvn-tag.det{color:${GREEN};background:${GREEN}1f;border:1px solid ${GREEN}4d}
   .dvn-tag.non{color:${GOLD};background:${GOLD}1f;border:1px solid ${GOLD}4d}
   .dvn-out{padding:8px 16px 12px;font-size:15px;line-height:1.5;height:118px;overflow:auto}
@@ -46,10 +46,10 @@ export default function mount(el, ctx) {
   .dvn-temp label{font-size:16px;color:#c3c8d4}
   .dvn-temp input[type=range]{flex:1;accent-color:${accent};min-width:180px;max-width:380px}
   .dvn-temp .val{font-size:17px;font-weight:600;color:${accent};font-variant-numeric:tabular-nums;width:2.6em;text-align:right;font-family:var(--font-mono)}
-  .dvn-temp .desc{font-size:13px;color:#7d8496;min-width:6em}
+  .dvn-temp .desc{font-size:15px;color:#7d8496;min-width:6em}
   .dvn-hide{display:none!important}
   .dvn-clf{display:flex;flex-direction:column;gap:16px}
-  .dvn-crit{display:flex;gap:12px;flex-wrap:wrap;font-size:14px}
+  .dvn-crit{display:flex;gap:12px;flex-wrap:wrap;font-size:15.5px}
   .dvn-crit .c{flex:1;min-width:220px;border:1px solid var(--line);border-radius:10px;padding:9px 13px;line-height:1.5;color:#aeb4c2}
   .dvn-crit .c b{color:#e8ebf2}
   .dvn-pool{display:flex;gap:10px;flex-wrap:wrap;min-height:44px}
@@ -64,14 +64,14 @@ export default function mount(el, ctx) {
   .dvn-basket.hot{background:rgba(255,255,255,.05)}
   .dvn-basket .bh{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
   .dvn-basket.det .bh{color:${GREEN}}.dvn-basket.non .bh{color:${GOLD}}
-  .dvn-basket .bs{font-size:13px;color:#828a9c}
+  .dvn-basket .bs{font-size:15px;color:#828a9c}
   .dvn-drop{display:flex;flex-direction:column;gap:7px;margin-top:6px}
   .dvn-item{border-radius:9px;padding:8px 11px;background:${GREEN}1a;border:1px solid ${GREEN}4d}
   .dvn-item .nm{font-weight:600;color:#eef1f7;display:flex;align-items:center;gap:6px;font-size:15px}
-  .dvn-item .why{font-size:14px;color:#aeb4c2;margin-top:3px;line-height:1.5}
+  .dvn-item .why{font-size:15.5px;color:#aeb4c2;margin-top:3px;line-height:1.5}
   .dvn-prog{font-size:16px;color:#7d8496}.dvn-prog b{color:${GREEN}}
   .dvn-ic{width:1.05em;height:1.05em;vertical-align:-.14em}
-  .dvn-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer}
+  .dvn-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer}
   .dvn-btn:hover{border-color:var(--text)}
   `
   el.appendChild(style)

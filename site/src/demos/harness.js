@@ -28,29 +28,29 @@ export default function mount(el, ctx) {
   .hns-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
   .hns-panel{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:16px}
   .hns-panel h3{margin:0 0 12px;font-size:17px;letter-spacing:.04em}
-  .hns-creature{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0 16px;font-size:14px;color:#9aa0b0}
+  .hns-creature{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0 16px;font-size:15.5px;color:#9aa0b0}
   .hns-node{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#9aa0b0;
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);transition:.3s}
   .hns-node.set{border-color:${accent};color:${accent};box-shadow:0 0 12px rgba(56,225,198,.4)}
   .hns-slot{margin-bottom:14px}
-  .hns-slot .lab{font-size:14px;color:#8b93a7;margin-bottom:6px;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+  .hns-slot .lab{font-size:15.5px;color:#8b93a7;margin-bottom:6px;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
   .hns-opts{display:flex;gap:8px;flex-wrap:wrap}
   .hns-chip{flex:1;min-width:120px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.18s;background:rgba(255,255,255,.02);font-size:15px}
   .hns-chip:hover{border-color:${accent}}
   .hns-chip.on{border-color:${accent};background:rgba(56,225,198,.1);box-shadow:0 0 0 1px ${accent} inset}
   .hns-chip.fixed{cursor:default;border-style:dashed;opacity:.9}
   .hns-chip .t{font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:6px}
-  .hns-chip .d{font-size:13px;color:#8b93a7}
+  .hns-chip .d{font-size:15px;color:#8b93a7}
   .hns-run{margin-top:4px}
   .hns-run .demo-btn{display:none}
   .hns-run.show .demo-btn{display:inline-flex}
   .hns-verdict{font-size:15px;line-height:1.6;min-height:70px;color:#cfd4e0}
   .hns-verdict .ok{color:${GREEN};font-weight:600} .hns-verdict .bad{color:${RED};font-weight:600}
   .hns-canvas{display:block;width:100%;height:180px;margin-top:8px}
-  .hns-legend{font-size:13px;color:#8b93a7;text-align:center;margin-top:6px}
+  .hns-legend{font-size:15px;color:#8b93a7;text-align:center;margin-top:6px}
   .hns-egg{margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .hns-egg .demo-btn.on{background:${RED};color:#120708;border-color:${RED}}
-  .hns-eggnote{font-size:14px;color:#aeb4c4;flex:1;min-width:200px;line-height:1.5}
+  .hns-eggnote{font-size:15.5px;color:#aeb4c4;flex:1;min-width:200px;line-height:1.5}
   @media(max-width:820px){.hns-grid{grid-template-columns:1fr}}
   `
 

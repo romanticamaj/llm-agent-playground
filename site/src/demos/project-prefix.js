@@ -25,7 +25,7 @@ export default function mount(el, ctx) {
   style.textContent = `
   .pp-assembly{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-bottom:18px}
   .pp-seg{flex:1;min-width:150px;border-radius:12px;padding:12px 14px;box-sizing:border-box;border:1px solid transparent}
-  .pp-seg .lbl{font-size:13px;letter-spacing:.08em;font-weight:600;opacity:.9;margin-bottom:6px}
+  .pp-seg .lbl{font-size:15px;letter-spacing:.08em;font-weight:600;opacity:.9;margin-bottom:6px}
   .pp-seg .txt{font-size:15px;line-height:1.55;white-space:pre-wrap}
   .pp-seg.mem{background:rgba(123,97,255,.1);border-color:rgba(123,97,255,.4)}
   .pp-seg.mem .lbl{color:#b6a6ff}
@@ -38,16 +38,16 @@ export default function mount(el, ctx) {
   .pp-llm{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#e8ebf2;font-size:16px;font-weight:600}
   .pp-icon{width:1.1em;height:1.1em;vertical-align:-.15em}
   .pp-out{border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.02);padding:16px 20px;min-height:120px;margin-bottom:18px}
-  .pp-out .oh{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#6b7180;margin-bottom:8px}
+  .pp-out .oh{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:#6b7180;margin-bottom:8px}
   .pp-out .ot{font-size:16px;line-height:1.7;color:#dfe3ec;white-space:pre-wrap;transition:opacity .22s}
   .pp-out .ot.fade{opacity:0}
   .pp-tabs{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .pp-tab{display:flex;flex-direction:column;gap:2px;align-items:flex-start;padding:9px 15px;border-radius:11px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);cursor:pointer;transition:all .18s;min-width:140px;font-family:inherit}
   .pp-tab .tn{font-size:17px;font-weight:600;color:#e8ebf2}
-  .pp-tab .td{font-size:13px;color:#828a9c}
+  .pp-tab .td{font-size:15px;color:#828a9c}
   .pp-tab:hover{border-color:rgba(255,255,255,.28)}
   .pp-tab.on{border-color:${accent};background:rgba(91,140,255,.12);box-shadow:0 0 0 1px ${accent} inset}
-  .pp-reset{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer}
+  .pp-reset{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer}
   .pp-reset:hover{border-color:var(--text)}
   .pp-reset.hide{display:none}
   `

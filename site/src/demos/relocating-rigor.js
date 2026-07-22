@@ -21,33 +21,33 @@ export default function mount(el, ctx) {
   .rr-stage{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
   .rr-seg{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;
     background:rgba(255,255,255,.02);padding:14px;overflow:hidden;min-height:250px}
-  .rr-seg h3{margin:0;font-size:16px}.rr-seg .sub{font-size:13px;color:var(--text-dim);margin-top:2px}
+  .rr-seg h3{margin:0;font-size:16px}.rr-seg .sub{font-size:15px;color:var(--text-dim);margin-top:2px}
   .rr-bar{margin-top:10px;height:14px;border-radius:8px;background:rgba(255,255,255,.06);overflow:hidden}
   .rr-fill{height:100%;width:10%;border-radius:8px;transition:width 1s cubic-bezier(.5,0,.3,1)}
   .rr-up .rr-fill{background:linear-gradient(90deg,${OK},${OK}aa)}
   .rr-mid .rr-fill{background:linear-gradient(90deg,${accent},${accent}aa)}
   .rr-down .rr-fill{background:linear-gradient(90deg,${BLUE},${PUR})}
-  .rr-pct{font-size:13px;color:var(--text-dim);margin-top:5px}
+  .rr-pct{font-size:15px;color:var(--text-dim);margin-top:5px}
   .rr-body{flex:1;margin-top:10px;position:relative;overflow:hidden}
   .rr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-  .rr-list li{font-size:13.5px;color:var(--text-dim);padding:6px 9px;border:1px solid var(--line);border-radius:8px;
+  .rr-list li{font-size:15px;color:var(--text-dim);padding:6px 9px;border:1px solid var(--line);border-radius:8px;
     opacity:.32;transition:opacity .5s,border-color .5s}
   .rr-list li.lit{opacity:1;border-color:rgba(255,255,255,.22);color:var(--text)}
   .rr-queue{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);text-align:center;opacity:0;transition:opacity .4s}
   .rr-queue.show{opacity:1}
   .rr-queue .n{font-size:38px;font-weight:800;color:${BAD};font-family:var(--font-mono)}
-  .rr-queue .l{font-size:13px;color:${BAD};letter-spacing:.06em}
+  .rr-queue .l{font-size:15px;color:${BAD};letter-spacing:.06em}
   .rr-agents{display:flex;gap:8px;margin-top:8px;opacity:0;transition:opacity .6s}
   .rr-agents.show{opacity:1}
-  .rr-ag{flex:1;border:1px dashed rgba(255,255,255,.25);border-radius:10px;padding:8px;text-align:center;font-size:14px}
+  .rr-ag{flex:1;border:1px dashed rgba(255,255,255,.25);border-radius:10px;padding:8px;text-align:center;font-size:15.5px}
   .rr-ag.claude{border-color:${accent}88;color:${accent}}.rr-ag.codex{border-color:${TEAL}88;color:${TEAL}}
-  .rr-ag .cx{display:block;font-size:12px;color:var(--text-dim);margin-top:3px}
-  .rr-fall{position:absolute;left:8px;right:8px;top:-30px;height:24px;border-radius:6px;font-size:13px;
+  .rr-ag .cx{display:block;font-size:14px;color:var(--text-dim);margin-top:3px}
+  .rr-fall{position:absolute;left:8px;right:8px;top:-30px;height:24px;border-radius:6px;font-size:15px;
     display:flex;gap:5px;align-items:center;justify-content:center;color:var(--text);
     background:${BLUE}2e;border:1px solid ${BLUE}66}
   .rr-fall svg{width:15px;height:15px;flex:none}
   .rr-fall.flaw{background:${BAD}22;border-color:${BAD}}
-  .rr-dialog{position:absolute;left:8px;right:8px;bottom:8px;padding:9px 11px;border-radius:9px;font-size:14px;
+  .rr-dialog{position:absolute;left:8px;right:8px;bottom:8px;padding:9px 11px;border-radius:9px;font-size:15.5px;
     line-height:1.4;display:flex;gap:6px;align-items:center;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);
     opacity:0;transition:opacity .3s}
   .rr-dialog svg{width:17px;height:17px;flex:none}
@@ -55,15 +55,15 @@ export default function mount(el, ctx) {
   .rr-obs{font-size:16px;color:var(--text);line-height:1.55;border-left:2px solid var(--accent);padding-left:12px;
     min-height:22px;margin-bottom:12px}
   .rr-ctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .rr-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);
+  .rr-btn{font-family:var(--font-tc);font-size:15.5px;color:var(--text);background:rgba(255,255,255,.04);
     border:1px solid var(--line);border-radius:999px;padding:9px 17px;cursor:pointer;transition:all .25s ${EASE}}
   .rr-btn:hover{border-color:var(--text);transform:translateY(-1px)}
   .rr-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
   .rr-btn.hide{display:none}
-  .rr-tog{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim)}
+  .rr-tog{display:inline-flex;align-items:center;gap:8px;font-size:15.5px;color:var(--text-dim)}
   .rr-tog.hide{display:none}
   .rr-seg2{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-  .rr-seg2 button{background:transparent;border:0;color:var(--text-dim);padding:8px 14px;font-size:14px;
+  .rr-seg2 button{background:transparent;border:0;color:var(--text-dim);padding:8px 14px;font-size:15.5px;
     cursor:pointer;font-family:var(--font-tc)}
   .rr-seg2 button.on{background:var(--accent);color:#05060a;font-weight:700}
   @media(max-width:820px){.rr-stage{grid-template-columns:1fr}}

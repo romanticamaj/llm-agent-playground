@@ -26,7 +26,7 @@ export default function mount(el, ctx) {
     .sa-col h3 .dot{width:9px;height:9px;border-radius:50%;background:#555;transition:background .3s}
     .sa-ctxbar{height:16px;border-radius:8px;background:#0c0f16;overflow:hidden;position:relative}
     .sa-ctxbar>span{display:block;height:100%;width:8%;transition:width .3s,background .3s}
-    .sa-ctxlbl{font-size:14px;color:#7c8296;display:flex;justify-content:space-between}
+    .sa-ctxlbl{font-size:15.5px;color:#7c8296;display:flex;justify-content:space-between}
     .sa-log{flex:1;overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:2px;max-height:280px}
     .sa-msg{background:#181c26;border:1px solid #2a3040;border-radius:8px;padding:7px 10px;font-size:15px;line-height:1.5;animation:sa-in .3s ease}
     .sa-msg.me{color:#9aa0b0}
@@ -36,10 +36,10 @@ export default function mount(el, ctx) {
     .sa-empty{color:#5a6070;font-size:15px;text-align:center;margin:auto;padding:20px;line-height:1.7}
     .sa-empty .sa-ico{color:${accent}}
     .sa-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-    .sa-packet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#12151d;border:1px solid ${accent};border-radius:8px;padding:6px 8px;font-size:13px;color:#c3c8d8;opacity:0;pointer-events:none;white-space:nowrap;max-width:180px;text-align:center;line-height:1.35}
+    .sa-packet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#12151d;border:1px solid ${accent};border-radius:8px;padding:6px 8px;font-size:15px;color:#c3c8d8;opacity:0;pointer-events:none;white-space:nowrap;max-width:180px;text-align:center;line-height:1.35}
     .sa-sub{border-style:dashed;border-color:#2c3550;opacity:.6}
     .sa-sub.alive{opacity:1;border-style:solid;border-color:${accent}}
-    .sa-badge{font-size:13px;padding:2px 8px;border-radius:10px;background:#1c2130;color:#9aa0b0;font-weight:400}
+    .sa-badge{font-size:15px;padding:2px 8px;border-radius:10px;background:#1c2130;color:#9aa0b0;font-weight:400}
     .sa-ctrls{display:none;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
     .sa-ctrls.show{display:flex}
     .sa-ctrls .demo-btn{font-size:16px;display:inline-flex;align-items:center;gap:7px}
