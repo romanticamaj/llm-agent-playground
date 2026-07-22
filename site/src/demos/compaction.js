@@ -109,13 +109,16 @@ export default function mount(el, ctx) {
     <button class="cp-btn hide" data-b="save">寫行程記錄表</button>
     <button class="cp-btn hide" data-b="fetch">去查文件（撈回）</button>
     <button class="cp-btn hide" data-b="swap">整理 context 換新車</button>
-    <button class="cp-btn hide" data-b="arrive">開到台北（結算）</button>`
+    <button class="cp-btn hide" data-b="arrive">開到台北（結算）</button>
+    <button class="cp-btn hide" data-b="reset">重來一趟</button>`
 
   let stage  // 於所有輔助函式定義後才建立（避免 enter() 在初始化前觸發）
 
   // ---- 場景參照 & 狀態 ----
   const $ = s => scene.querySelector(s)
   const truck = $('.cp-truck'), bed = $('.cp-bed'), newTruck = $('.cp-newtruck'), newBed = $('.nb')
+  // 換車後所有動作（開車/堆貨/計位）都要跟著新車 — 用 act 指向目前的車
+  let act = { t: truck, b: bed }
   const warehouse = $('.cp-warehouse'), ware = $('.cp-ware'), scoreEl = $('.cp-score')
   const fill = gauge.querySelector('.cp-fill'), pctNum = gauge.querySelector('.num')
   const flags = [...scene.querySelectorAll('.cp-flag')]
@@ -137,12 +140,12 @@ export default function mount(el, ctx) {
     if (anim) countUp(pctNum, tokens, { from: parseFloat(pctNum.textContent) || 0, dur: 550, fmt: v => Math.round(v) })
     else pctNum.textContent = Math.round(tokens)
   }
-  function drive(pct) { truck.style.left = pct + '%'; flags.forEach(f => f.classList.toggle('reached', +f.dataset.at <= pct + 0.5)) }
+  function drive(pct) { act.t.style.left = pct + '%'; flags.forEach(f => f.classList.toggle('reached', +f.dataset.at <= pct + 0.5)) }
   function makeBlock(key, keyIdx, silent) {
     const b = document.createElement('div')
     b.className = 'cp-block' + (key ? ' key' : '')
     if (key) { b.dataset.k = keyIdx; b.title = KEY_LABELS[keyIdx] }
-    bed.appendChild(b)
+    act.b.appendChild(b)
     if (!silent) { enterFly(b, { y: 44, dur: 500 }); pop(b) }
     blocks.push({ el: b, key, keyIdx })
     return b
@@ -160,7 +163,7 @@ export default function mount(el, ctx) {
     })
     blocks = survivors
     keys.forEach(k => { k.onTruck = false })
-    shake(truck); setGauge(20)
+    shake(act.t); setGauge(20)
     updateScore()
   }
 
@@ -185,7 +188,7 @@ export default function mount(el, ctx) {
   }
 
   function saveKeys() {
-    const tr = truck.getBoundingClientRect()
+    const tr = act.t.getBoundingClientRect()
     let any = false
     keys.forEach((k, i) => {
       if (!k.inWarehouse) {
@@ -225,18 +228,40 @@ export default function mount(el, ctx) {
   }
 
   function swapSimple() {
-    // 舊車熄火 → 新車開來，精華貨（含保住的關鍵貨）搬上，token 歸低
+    // 舊車熄火 → 新車開到舊車旁 → 精華貨+關鍵貨搬上 → 主控權交給新車、token 歸低
+    if (busy) return
+    if (act.t === newTruck) { shake(btn('swap')); return } // 已換過車
+    busy = true
+    const oldPos = parseFloat(truck.style.left) || P.taichung
     truck.classList.add('stopped')
     newBed.innerHTML = ''
     newTruck.classList.remove('cp-hidden')
-    newTruck.style.left = '-18%'
-    T(() => { newTruck.style.left = (P.hsinchu + 6) + '%' }, 60)
-    const alive = keys.filter(k => k.onTruck || k.inWarehouse).length
+    newTruck.style.transition = 'none'; newTruck.style.left = '-18%'
+    void newTruck.offsetWidth; newTruck.style.transition = ''
+    T(() => { newTruck.style.left = Math.min(oldPos + 9, P.taipei - 8) + '%' }, 60)
+    const onTruckKeys = keys.map((k, i) => k.onTruck ? i : -1).filter(i => i >= 0)
     T(() => {
-      for (let i = 0; i < 3; i++) { const b = document.createElement('div'); b.className = 'cp-block kept'; newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: i * 90 }) }
-      for (let i = 0; i < alive; i++) { const b = document.createElement('div'); b.className = 'cp-block key'; newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: 300 + i * 90 }) }
+      blocks = []
+      for (let i = 0; i < 3; i++) {
+        const b = document.createElement('div'); b.className = 'cp-block kept'
+        newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: i * 90 })
+        blocks.push({ el: b, key: false })
+      }
+      onTruckKeys.forEach((ki, i) => {
+        const b = document.createElement('div'); b.className = 'cp-block key'
+        b.dataset.k = ki; b.title = KEY_LABELS[ki]
+        newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: 300 + i * 90 })
+        blocks.push({ el: b, key: true, keyIdx: ki })
+      })
     }, 900)
-    T(() => { const r = newTruck.getBoundingClientRect(), br = stage.body.getBoundingClientRect(); confettiBurst(stage.body, r.left - br.left + 60, r.top - br.top + 40, GREEN) }, 1500)
+    T(() => {
+      const r = newTruck.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
+      confettiBurst(stage.body, r.left - br.left + 60, r.top - br.top + 40, GREEN)
+      act = { t: newTruck, b: newBed }           // 主控權交接：之後開車/堆貨都是新車
+      setGauge(22)
+      T(() => { truck.style.opacity = '0.25' }, 600)
+      busy = false
+    }, 1500)
   }
 
   function updateScore() {
@@ -248,13 +273,16 @@ export default function mount(el, ctx) {
 
   function arrive() {
     if (busy) return
+    busy = true
     drive(P.taipei)
     const safe = keys.filter(k => k.onTruck || k.inWarehouse).length
     T(() => {
-      const r = truck.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
-      if (safe === 3) { confettiBurst(stage.body, r.left - br.left, r.top - br.top - 10, GOLD, 34); stage.setNarration('抵達台北，<b>3 件關鍵貨全數保住</b> — 這就是先存硬碟＋換新車的威力。') }
-      else stage.setNarration(`抵達台北，只保住 <b style="color:${RED}">${safe} / 3</b> — 沒存的關鍵貨在 compaction 時被忘了。按「寫記錄表」重來一次。`)
-    }, 1250)
+      const r = act.t.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
+      if (safe === 3) { confettiBurst(stage.body, r.left - br.left + 80, r.top - br.top - 10, GOLD, 34); stage.setNarration('抵達台北，<b>3 件關鍵貨全數保住</b> — 這就是先存硬碟＋換新車的威力。按「重來」再開一趟。') }
+      else stage.setNarration(`抵達台北，只保住 <b style="color:${RED}">${safe} / 3</b> — 沒存的關鍵貨在 compaction 時被忘了。按「重來」，這次先寫記錄表。`)
+      showBtns(['reset'])
+      busy = false
+    }, 1350)
   }
 
   function showBtns(list) {
@@ -265,18 +293,34 @@ export default function mount(el, ctx) {
   btn('fetch').onclick = () => { pop(btn('fetch')); fetchBack() }
   btn('swap').onclick = () => { pop(btn('swap')); swapSimple() }
   btn('arrive').onclick = () => { pop(btn('arrive')); arrive() }
+  btn('reset').onclick = () => { pop(btn('reset')); startSandboxRun() }
 
   // 每拍開場先歸零場景，再照劇本演
   function resetScene() {
     clearT(); busy = false
-    clearBed(); ware.innerHTML = ''
+    act = { t: truck, b: bed }                     // 主控權還給原車
+    clearBed(); newBed.innerHTML = ''; ware.innerHTML = ''
     keys.forEach(k => { k.onTruck = false; k.inWarehouse = false })
     setGauge(0, { anim: false })
-    truck.classList.remove('stopped'); truck.style.transition = 'none'; drive(P.taichung)
+    truck.classList.remove('stopped'); truck.style.opacity = ''
+    truck.style.transition = 'none'; drive(P.taichung)
     void truck.offsetWidth; truck.style.transition = ''
-    newTruck.classList.add('cp-hidden'); newBed.innerHTML = ''
+    newTruck.classList.add('cp-hidden')
+    newTruck.style.transition = 'none'; newTruck.style.left = '-18%'
+    void newTruck.offsetWidth; newTruck.style.transition = ''
     warehouse.classList.add('cp-hidden'); scoreEl.classList.add('cp-hidden')
     showBtns([])
+  }
+
+  // sandbox 的一趟：可由「重來一趟」重複啟動
+  function startSandboxRun() {
+    resetScene()
+    scoreEl.classList.remove('cp-hidden')
+    warehouse.classList.remove('cp-hidden'); enterFly(warehouse, { y: 40, dur: 600 })
+    addNormals(6, 120)
+    keys.forEach((k, i) => T(() => { makeBlock(true, i); k.onTruck = true; updateScore() }, 250 + i * 200))
+    T(() => setGauge(38), 900)
+    updateScore(); showBtns(['chat', 'save', 'fetch', 'swap', 'arrive'])
   }
 
   function buildBeats() {
@@ -313,13 +357,7 @@ export default function mount(el, ctx) {
         } },
 
       { narration: '換你開完整趟 — <b>繼續聊天</b>裝貨、<b>寫記錄表</b>存硬碟、<b>查文件</b>撈回、<b>換新車</b>。開到台北看你保住幾件關鍵貨。', sandbox: true,
-        enter() {
-          resetScene(); drive(P.taichung); scoreEl.classList.remove('cp-hidden')
-          addNormals(6, 120)
-          keys.forEach((k, i) => T(() => { makeBlock(true, i); k.onTruck = true; updateScore() }, 250 + i * 200))
-          T(() => setGauge(38), 900)
-          updateScore(); showBtns(['chat', 'save', 'fetch', 'swap', 'arrive'])
-        } },
+        enter() { startSandboxRun() } },
     ]
   }
 
