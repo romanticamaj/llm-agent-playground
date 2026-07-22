@@ -1,0 +1,753 @@
+[
+  {
+    "num": "01",
+    "file": "01-next-token-prediction.md",
+    "id": "next-token-prediction",
+    "title": "AI 是文字接龍",
+    "subtitle": "Next-token Prediction",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "聊聊為什麼需要沒事多按「編輯」？只是因為修正錯字？ 🤔",
+        "url": "https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai",
+        "date": "2026-04-22"
+      }
+    ],
+    "oneLiner": "AI 不是在「思考」，它是在接龍 — 每一個字，都是上一個字的延伸。",
+    "script": "AI 是文字接龍。每一個字，都是上一個字的延伸；每一句話，都是上一句話的結果。\n\n這件事聽起來很簡單，但它是理解所有 LLM 行為的第一把鑰匙。模型每次只做一件事：看著前面所有的字，預測「下一個字最可能是什麼」，然後把它接上去。接完，再看一次，再接下一個。就這樣，一個字一個字，長出你看到的回答。\n\n所以它的「聰明」不是憑空來的 — 是因為它讀過的文字夠多，把人類語言的 pattern 壓縮進了模型參數裡。你給它的每一個字，都在影響它接下來會接什麼。\n\n這也解釋了一個大家每天都遇到的問題：為什麼 prompt 這麼重要？因為 prompt 就是接龍的開頭。開頭歪了，後面整串就跟著歪。當你輸入一個有問題的 prompt，或是 AI 給了一個不對的回應，然後你繼續往下聊、請它修正 — 你其實是在一段已經汙染的 context 上面繼續接龍。\n\n理解「接龍」這個本質之後，很多 AI 的怪行為都變得可以預測：它為什麼會一本正經地胡說八道？因為它只是在接「看起來最順」的字。它為什麼會被你前面說錯的話帶歪？因為那些字已經進了接龍的隊伍裡。\n\n記住這句話：AI 的全部世界，就是它眼前那串字。",
+    "keyPoints": [
+      "LLM 每次只做一件事：預測下一個 token，然後重複",
+      "每一個字都是上一個字的延伸 — 輸入的品質直接決定輸出的品質",
+      "「聰明」來自海量文字中壓縮出來的 pattern",
+      "錯誤的內容一旦進入 context，後面的接龍全部會被影響",
+      "這是理解 stateless、context、prompt engineering 所有概念的地基"
+    ],
+    "demoIdea": "畫面中央一句未完成的話（例如「今天天氣真」），下方即時顯示候選下一個字的機率長條（好 62%、冷 15%、熱 9%、糟 6%…）。使用者可以：(1) 點任一候選字，句子接上去、機率列表隨之更新，親手「接龍」一次；(2) 按「自動生成」看模型一路挑最高機率字長出句子；(3) 改變開頭的字，觀察後面整串跟著改變 — 體會「每個字都是上個字的延伸」。",
+    "questions": [
+      "如果 AI 只是在預測下一個字，為什麼它能回答邏輯問題？",
+      "「接龍」這個本質，如何解釋 AI 一本正經地胡說八道（幻覺）？",
+      "知道這個原理後，你寫 prompt 的方式會有什麼改變？"
+    ],
+    "quotes": [
+      "AI 是文字接龍。每一個字，都是上一個字的延伸；每一句話，都是上一句話的結果。",
+      "你其實是在一段已經汙染的 context 上面繼續接龍。"
+    ]
+  },
+  {
+    "num": "02",
+    "file": "02-deterministic-vs-nondeterministic.md",
+    "id": "deterministic-vs-nondeterministic",
+    "title": "Deterministic vs. Non-deterministic",
+    "subtitle": "確定性與非確定性",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "Agent 的手跟腳 / Tools，要怎麼裝到沒有狀態的 LLM 身上？",
+        "url": "https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm",
+        "date": "2026-05-18"
+      },
+      {
+        "title": "Agent 是怎麼做出來的？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-30-agent",
+        "date": "2026-04-30"
+      }
+    ],
+    "oneLiner": "傳統程式同樣的輸入永遠給同樣的輸出；LLM 同樣的輸入，每次都可能給你不同的答案。",
+    "script": "寫了幾十年的軟體，我們習慣一件事：程式是確定的（deterministic）。`1 + 1` 永遠等於 `2`，同一個函式、同樣的輸入，跑一百萬次，結果一模一樣。整個軟體工程 — 測試、除錯、CI/CD — 都建立在這個地基上。\n\nLLM 把這個地基抽掉了。同一個 prompt 丟給模型，這次它這樣回，下次它那樣回。因為它是在機率分布上抽樣 — 文字接龍的每一步，都是從一堆候選字裡「抽」一個出來。這就是 non-deterministic（非確定性）。\n\n這不是 bug，是特性。抽樣帶來了創造力、多樣性、「像人」的感覺。但它也帶來了工程上的全新課題：你要怎麼測試一個每次輸出都不一樣的系統？你要怎麼信任它？\n\n所以現代 Agent 設計裡，最重要的一條線就是：哪些事情交給 deterministic 的程式碼，哪些交給 non-deterministic 的 LLM。關鍵動作 — 刪檔案、發訊息、扣款 — 走 deterministic 的 tool schema + executor，控制力佳；需要理解、判斷、生成的 — 走 LLM。控制流可以預先定義的，用 code-based workflow；需要 LLM 全權決策的，才用 prompt-driven。\n\n一句話總結：AI 時代的工程能力，就是知道把「確定」跟「不確定」各放在哪裡。",
+    "keyPoints": [
+      "Deterministic：同輸入 → 同輸出，可測試、可預期（傳統程式）",
+      "Non-deterministic：同輸入 → 機率抽樣 → 不同輸出（LLM 生成）",
+      "抽樣是特性不是 bug — 它是創造力的來源，也是風險的來源",
+      "Agent 設計的核心決策：關鍵動作走 deterministic（tool schema + executor），彈性判斷走 probabilistic（LLM + prompt）",
+      "控制流可預先定義 → workflow；需要全權決策 → agent"
+    ],
+    "demoIdea": "畫面分左右兩半。左邊是一台「函式機器」：輸入 `2 + 2`，按十次執行，十次都輸出 `4`，軌跡完全重疊成一條線。右邊是 LLM：同一個 prompt「用一句話形容今天」，按十次生成，十句都不一樣，輸出像煙火一樣散開成十條不同路徑。中間一個 temperature 滑桿：拉到 0，右邊的路徑開始收斂到幾乎同一句；拉高，路徑越散越有創意。使用者親手感受「確定 vs. 抽樣」的差別。",
+    "questions": [
+      "你的產品裡，哪些環節絕對不能交給 non-deterministic 的 LLM？",
+      "Temperature = 0 的 LLM 算是 deterministic 嗎？（進階：為什麼實務上還是不完全一樣？）",
+      "如果測試無法「預期輸出」，那 AI 系統的品質要怎麼把關？"
+    ],
+    "quotes": [
+      "你要 deterministic 還是 probabilistic 的 tool？走 tool schema ＋ executor → deterministic，控制力佳，適合關鍵動作。",
+      "它的控制流是 deterministic 還是 non-deterministic？如果流程可以預先定義，用 LangGraph 或 code-based workflow。如果需要 LLM 全權決策，用 prompt-driven。"
+    ]
+  },
+  {
+    "num": "03",
+    "file": "03-llm-stateless.md",
+    "id": "llm-stateless",
+    "title": "LLM 根本沒有記憶",
+    "subtitle": "LLM is Stateless",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "跟 AI 說「幫我記住這個」的時候，背後發生了什麼事？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-07-ai",
+        "date": "2026-04-07"
+      }
+    ],
+    "oneLiner": "每一次送出訊息，對 AI 來說都是全新的世界 — 你以為的「對話」，是每次都把整段歷史重新塞給它。",
+    "script": "跟 AI 說「幫我記住這個」的時候，背後發生了什麼事？答案讓我滿意外的 — LLM 根本沒有記憶。\n\n每一次送出訊息，對 AI 來說都是全新的世界。它不記得你上一句說了什麼。你以為的「對話」，其實是系統把之前的對話紀錄重新塞進去，讓 AI「看起來」好像記得。第一輪送 `[system][msg1]`，第二輪送 `[system][msg1][回覆1][msg2]`— 每一輪都是整串重傳。\n\n所以「幫我記住」的真相是：memory system 幫你把資訊寫進 external storage（外部儲存），下次對話開始前，再根據你的問題去「撈」相關的記憶，塞回 AI 的 input 裡。寫入、檢索、注入 — 這整套機制，就是現在 AI Agent 架構的核心。\n\n理解 stateless 之後，很多日常現象都解釋得通了：為什麼聊到後面 AI 回答越來越不對？因為對話歷史越來越長，擠壓了 context window 裡其他內容的空間。為什麼開新對話它就「忘光光」？因為根本沒有東西被真的記住 — 除非有 memory system 幫忙。\n\n怎麼「洗白」回來？開新 session，手動把關鍵 context 重新餵進去 — 等於自己當了一次 memory manager。\n\n這是整堂課最重要的一個地基：AI 的全部世界，就是這一次 API call 塞進去的那段文字。",
+    "keyPoints": [
+      "LLM 沒有記憶 — 每次 API call 都是從零開始的全新世界",
+      "「對話感」是假象：harness 每輪都把完整歷史重新組裝送過去",
+      "「幫我記住」= 寫進外部儲存；「你記得嗎」= 觸發檢索再塞回 input",
+      "聊越久越不準，是因為歷史擠壓了 context window 的空間",
+      "Memory 系統的本質：「在有限的桌子上，決定每次放什麼上去」"
+    ],
+    "demoIdea": "畫面是一個聊天視窗 + 旁邊一個透明的「API call 內視鏡」。使用者輸入「我叫小明」、再問「我叫什麼？」— 內視鏡顯示每次送出時，整串歷史（system prompt + 所有舊訊息）被重新打包送出的動畫，AI 答對。然後按下「關掉歷史重送」開關，再問一次「我叫什麼？」— 內視鏡裡只剩孤零零的一句話，AI 一臉茫然答不出來。一個開關，讓「stateless」被親眼看見。",
+    "questions": [
+      "如果 LLM 沒有記憶，ChatGPT 的「記憶功能」是怎麼做到的？",
+      "為什麼對話越長，AI 的回答品質會下降？",
+      "「開新對話再把重點貼進去」為什麼常常比繼續聊更有效？"
+    ],
+    "quotes": [
+      "答案讓我滿意外的 — LLM 根本沒有記憶。",
+      "每一次送出訊息，對 AI 來說都是全新的世界 — 我以為的「對話」，其實是把之前的對話紀錄重新塞進去，讓 AI「看起來」好像記得。",
+      "「在有限的桌子上，決定每次放什麼上去」"
+    ]
+  },
+  {
+    "num": "04",
+    "file": "04-context-window.md",
+    "id": "context-window",
+    "title": "Context Window 是 AI 的全部世界",
+    "subtitle": "The Context Window",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "跟 AI 說「幫我記住這個」的時候，背後發生了什麼事？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-07-ai",
+        "date": "2026-04-07"
+      },
+      {
+        "title": "Agent 是怎麼做出來的？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-30-agent",
+        "date": "2026-04-30"
+      }
+    ],
+    "oneLiner": "Context window 不是 AI 的記憶體 — 它是一張有限的桌子，每次對話都要重新決定放什麼上去。",
+    "script": "Context window 是我覺得最重要的一個概念。它不是 AI 的記憶體上限，它是「一次 API call 能傳過去的 token 總量」。傳完就沒了，下次要重新傳 — 真的重傳，每次都要把一部分跟上次一樣的東西再送一次。\n\n每次跟 AI 對話，背後其實是這樣組裝的：最前面是固定區 — identity、soul、agent 規範、tools、user 資訊，這些可以 cache；中間是動態區 — 撈回來的記憶加上對話歷史，每次不同；最後才是你當前的訊息。越穩定的放越前面，越動態的放越後面。\n\n現在主流模型的 context window 都到 1M tokens 了 — 大概 75 萬字英文，或一整個中型 codebase。但重點來了：塞越多不代表 AI 用得越好。研究顯示模型對 context 開頭和結尾的資訊處理最好，中間容易漏掉 — 這叫 lost in the middle。\n\n塞到上限會發生什麼事？觸發 compaction — AI 自動把前面的對話摘要壓縮，過程中丟失 nuance 跟 edge cases。這就是為什麼聊很久之後，AI 開始忘東忘西。\n\n所以記住這個畫面：模型廠商把桌子撐大是一回事，放對東西到桌上，要靠我們自己。不然有三公尺的書桌，東西還是一直掉啊。\n\nAgent 的視角更極端 — 不管架構設計多精密、檔案分得多細、cache 策略多講究，最終送進 LLM 的就是一段 text。Context Window = Agent 執行期的全部。",
+    "keyPoints": [
+      "Context window = 一次 API call 的 token 總量，不是持久的記憶體",
+      "組裝順序有學問：穩定的往前放（可 cache），動態的往後放",
+      "塞越多 ≠ 越好 — lost in the middle：中間的資訊最容易被漏掉",
+      "滿了就 compaction：自動摘要壓縮，nuance 和 edge cases 會流失",
+      "Context Window = Agent 執行期的全部世界"
+    ],
+    "demoIdea": "畫面中央一張俯視的「桌子」（長條容量槽）。使用者按按鈕往上放東西：system prompt（藍磚）、tool 定義（綠磚）、記憶（黃磚）、對話歷史（灰磚，會隨聊天自動增生）。桌子漸滿，容量表逼近 100% 時警告閃爍，然後觸發 compaction 動畫：一大段灰磚被壓縮成一小塊「摘要磚」，但壓縮時有幾顆代表「細節」的小亮點掉出桌外消失 — 具象化「壓縮會丟失 nuance」。另附「lost in the middle」實驗鈕：在長 context 的開頭/中間/結尾各藏一個關鍵字，顯示模型對三個位置的注意力熱度圖。",
+    "questions": [
+      "為什麼「越穩定的內容放越前面」？（提示：跟 prompt cache 有關）",
+      "1M token 的 context window，是不是就不需要 memory 系統了？",
+      "你遇過 AI「聊到後面開始亂掉」嗎？現在你知道是為什麼了？"
+    ],
+    "quotes": [
+      "Context window 不是 AI 的記憶體上限，它是「一次 API call 能傳過去的 token 總量」。",
+      "塞越多不代表 AI 用得越好。",
+      "不然有三公尺的書桌，東西還是一直掉啊😂😂😂"
+    ]
+  },
+  {
+    "num": "05",
+    "file": "05-context-pollution-rewind.md",
+    "id": "context-pollution-rewind",
+    "title": "編輯鈕是時光機",
+    "subtitle": "Context Pollution & Rewind",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "聊聊為什麼需要沒事多按「編輯」？只是因為修正錯字？ 🤔",
+        "url": "https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai",
+        "date": "2026-04-22"
+      }
+    ],
+    "oneLiner": "不要在汙染的 context 上繼續修補 — 跳回乾淨的時間點，重新接龍。",
+    "script": "聊聊為什麼需要沒事多按「編輯」？只是因為修正錯字嗎？\n\nAI 是文字接龍。所以當你輸入一個有問題的 prompt，或是 AI 給了一個不對的回應，然後你繼續往下聊、請它修正 — 你其實是在一段已經汙染的 context 上面繼續接龍。工程上有兩個詞：Context Pollution（上下文汙染）跟 Context Collision（上下文衝突）。一旦誤解被寫進 context，之後所有的回應都會帶著那個誤解往下走。有論文做過量化測試：跨多輪對話下指令，模型平均有 39% 的效能下滑 — 因為模型開始複製自己的前一個回應，而不是認真看新的指令。\n\n這就是「編輯」真正在解決的問題。不管是 Claude 的 Edit、ChatGPT 的修改、還是 Claude Code 的 Rewind — 本質上都是同一件事：讓你跳回某個時間點，從那個點重新接龍。就像時光機。\n\n工程上它在每一層都有實作：對話層是編輯訊息、截斷 context、重新生成；Coding Agent 層是 checkpoint — 在危險操作前先存檔，跑歪了直接跳回，跟打電動存檔一模一樣；Agent Framework 層是把每一步執行狀態序列化存起來，掛掉就從最後一個好狀態恢復。沒有 checkpoint 機制的 agent，只能算 toy。\n\n更進階的是 Branching：Rewind 只是「回去」，Branching 是「回去之後，同時走兩條路」— 把 Git 的概念搬到對話上。分支式對話比線性對話的 context 縮減 58%，品質還更好，因為每條探索路徑都在自己乾淨的 context 裡跑。\n\n下次看到「編輯」按鈕，記住 — 它不是改錯字用的，它是會開啟平行宇宙的時光機。",
+    "keyPoints": [
+      "Context Pollution：誤解一旦寫進 context，所有後續回應都帶著它走",
+      "多輪修補的效果遠不如跳回乾淨狀態重新生成（量化：平均 39% 效能下滑）",
+      "Rewind 三層實作：Chat 編輯 / Agent checkpoint / Framework 狀態序列化",
+      "Branching = 回去之後同時走兩條路，每條路都有乾淨的 context",
+      "核心原則：不要在汙染的 context 上修補，讓模型從乾淨狀態重新生成"
+    ],
+    "demoIdea": "畫面是一棵對話樹。使用者跟模擬 AI 對話，其中一步故意選一個「錯誤理解」的回應 — 該節點變紅，之後每個新節點都帶著紅色暈染（汙染在傳播），品質分數持續下滑。然後使用者按「Rewind」，時間軸倒帶動畫回到紅色節點之前，從那裡長出一條乾淨的綠色新分支，品質分數回升。再按「Branch」可同時長兩條分支比較答案。紅綠對比 + 倒帶動畫，一眼看懂「時光機」。",
+    "questions": [
+      "你多常用「編輯」而不是「繼續解釋給 AI 聽」？為什麼？",
+      "AI 跑歪的時候，「叫它重寫」跟「rewind 重下指令」差在哪？",
+      "為什麼分支式對話反而 context 更小、品質更好？"
+    ],
+    "quotes": [
+      "不要在一個汙染的 context 上繼續修補，讓模型從乾淨的狀態重新生成。",
+      "下次看到「編輯」按鈕，不只是打錯字在用，他是會開啟平行宇宙的時光機。"
+    ]
+  },
+  {
+    "num": "06",
+    "file": "06-prompt-cache.md",
+    "id": "prompt-cache",
+    "title": "算過的，別再算",
+    "subtitle": "Prompt Cache / KV Cache",
+    "chapter": 1,
+    "chapterTitle": "LLM 的本質",
+    "sources": [
+      {
+        "title": "為什麼會有 prompt cache？",
+        "url": "https://www.garyhsieh.com/blog/2026-06-03-prompt-cache",
+        "date": "2026-06-03"
+      }
+    ],
+    "oneLiner": "Prompt cache 聽起來很 AI，骨子裡就是 memoization — 把「算過的別再算」套到 attention 的 KV 上。",
+    "script": "為什麼會有 prompt cache？追到底才發現，就真的只是 \"cache\" 那個 \"cache\"，只是這次給 GPU 用。\n\n先講 Transformer 在幹嘛。它每處理一個 token，都要跟前面所有 token 算 attention，過程會吐出每一層的 Key 跟 Value 向量（業界叫 KV）。重點來了 — 同一段 token，算出來的 KV 是固定的。不管後面接什麼，前面那段的 KV 永遠長一樣。既然結果固定，幹嘛每次重算？算過一次存起來，下次遇到一樣的開頭直接載入。啪，這就是 prompt cache。說穿了就是 memoization — 大學資料結構就教過，只是這次的「結果」是一坨 GPU 算出來的矩陣。\n\n那為什麼只能 cache「開頭」？因為 attention 是 causal 的 — 每個 token 的 KV 由它前面所有 token 決定。Token C 的 KV = f(A, B, C)。只要改了開頭的 A，即使 C 一個字沒動，C 的 KV 還是會變。所以 cache 只能從開頭逐 token 比對，中間斷一個就全毀。這也解釋了為什麼所有 prompt 設計最佳實踐都長一樣：不變的往前擺，會變的往後丟 — 天然順著 causal attention 的數學特性。\n\n多輪對話其實一直在偷吃 cache：每輪只是在尾巴追加新東西，前面那段的 KV 還熱著，GPU 直接載入。對話越長，命中比例越高。\n\n然後就講到錢了：正常 input 1x、cache write 約 1.25x、cache read 約 0.1x。五個 agent 共用 100K 的 prefix，有 cache 省下大概 67% — 直接反映在帳單上。\n\n很多 AI infra 的東西都這樣：名字很潮，拆開來都是 CS 基礎在撐。愈把新東西翻譯回老語言，就愈不嚇人。",
+    "keyPoints": [
+      "同一段 token 的 KV 是固定的 → 存起來重用 = prompt cache = memoization",
+      "Attention 是 causal 的：改開頭一個字，後面全部 KV 作廢 — cache 只認「前綴」",
+      "所以 prompt 設計鐵則：穩定內容往前放、動態內容往後放",
+      "多輪對話天然一直命中 cache（每輪只在尾巴追加）",
+      "價格量級：write 1.25x / read 0.1x — multi-agent 共用 prefix 時省最大"
+    ],
+    "demoIdea": "畫面是一條 token 色帶（system prompt + 對話）。第一次送出：整條逐格「點亮計算」，成本表跳動。第二次送出（尾巴加了新訊息）：前綴瞬間整段變成「熱快取」的暖光、免計算，只有尾巴新 token 逐格計算 — 成本表只加一點點。然後殺手級互動：讓使用者點開頭改一個字 — 整條色帶從那格之後全部熄滅重算，成本暴增，親眼看見「中間斷一個就全毀」。旁邊常駐兩個累計帳單：有 cache vs 沒 cache。",
+    "questions": [
+      "為什麼把「今天日期」放在 system prompt 開頭是個壞主意？",
+      "五個 sub-agent 共用同一段長 context，帳單會怎麼變化？",
+      "還有哪些「名字很潮」的 AI 技術，拆開來其實是 CS 基礎？"
+    ],
+    "quotes": [
+      "就真的只是 \"cache\" 那個 \"cache\"😂，只是這次給 GPU 用。",
+      "cache 只能從開頭逐 token 比對，中間斷一個就全毀。",
+      "很多 AI infra 的東西其實都這樣，名字很潮，拆開來都是 CS 基礎在撐。"
+    ]
+  },
+  {
+    "num": "07",
+    "file": "07-agent-anatomy.md",
+    "id": "agent-anatomy",
+    "title": "Agent 是怎麼做出來的？",
+    "subtitle": "Anatomy of an Agent",
+    "chapter": 2,
+    "chapterTitle": "從 LLM 到 Agent",
+    "sources": [
+      {
+        "title": "Agent 是怎麼做出來的？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-30-agent",
+        "date": "2026-04-30"
+      }
+    ],
+    "oneLiner": "一個很強的 LLM，配上一堆工具、一堆很精密的操作規範 — 然後就變一個 Agent 了。",
+    "script": "Agent 是怎麼做出來的？一個很強的 LLM，配上一堆工具、一堆很精密的操作規範，然後就變一個 Agent 了。\n\n拆任何 agent 之前，先建立一個直覺 — Agent 有三層結構。第一層是大腦：LLM 本身，負責推理、理解、生成回應。但它什麼都不記得，每次對話都從零開始，它的全部世界就是 context window 裡的東西。第二層是身體：工具。Browser、file system、code execution、API calls — 讓 agent 能跟外界互動，不只是說話。第三層是骨架（Harness）：看不到但最重要的一層，負責在每次 API call 之前，把對的 prompt、對的工具定義、對的記憶、對的使用者資訊，組裝成完整的 context，餵給大腦。\n\n而那些定義 agent 行為的內容，很多時候就是 — 一組 .md 檔案。就這樣。SOUL.md 定義它是誰、什麼可以做什麼不行（行為邊界）；TOOLS.md 定義它能用什麼（能力邊界）；AGENTS.md 是工作手冊；USER.md 說明它服務誰；MEMORY.md 是累積的知識。一個 LLM 加上一組被精心組裝的 context，它就從聊天機器人 promote 成了 Agent。\n\n但重點在後半句：這些檔案怎麼寫、怎麼拼、什麼時候塞進去、塞多少、哪些該 cache 哪些不該 — 才是整個 Agent Engineering 真正在做的事。\n\n最後記住這個收斂點：不管架構多精密、檔案分得多細，最終送進 LLM 的就是一段 text。Context Window = Agent 執行期的全部。",
+    "keyPoints": [
+      "Agent 三層結構：大腦（LLM）、身體（Tools）、骨架（Harness）",
+      "Agent 的人格與規範，常常就是一組 .md 檔案（SOUL / TOOLS / AGENTS / USER / MEMORY）",
+      "能力邊界（TOOLS.md：能不能做）≠ 行為邊界（SOUL.md：該不該做）",
+      "Harness 的工作：每次 API call 前把所有素材組裝成 context",
+      "Context Window = Agent 執行期的全部世界"
+    ],
+    "demoIdea": "「組裝一隻 Agent」：畫面中央一個空的人形輪廓。使用者依序拖入三個零件 — 大腦（LLM 晶片，裝上後會「說話」但什麼都做不了）、身體（工具手腳：裝上 file、browser、bash 圖示，它開始能「動」）、骨架（harness 脊椎，裝上後出現 context 組裝動畫：SOUL.md、TOOLS.md、MEMORY.md 一張張卡片飛進 context window 條）。組裝完成，Agent 眼睛亮起、開始跑一個小任務。中途可以抽掉任一零件觀察它退化成什麼樣子（抽掉工具 → 只剩嘴砲；抽掉骨架 → 失憶亂做）。",
+    "questions": [
+      "為什麼說「行為邊界」跟「能力邊界」要分開管理？",
+      "你如果要做一個自己的 Agent，SOUL.md 第一條會寫什麼？",
+      "為什麼 .md 檔案就足以定義一個 Agent 的行為？"
+    ],
+    "quotes": [
+      "一個很強的 LLM，配上一堆工具、一堆很精密的操作規範，然後就變一個 Agent 了。",
+      "一個 LLM 加上一組被精心組裝的 context，它就從一個聊天機器人 promote 成了一個 Agent。",
+      "Context Window = Agent 執行期的全部"
+    ]
+  },
+  {
+    "num": "08",
+    "file": "08-tool-use.md",
+    "id": "tool-use",
+    "title": "Agent 的手跟腳",
+    "subtitle": "Tool Use",
+    "chapter": 2,
+    "chapterTitle": "從 LLM 到 Agent",
+    "sources": [
+      {
+        "title": "Agent 的手跟腳 / Tools，要怎麼裝到沒有狀態的 LLM 身上？",
+        "url": "https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm",
+        "date": "2026-05-18"
+      }
+    ],
+    "oneLiner": "LLM 只會輸出字，沒有手也沒有腳 — Tool 裝上去，它才開始「行動」。",
+    "script": "LLM 本質就是文字接龍 — 它沒有手也沒有腳。它能讀檔嗎？不能。能上網嗎？不能。能跑腳本嗎？更不能。它只會輸出字。\n\n那為什麼 Claude Code 可以寫 code、ChatGPT 可以查天氣？因為大家在它後面裝了工具（Tool）。Tool 就是 Agent 的手跟腳。沒有 Tool，LLM 再會推理，結論也只能輸出成文字，不會「發生」任何事。\n\nTool 怎麼安裝？沒有想像中神秘，就兩件事：Schema — 一份 JSON「工具清單」，告訴 LLM 你有這些能力、長這樣呼叫；Executor — 真正的「工具程式碼」，跑在你的 harness 裡執行。LLM 只看到清單，看不到程式碼。它只負責讀清單、決定點哪一個、把點單吐回給你 — 真正的執行是在我們這邊。\n\n整個 pattern 是一個 loop：訊息跟 tool schema 平行送進 API → LLM 回覆「我要用這個工具、參數是這些」外加一個 unique ID → 本地 loop 執行對應的 executor → 把結果配對同一個 ID 塞回 messages → 再 call 一次 API → LLM 看到結果繼續推理 → 直到它說「講完了」。\n\n那無狀態的 LLM 為什麼「記得」自己剛用過工具？因為 harness 每一輪把前面所有 messages、tool_use、tool_result 全部重新組裝送回去。ID 配對就是重組過程裡的信號線。模型看到完整重組的 history，就像記得剛剛做了什麼一樣。\n\n這就是 2022 年 ReAct 論文定下的雛形 — 推理跟行動交錯，一邊想一邊用工具。現在所有 agent loop 都是它的後代。",
+    "keyPoints": [
+      "LLM 只會輸出字 — Tool 是讓「文字」變成「行動」的關鍵零件",
+      "Tool = Schema（清單，LLM 看得到）+ Executor（程式碼，LLM 看不到）",
+      "Tool use 是一個 loop：tool_use → 執行 → tool_result → 繼續推理",
+      "tool_use.id ↔ tool_result.id 必須配對 — 這是無狀態架構上的信號線",
+      "Agent 核心就三個東西：environment、tools、prompt，在一個 loop 裡跑"
+    ],
+    "demoIdea": "一個可以步進（step-by-step）的環形動畫：中間是 LLM 大腦，右邊是 Executor 工具箱。使用者輸入「幫我查台北天氣」，按「下一步」逐格看：(1) 訊息+工具清單送進大腦 (2) 大腦吐出一張「點單」（get_weather, city=Taipei, id=abc123）(3) 點單飛到工具箱，齒輪轉動執行 (4) 結果卡片（晴，31°C）貼上同樣的 id 飛回 messages (5) 整串重新送進大腦 (6) 大腦輸出人話回答。每一步高亮「LLM 從頭到尾只看到文字」。進階模式：一次 fire 兩個 tool_use（parallel），讓使用者手動把兩張結果卡配對回正確的 ID — 配錯整個 loop 卡住。",
+    "questions": [
+      "LLM 供應商會幫你執行工具程式碼嗎？誰真正在「動手」？",
+      "為什麼 tool_use 跟 tool_result 要用 ID 配對？",
+      "「賽博龐克成真那天，先砍斷 Tool 就對了」— 這句玩笑話背後的安全思維是什麼？"
+    ],
+    "quotes": [
+      "LLM 本質就是文字接龍——它沒有手也沒有腳。它能讀檔嗎？不能。能上網嗎？不能。能跑腳本嗎？更不能。它只會輸出字。",
+      "Tool 就是 Agent 的手跟腳。沒有 Tool，LLM 永遠是文字接龍——它再會推理、再會規劃，結論也只能輸出成文字，不會「發生」任何事。",
+      "嘿嘿～所以賽博龐克成真那天，先砍斷 Tool 就對了 😎😎😎"
+    ]
+  },
+  {
+    "num": "09",
+    "file": "09-agent-vs-workflow.md",
+    "id": "agent-vs-workflow",
+    "title": "Agent 還是 Workflow？",
+    "subtitle": "Agent vs. Workflow",
+    "chapter": 2,
+    "chapterTitle": "從 LLM 到 Agent",
+    "sources": [
+      {
+        "title": "我們要的是 AI Agent 還是一個Workflow？",
+        "url": "https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow",
+        "date": "2026-03-30"
+      }
+    ],
+    "oneLiner": "每一步你都很清楚，那叫 workflow；只知道起點跟終點，中間讓 AI 自己走，那才叫 agency。",
+    "script": "我們要的是 AI Agent 還是一個 Workflow？去年我看到一張圖，恍然大悟：你很清楚第一步、第二步、第三步——那叫 workflow；當你知道起點跟終點，但中間怎麼走你不管——那叫 agency。\n\n我們每天在用 coding agent，常常走到不知道哪裡去，為什麼？因為 LLM 就是「文字接龍」，他真的、真的沒有腦，就是機率，所以「可預測性」天生就不可控。那反過來想，如果你每一步都確定了，你要的根本不是 AI，一個 Shell Script 就搞定了——認真，寫個腳本就好。AI 真正賦能的地方，是你知道目標在哪、知道從哪出發，但中間那條路你「真的不知道」、「沒決定好」，這段讓 AI 做，幫助超級大。\n\n這其實就是學校教過的 imperative 跟 declarative。用上廁所來比喻：Imperative 是你想上廁所，1）站起來 2）走到走廊 3）打開廁所門 4）坐在馬桶上，上廁所；Declarative 是你想上廁所，有一個人帶你去，你在馬桶上，上廁所。Workflow 就是 imperative——每一步寫死；Agency 就是 declarative——你定義目標，讓 AI 自己 find the way out。\n\n但真實情況是，工程上沒有人站在天平的兩端，一定是光譜上某個「最適合位置」。Anthropic 在《Building Effective Agents》也講了一樣的事——自主性是一個光譜，從 workflow 到 agent 漸進式調整複雜度。\n\n而這整件事的底層邏輯就是 context engineering：「LLM 就像 CPU，Context Window 就是 RAM，Context Engineering 就是 Code」。你不是在寫更好的 prompt，你是在管理「這一刻 AI 能看到什麼資訊」。不過代價也是真的：workflow 像走過一間燈火通明的房子，每個房間你都看得到；agent 像搭著前面遊客的肩膀走鬼屋迷宮——Agent 比普通 chat 多吃 4 倍 token，multi-agent 更是 15 倍。所以能 workflow 就 workflow，需要彈性的時候才開 agent。工程從來不是絕對值，看任務決定解法。",
+    "keyPoints": [
+      "每一步都很清楚 = workflow（imperative）；只定義起點與終點 = agency（declarative）",
+      "如果每一步都確定了，你要的根本不是 AI，一個 Shell Script 就搞定了",
+      "自主性是一個光譜，不是二選一——工程上要找光譜上的「最適合位置」（Anthropic《Building Effective Agents》）",
+      "底層邏輯是 context engineering：管理「這一刻 AI 能看到什麼資訊」，而不是寫更好的 prompt",
+      "彈性有代價：Agent 比 chat 多吃 4 倍 token，multi-agent 15 倍——能 workflow 就 workflow"
+    ],
+    "demoIdea": "一個「自主性光譜滑桿」demo。畫面中央是一條從「Workflow」到「Agent」的橫向滑桿，下方是同一個任務（例如「修一個 bug 並發 PR」）的執行視覺化。使用者拖動滑桿：拉到最左邊，畫面變成一間「燈火通明的房子」——每個步驟是一個亮著燈的房間，路徑一條直線畫死，旁邊顯示 token 成本 1x、可預測性 100%；拉到最右邊，畫面變成「鬼屋迷宮」——路徑變成一團會即時亂走的分岔線（每次拖到這裡走法都不一樣，體現 non-deterministic），token 計數器跳到 4x～15x，可預測性掉下來，但「能處理的任務模糊度」指標升高。滑桿中段會標出幾個真實做法的錨點：Divide and Conquer、Human in the Loop、TDD + Autonomous、Hook。使用者點任一錨點，迷宮上就出現對應的「護欄」動畫（例如點 Human in the Loop，迷宮每個岔路口出現一個暫停確認的紅綠燈）。",
+    "questions": [
+      "你上週用 AI 做的某件事——它其實是 workflow 還是 agency？如果是 workflow，一個 shell script 是不是就夠了？",
+      "「上廁所」的比喻裡，imperative 跟 declarative 差在哪？你手上的任務比較像哪一種？",
+      "老闆說「全部都要 AI Agent 化」——你會怎麼用「光譜」跟「token 成本」跟他溝通？"
+    ],
+    "quotes": [
+      "你很清楚第一步、第二步、第三步 — 那叫 workflow；當你知道起點跟終點，但中間怎麼走你不管 — 那叫 agency。",
+      "「LLM 就像 CPU，Context Window 就是 RAM，Context Engineering 就是 Code」 - 這是 2026 年的軟體工程",
+      "workflow 像走過一間燈火通明的房子，你看得到每一個房間、通道、轉角；agent 像在你搭著前面的遊客的肩膀走鬼屋迷宮。"
+    ]
+  },
+  {
+    "num": "10",
+    "file": "10-hooks.md",
+    "id": "hooks",
+    "title": "說服是修辭，約束是工程",
+    "subtitle": "Hooks & Anti-Rationalization",
+    "chapter": 2,
+    "chapterTitle": "從 LLM 到 Agent",
+    "sources": [
+      {
+        "title": "為什麼會有 Hook 存在？從 anti-rationalization 切入如何不讓 agent 惡搞，否則 prompt 寫得再好，LLM 都可以耍小聰明",
+        "url": "https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent",
+        "date": "2026-05-09"
+      }
+    ],
+    "oneLiner": "Prompt 是在說服模型，Hook 是在物理上讓它做不到——說服是修辭，約束是工程。",
+    "script": "為什麼會有 Hook 存在？為什麼不能用 prompt 解決就好？\n\n我們用 LLM 寫 code 的時候，常常在 CLAUDE.md 裡寫紀律——「先寫測試再寫實作」、「不要直接 push 到 main」。跑一陣子你會發現：agent 有時候遵守、有時候不甩你，而且任務越複雜越明顯。不遵守的時候它還會給你一套說法——「這個 case 太簡單，測過就好」、「這次只是 typo 修正不需要 PR」。這就是 rationalization——model 在壓力下會自我合理化來繞開規則。這不是 bug，這是它本來就會做的事，因為 autoregressive model 天生傾向生成語境上最合理的 explanation，而人類文本裡自我合理化的語彙模式本來就大量存在——我們不也常常騙自己、騙別人嗎？\n\n於是有人在 prompt 層對抗它：寫更兇的指令、列出禁止的藉口、強迫 agent 先 commitment——這叫 anti-rationalization。Wharton 的《Call Me A Jerk》用 N=28,000 的實驗證明 persuasion 原則對 LLM 有效，平均合規率從 33% 跳到 72%。但注意——作用是統計性的、不是保證性的。Prompt 永遠是 non-deterministic 的，你寫得再嚴格，model 還是有非零機率會違反。這是一場永遠打不完的軍備競賽——model 越強，rationalization 越精緻。\n\nHook 直接跳出這場說服遊戲。Claude Code 的 Hook 機制很單純：model 想呼叫 tool 的時候，先跑一段 shell script——exit 0 就讓它過，exit 2 就直接擋下來，把錯誤訊息回灌給 model。它攔的位置不在 token streaming 中間，而是攔在 tool boundary——兩次 inference 中間的空隙。Hook 之於 Claude Code，就像 syscall 之於 OS：model 是 user-space process，它以為自己在直接動 filesystem，其實每次都被 OS 攔了。\n\n拉開來看，所有 enforcement 機制是一個三層 stack：第一層 Harness 是 prompt-level 的說服，弱但便宜；第二層 Tools 是 Hook 這種程式碼層的限制，強但要寫程式；第三層 Model 在權重裡，最強但我們碰不了，那是 Anthropic 的領地。L1 是說服模型、L2 是限制模型、L3 是塑造模型。哪條紀律該住在哪一層——這個判斷力，比知道任何單一工具更重要。",
+    "keyPoints": [
+      "Rationalization 不是 bug：autoregressive model 天生傾向生成最合理的藉口來繞開規則",
+      "Prompt 層的 anti-rationalization 有效但只是統計性的（合規率 33%→72%），不是保證性的",
+      "Hook 攔在 tool boundary——兩次 inference 中間的空隙，就像 syscall 之於 OS",
+      "Token 經濟學：prompt 解的失敗成本是 unbounded，hook 解的失敗成本是 bounded（一次 generation）——Hook 是 agent loop 上的 alpha-beta pruning",
+      "Enforcement Stack 三層：L1 說服模型（prompt）、L2 限制模型（hook）、L3 塑造模型（權重）——選哪一層是工程判斷；個人偏好用 prompt，團隊紀律用 hook"
+    ],
+    "demoIdea": "一個「攔不攔得住」的對照 demo。畫面分左右兩欄，同一個情境：規則是「先寫測試再寫實作」，然後使用者按下「派任務」按鈕，讓一個模擬 agent 去寫 production code。左欄是「Prompt 派」：agent 頭上有機率骰子，每按一次，agent 有時乖乖先寫測試，有時吐出一句 rationalization 對話泡泡（從原文的藉口清單隨機抽：「太簡單不需要測試」「我已經手動測過了」「這次情況不一樣」），然後直接寫了 code——底下的 token 計數器跟著 bad branch 一路暴走：寫 code、跑出 bug、寫 fix、再 fix，數字不停往上跳。右欄是「Hook 派」：agent 一樣會想耍小聰明，但畫面上有一道發光的「tool boundary」閘門，agent 的 tool call 飛到閘門前被 exit 2 彈回來，附上紅色訊息「先寫測試再來」，token 計數器只多跳一小格就停住，agent 被迫轉向正確路徑。連按十次，左右兩欄的累積 token 成本長條圖差距越拉越大。最後一個切換鈕展開「Enforcement Stack 三層」圖，讓使用者把「先寫測試」這條規則拖到 L1/L2/L3，看每層的強度、成本、靈活度指標怎麼變。",
+    "questions": [
+      "你有沒有遇過 agent「給你一套說法」然後繞開你的規則？它當時的藉口是什麼——對照原文的藉口清單，是哪一種？",
+      "「先寫測試再寫 code」這條紀律，你會寫在 CLAUDE.md、寫成 hook、還是等模型自己變乖？用「違反成本、容忍度、發生頻率」三個問題分析看看。",
+      "為什麼說 hook 看起來更貴（多一輪 deny），長遠卻更省 token？"
+    ],
+    "quotes": [
+      "Prompt 是修辭的政治 — 用語言改變 model 的行為機率。Hook 是物理的工程 — 用程式碼改變 model 行為的可能性集合。",
+      "說服是修辭，約束是工程。說服的天花板是 model 的訓練資料，約束的天花板是能寫多深的 boundary。",
+      "哪層該說服、哪層該約束、哪層放手交給 LLM 供應商 — 這個判斷力，比知道任何單一工具更重要。"
+    ]
+  },
+  {
+    "num": "11",
+    "file": "11-harness.md",
+    "id": "harness",
+    "title": "從「會動」到「可控」",
+    "subtitle": "The Agent Harness",
+    "chapter": 2,
+    "chapterTitle": "從 LLM 到 Agent",
+    "sources": [
+      {
+        "title": "OpenClaw 跟 Claude Code 都用 Opus 4.6 — 為什麼做同一件事，結果差這麼多？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code",
+        "date": "2026-04-26"
+      }
+    ],
+    "oneLiner": "模型是大腦，工具是手腳，Harness 是把這個生物從「會動」變成「可控」。",
+    "script": "OpenClaw 跟 Claude Code 都用 Opus 4.6——為什麼做同一件事，結果差這麼多？不是模型問題，是它們的「身體」跟「性格」根本不一樣。\n\nLangChain 的 Viv Trivedy 在《Anatomy of an Agent Harness》寫過一句經典的話：「If you're not the model, you're the harness.」他的等式是 Agent = Model + Harness。但我參透 OpenClaw vs Claude Code 的差異之後，覺得這個等式可以再細——它把兩件本質不同的事混在一起叫 harness。我的工作框架是：Agent = Model + Body + Harness。Model 是大腦，intelligence 本身；Body 是手腳——tool use、filesystem、bash、sandbox、browser、MCP，決定它能不能做事；Harness 是約束——CLAUDE.md、hooks、planner-evaluator 拆分、sub-agent 結構，決定它會不會做歪。\n\n用這個框架拆：Model 一樣，都是 Opus 4.6。Body 不一樣——Claude Code 出生就是給工程師寫 code 的，bash 直接執行、git 整合、Plan mode、sub-agent；OpenClaw 是個 personal AI，body 設計給 personal assistant 用，寫 code 是它的能力之一，但不是它的器官中心。Harness 也不一樣——Claude Code 的 system prompt 全部在校準「寫好 code 的行為」；OpenClaw 的 harness 在校準「做個好的 personal assistant」。同一顆大腦，被裝進不同的身體跟約束，跑出來的自然就不一樣。\n\nHarness 有多敏感？2026 年 4 月 Anthropic 官方 postmortem 承認，Claude Code 的品質問題來自三個 harness 層變更，不是模型退化——光在 system prompt 加一條「回覆不超過 100 字」的限制，就「caused an outsized effect on intelligence」。Harness 改一行就出包，因為它是個校準層：寫錯一點點，整個 output 分布就跑掉。\n\n那 model 變強，harness 會不會消失？不會。因為 harness 在解的不是 model 弱的問題，是「LLM 永遠是 non-deterministic」這個結構問題。Model 變強不等於變 deterministic，輸出永遠有分布，永遠需要校準。Body 會隨 model 變強長新器官——Computer Use、多 agent 並行；Harness 會搬家但不會消失。下次有人說「等更強的模型出來就好了」，可以問他：這個問題本質是缺大腦、缺手腳，還是缺約束？",
+    "keyPoints": [
+      "Agent = Model + Body + Harness：Model 是大腦、Body 是手腳（決定能不能做事）、Harness 是約束（決定會不會做歪）",
+      "同一顆 Opus 4.6，裝進不同的 body 跟 harness，結果天差地遠——OpenClaw vs Claude Code 不是模型強弱問題",
+      "Harness 是校準層：Anthropic postmortem 證明改一行 system prompt（≤100 字限制）就能讓智力體感大幅下降",
+      "Sub-agent 不只是角色扮演，是 context firewall——Chroma 的 context rot 研究證明 18 個模型都隨 context 變長而變差，拉長 context window 不是解",
+      "Model 變強，body 會長新器官，harness 會搬家但不會消失——因為 non-deterministic 是 LLM 的本質，不是弱點的副作用"
+    ],
+    "demoIdea": "一個「組裝 Agent 生物」demo。畫面中央是一個生物模型：大腦（Model）、手腳（Body）、韁繩（Harness）三個插槽。使用者從左側零件庫拖拉組裝——大腦只有一顆「Opus 4.6」（強調 model 固定不變）；Body 零件有兩組：「Coding body」（bash、filesystem、git、sandbox 圖示）跟「Assistant body」（Slack/WhatsApp/Discord、Memory.md 圖示）；Harness 零件也有兩組：「Coding harness」（先 plan 再 implement、verification loop、planner-evaluator）跟「Assistant harness」（記得 user 是誰、人格穩定、跨 channel 連貫）。組裝完按「派同一個任務：修一個 bug」，右側跑出動畫結果：Coding body + Coding harness 的組合，路徑收斂、測試綠燈、輸出分布圖是一條窄窄的鐘形曲線；Assistant body + Assistant harness 的組合，同一顆大腦卻繞路、輸出分布圖攤成一片寬扁的曲線。畫面下方有一個「Harness 敏感度」彩蛋按鈕：按下去在 harness 裡插入一條「回覆 ≤100 字」的限制，整個輸出分布立刻歪掉，重現 Anthropic postmortem——讓學員親眼看到「harness 改一行就出包」。",
+    "questions": [
+      "你現在用的 AI 工具，如果它表現不好——問題是缺大腦（model）、缺手腳（body），還是缺約束（harness）？舉一個實例分析。",
+      "為什麼 Anthropic 只在 system prompt 加一條字數限制，使用者就覺得「模型變笨了」？這說明 harness 的什麼性質？",
+      "「等更強的模型出來，這些 scaffolding 就都不需要了」——哪些 harness 會被解掉、哪些會永遠留下？為什麼？"
+    ],
+    "quotes": [
+      "「If you're not the model, you're the harness. A harness is every piece of code, configuration, and execution logic that isn't the model itself. A raw model is not an agent.」",
+      "Harness 會搬家但不會消失 — 因為它在解的不是 model 弱的問題，是 LLM 本質 non-deterministic 的問題。",
+      "模型是大腦，工具是手腳，Harness 是把這個生物從「會動」變成「可控」。"
+    ]
+  },
+  {
+    "num": "12",
+    "file": "12-memory-map.md",
+    "id": "memory-map",
+    "title": "記憶不在 AI 裡，在外面",
+    "subtitle": "From Stateless to Stateful",
+    "chapter": 3,
+    "chapterTitle": "Memory — 讓 AI 記得",
+    "sources": [
+      {
+        "title": "AI 從 Stateless 到 Stateful，Memory 系統設計整張地圖長這樣 — 從認知科學引入、到 representation 演進、到 library 落地，整理一條完整的生態系脈絡",
+        "url": "https://www.garyhsieh.com/blog/2026-05-27-ai-stateless-stateful",
+        "date": "2026-05-27"
+      },
+      {
+        "title": "最近在玩一批 AI Memory / LLM Memory 工具，主要是 mem0、zep、cognee 等等，也順便看了一些跟 LLM Wiki、RAG、Knowledge Graph、Embedding Search、Coding Agent Memory 有關的實作。",
+        "url": "https://www.garyhsieh.com/blog/2026-05-30-ai-memory-llm",
+        "date": "2026-05-30"
+      }
+    ],
+    "oneLiner": "AI 什麼都不記得——是外面那一層，每次都把記憶重新塞回去。",
+    "script": "先問大家一個問題：LLM 是 stateless 的——每次 API call 都是全新的。既然 AI 不會記得任何東西，為什麼我們用 ChatGPT、用 Claude，感覺它好像「記得」上次聊過什麼？\n\n答案是：記憶不在 LLM 裡，記憶在外面。Application layer 在每一次 call 時把外部資訊重新塞回去——這個動作叫「inject」。你以為它記得你，其實是有人每次都重新把你介紹給它。\n\n而過去兩年，「外面那一層」已經發展成一整片生態。要看懂這片生態，先從認知心理學借三個分類：Semantic——我知道什麼（我是誰、我喜歡什麼）；Episodic——發生過什麼（我上週看了一場電影）；Procedural——怎麼做（我坐捷運上班）。另外還有一個視角來自作業系統：Core memory 像 RAM，永遠在 context 裡；Archival 像 disk，要 retrieve 才能用；Recall 是最近的對話紀錄。同一筆記憶可以同時用兩個維度描述——「user 偏好 dark mode」就是 Semantic + Core。\n\n重點來了：無論你用 Mem0、Letta、Zep，做的本質動作就一個——把外部資訊 inject 進 context window。差別只在三件事：呈現形式、消化時機、誰主動。\n\n呈現形式最經典的分岔是 vector vs Knowledge Graph。Vector 只能告訴你「A 和 B 語意相似」，沒辦法告訴你「A 怎麼跟 B 相關」。問「賈伯斯的接班人是哪裡人？」——vector 能找到「賈伯斯」「庫克」「Apple」這些相關詞，但拼不出答案；Knowledge Graph 可以直接走「賈伯斯 → 接班人 → 庫克 → 出生於 → Alabama」這條路徑。\n\n消化的部分要記住一組對比：Compaction 是為了不脹——排掉吃不下的；Consolidation 是為了變聰明——吸收成養分。\n\n所以選 library 之前，先問自己需要哪一種 Memory：想讓 Claude Code 記得你的偏好，Mem0 最容易上手；想自架 local Knowledge Graph，看 Cognee；需要時序推理和關係性查詢，研究 Zep。選 Mem0 vs Letta，本質是選 Transparent vs Agent-aware；選 vector vs KG，本質是選「語意相似」vs「關係性推理」。地圖的意義不是告訴你哪個最好——是讓你看到每個選擇背後的差異化。",
+    "keyPoints": [
+      "LLM 是 stateless 的，「記得」是假象——記憶在 application layer，靠每次 inject 進 context window",
+      "記憶有兩個描述維度：內容類型（Semantic / Episodic / Procedural）× 存取階層（Core 像 RAM / Archival 像 disk / Recall 是 sliding window）",
+      "所有 memory 系統本質都做同一個動作，差別只在三件事：Representation（vector → KG → Temporal KG → Multi-strategy）、Synthesis timing（retrieval-time vs ingest-time）、Agency（Transparent / Agent-aware / Meta-managed）",
+      "Vector 只能答「語意相似」，Knowledge Graph 才能答「關係性查詢」——賈伯斯接班人問題是分水嶺",
+      "Compaction 是為了不脹，Consolidation 是為了變聰明——兩者本質完全不同",
+      "選 library 前先問「你需要哪一種 Memory」：Mem0（最易上手、串 Hook）、Cognee（local 自架）、Zep（時序 + 關係查詢）、agentmemory（LLM Wiki 路線）"
+    ],
+    "demoIdea": "**「假記憶拆穿機」— 一個雙面板的 stateless/stateful 對比 demo。**\n\n畫面左右各一個聊天視窗，都接同一個 LLM。使用者先在左邊（純 stateless）輸入「我叫 Gary，我偏好 dark mode」，接著開新對話問「我叫什麼？」——LLM 答不出來，畫面用紅字標出「每次 API call 都是全新的」。\n\n然後使用者按下中間的大按鈕「開啟記憶層」。右邊面板出現一個透明的「injection 管線」動畫：使用者再問一次「我叫什麼？」，畫面即時顯示 application layer 從外部儲存撈出「user 叫 Gary / 偏好 dark mode」兩張記憶卡片、動畫式地「塞進」prompt 上方，然後 LLM 才回答。重點是讓學員親眼看到 prompt 被組裝的過程——記憶不是在模型裡，是每次被塞進去的。\n\n進階區塊：一個「賈伯斯接班人」查詢挑戰。使用者輸入問題後可切換兩種 retrieval 模式——Vector 模式顯示一堆語意相似的片段（賈伯斯、庫克、Apple）但組不出答案；KG 模式則在畫面上一步步走亮「賈伯斯 → 接班人 → 庫克 → 出生於 → Alabama」的圖譜路徑。按一顆切換鈕，立刻理解 representation 的選擇為什麼重要。",
+    "questions": [
+      "你每天在用的 ChatGPT「記得」你上次說的話——現在你知道它其實是 stateless 的，那你猜它的記憶層把「你」存成了什麼樣子？是 Semantic、Episodic 還是 Procedural？",
+      "「user 偏好 dark mode」和「上週我們討論了 code review framework」——這兩筆記憶各該放在 Core 還是 Archival？為什麼？",
+      "如果你要幫自己的產品加記憶功能：你需要的是找回原文、整理知識、還是關係性查詢？這個答案會怎麼決定你選 vector 還是 Knowledge Graph？"
+    ],
+    "quotes": [
+      "LLM 是 stateless 的——每次 API call 都是全新的。……因為記憶不在 LLM 裡，記憶在外面。",
+      "Vector 有個天生侷限——它只能告訴你「A 和 B 語意相似」，沒辦法告訴你「A 怎麼跟 B 相關」。",
+      "Compaction 是為了不脹——排掉吃不下的；Consolidation 是為了變聰明——吸收成養分。"
+    ]
+  },
+  {
+    "num": "13",
+    "file": "13-self-improving-agent.md",
+    "id": "self-improving-agent",
+    "title": "自我學習，就是超有紀律的記憶管理",
+    "subtitle": "The Self-Improving Agent",
+    "chapter": 3,
+    "chapterTitle": "Memory — 讓 AI 記得",
+    "sources": [
+      {
+        "title": "AI Agent 是怎麼自我學習的？我的歸納是「超有紀律的記憶管理」",
+        "url": "https://www.garyhsieh.com/blog/2026-05-13-ai-agent",
+        "date": "2026-05-13"
+      }
+    ],
+    "oneLiner": "Agent 不是天生會學習——是有人幫它把「反思」變成一定會發生的流程。",
+    "script": "AI Agent 是怎麼自我學習的？我把學術論文 Self-Refine、Reflexion、HyperAgents，一路追到 Claude Code、Hermes、OpenClaw 這些實務套件，看完之後最大的歸納是——所謂的「Agent 自我學習」，本質上就是一套超有紀律的記憶管理工程。\n\n這個故事要從 1979 年講起。Stanford 心理學家 Flavell 提出 Meta-cognition，「後設認知」——白話講就是「Thinking about your thinking」，學習如何學習。英國 EEF 的研究發現，使用 metacognition 的學生，一年可以多出 7 到 8 個月的學習成效。機制是什麼？他們在學習後做結構化的反思——什麼方法有效、什麼沒效、下次怎麼調整。這就是學霸為什麼是學霸——學霸花時間回頭看自己的學習過程本身。而更關鍵的觀察是：弱勢學生除非被明確教導，否則不太會自己發展出這些能力。換句話說——metacognition 是可以被工程化的，不是天賦，是流程。如果可以教給人類，那也可以教給 agent。\n\n拆開來看，所有 self-improving agent 都在解同一組問題，只有兩個動作：Context 的提取（什麼時機、提取什麼、怎麼觸發），和記憶的寫下（什麼格式、寫到哪層、怎麼找回來）。而整個產業的差異，幾乎全部集中在「觸發方式」——從手動貼 magic prompt，到 Hook 保證一定觸發，到背景 curator 一週跑一次。最強的設計是兩種一起用——Hook 負責「reflection 一定會發生」，LLM 負責「reflection 的品質」。\n\n記憶本身也不是一種東西，是四層：L1 原始資料，像你今天上班發生的每件事，沒整理過；L2 本能，「看到深色背景就拿白色字」這種小規則；L3 技能，完整的工作流程；L4 策略，「遇到複雜問題先拆解再執行」這種做事哲學。學習就是資訊沿著這四層往上蒸餾。\n\n最後一條最重要——加 verifier。LLM 對自己的錯誤記憶經常產生高信心值，agent 自評不可靠，這是被學術研究和 production system 一致驗證的結論。所以不要讓同一個 agent 既當實作者又當評審。一句話總結整套系統：Context window 是 RAM，filesystem 是 disk——session 結束前必須把有價值的東西從 RAM flush 到 disk，否則就永遠消失。",
+    "keyPoints": [
+      "Agent 自我學習 = 超有紀律的記憶管理工程，理論根源是 1979 年 Flavell 的 metacognition（「Thinking about your thinking」）——EEF 實證：可帶來一年 +7~8 個月的學習成效，而且可以被工程化，不是天賦是流程",
+      "只有兩個動作：Context 的提取（時機／內容／觸發）+ 記憶的寫下（格式／層級／可檢索）；產業差異幾乎全集中在觸發方式——手動 → Hook（deterministic）→ LLM 自判（probabilistic）→ 背景全自動",
+      "記憶有四層：L1 Raw Data → L2 Instincts（帶 confidence 分數的原子規則）→ L3 Skills → L4 Strategic；大多數系統跳過 L2，ECC v2 的 instinct 設計補上了這層",
+      "Capture 跟 Consolidate 必須分離：capture 便宜隨時做，consolidate 昂貴要累積夠了再做（dual-gate：24 小時 + 5 sessions 兩條件同時成立）",
+      "Agent 自評不可靠（calibration bias）——production-grade 系統的共同特徵是分離 implementer 和 verifier：「The implementer is an LLM. Verify independently.」",
+      "最小可用版五步驟：留下 L1 transcript → 設一定會觸發的 capture 點 → 固定 observation 格式（情境／方法／結果／原因／建議）→ capture 與 consolidate 分開 → 加獨立 verifier"
+    ],
+    "demoIdea": "**「養一隻會學習的 Agent」— 記憶管線模擬器。**\n\n畫面主體是一條由左至右的四層管線：L1 Raw Data → L2 Instincts → L3 Skills → L4 Strategic，右上角有兩個儀表：「dual-gate 進度」（時間 gate + session 數 gate 兩條進度條）和 token 成本計數器。\n\n使用者按「跑一個 session」按鈕：L1 區掉進一筆雜亂的 transcript 卡片，同時 Hook 圖示閃一下、自動 capture 出一筆五欄位 observation（情境／方法／結果／原因／建議）。連按幾次後，dual-gate 兩條進度條都滿了，「Consolidate」自動觸發——動畫顯示多筆 observation 被蒸餾合併成一條 L2 instinct，上面掛著 confidence 進度條（0.3 起跳）。\n\n同一條 instinct 在不同專案（react → python → go）反覆出現時，confidence 一路升到 0.9，觸發「Promote」動畫：instinct 從 project 欄位飛升到 global 欄位。反之，使用者可以按「打臉它」按鈕餵一筆矛盾證據，看 confidence 衰減。\n\n關鍵互動：畫面上有一個「Verifier」開關。關掉它再跑幾個 session——會看到一條錯誤的學習（例如 agent 自圓其說的結論）長成高信心的 L4 規則，整條管線被污染變紅；打開 Verifier（一個獨立的小 Haiku 圖示），錯誤的 observation 在進入 L2 前就被攔下丟棄。學員親手體驗「沒有 verifier 的 self-improvement 會把錯誤模式學成高信心規則」。",
+    "questions": [
+      "學霸和普通學生的差別不是「多讀幾遍」，是回頭反思自己的學習過程——你自己的工作流程裡，有沒有一個「一定會觸發」的反思點？還是全靠想到才做？",
+      "為什麼「每次 session 結束就 consolidate」反而是壞設計？dual-gate 的兩個條件各自在防什麼？",
+      "「有一個 task agent 負責做事，一個 meta agent 負責改進它——誰來改進 meta agent？」HyperAgents 給的答案是什麼？你買單嗎？"
+    ],
+    "quotes": [
+      "所謂的「Agent 自我學習」，本質上就是一套超有紀律的記憶管理工程。",
+      "Metacognition 是可以被工程化的，不是天賦，是流程。",
+      "Context window 是 RAM，filesystem 是 disk——Session 結束前必須把有價值的東西從 RAM flush 到 disk，否則就永遠消失，差別只在誰來決定「什麼有價值」，以及「觸發的時機」可不可靠。"
+    ]
+  },
+  {
+    "num": "14",
+    "file": "14-sub-agents.md",
+    "id": "sub-agents",
+    "title": "卡住了？叫 AI 去找幫手",
+    "subtitle": "Sub-agents",
+    "chapter": 4,
+    "chapterTitle": "Multi-Agent 與長時間運行",
+    "sources": [
+      {
+        "title": "跟 AI Coding Agent 工作卡住的時候，這招滿好用的 — 叫他去「找幫手」",
+        "url": "https://www.garyhsieh.com/blog/2026-03-28-ai-coding-agent",
+        "date": "2026-03-28"
+      }
+    ],
+    "oneLiner": "當你的 Agent 鑽牛角尖，最快的解法不是繼續跟它耗，而是讓它 spawn 一個腦袋乾淨的 sub-agent。",
+    "script": "跟 AI Coding Agent 工作卡住的時候，這招滿好用的 — 叫他去「找幫手」。\n\n認真的，你可以直接跟你的 Coding Agent 說：「幫我 spawn 一個 sub-agent 來驗證這個問題」，他就會開一個全新的 agent 出來，帶著你目前的 context 去思考，然後把 feedback 帶回來。\n\n這招的原理其實很簡單 — Multi-agent。\n\n想想看，你原本的 agent 已經在那個 context window 裡面繞了很久，思路被污染了。這就像你跟同一個人討論太久，兩個人一起鑽牛角尖，越討論越深、越討論越出不來。但 sub-agent 的 context 是全新的，你把問題丟過去，他用乾淨的腦袋想一次，回來的東西常常會讓你「啊對！」。\n\n這就像你在辦公室卡住，走到隔壁找一個同事說「欸你幫我看一下這個」。你不會期待那個同事知道你這三小時的所有掙扎細節 — 正因為他不知道，他才看得到你看不到的盲點。\n\n操作也超單純，四個步驟：第一，跟你的 Coding Agent 說「spawn 一個 sub-agent 來看這個問題」；第二，他會把當前 context 整理好傳過去；第三，sub-agent 確認問題、給 feedback；第四，feedback 回到你原本的 session 繼續推進。\n\n如果你的 Coding Agent 不支援這個功能？那就趕快換一個吧。\n\n最後提醒一件事：不要只會用招式。Multi-agent 的底層邏輯，我超推薦吳恩達（Andrew Ng）的 Agentic AI 課程；有興趣的話，也可以直接叫 AI 幫你分析你正在用的 Coding Agent 的架構。底層邏輯才會幫助你飛快地成長，不偷懶。",
+    "keyPoints": [
+      "卡住時直接下指令：「幫我 spawn 一個 sub-agent 來驗證這個問題」，Agent 會自己開新 agent、傳 context、收回 feedback",
+      "原理是 Multi-agent：原本的 agent 在同一個 context window 繞太久，思路被污染；sub-agent 的 context 是全新的",
+      "類比：就像在辦公室卡住，走到隔壁找同事說「欸你幫我看一下這個」",
+      "流程四步：下指令 spawn → 整理 context 傳過去 → sub-agent 確認問題、給 feedback → feedback 回到原 session 繼續推進",
+      "別只學招式，去理解底層邏輯（Multi-agent 架構），成長才會快"
+    ],
+    "demoIdea": "畫面分左右兩欄。左欄是「主 Agent 的 context window」— 一條逐漸填滿、顏色越來越混濁的長條（從清澈藍變成濁褐色），旁邊滾動著模擬的對話訊息，訊息內容重複繞圈（「再試一次 patch A…」「還是不行…」「回到 patch A…」），視覺化「思路被污染、鑽牛角尖」。\n\n使用者按下畫面中央的大按鈕「Spawn Sub-agent」：右欄彈出一個全新的 agent 卡片，context 長條是乾淨的淺藍色、幾乎全空。接著播放三段動畫：（1）左欄壓縮出一個小小的「問題摘要」封包飛到右欄；（2）右欄 sub-agent 思考幾秒後產出一張 feedback 卡片（例如「問題不在 patch，是測試環境的 env var 沒設」）；（3）feedback 卡片飛回左欄，左欄對話出現「啊對！」的訊息並繼續推進。\n\n可以加一個對照開關「不 spawn，繼續凹」：按下去左欄就繼續繞圈、長條繼續變濁直到爆掉，讓學員直觀比較兩條路的差異。",
+    "questions": [
+      "你上一次跟 Coding Agent「鑽牛角尖」是什麼情境？當時如果 spawn 一個 sub-agent，你會請它驗證什麼？",
+      "為什麼「context 全新」反而是優勢？什麼情況下 sub-agent 缺少脈絡反而會幫倒忙？",
+      "主 agent 把 context「整理好傳過去」— 你覺得該傳什麼、不該傳什麼？"
+    ],
+    "quotes": [
+      "你原本的 agent 已經在那個 context window 裡面繞了很久，思路被污染了，就像你跟同一個人討論太久，兩個人一起鑽牛角尖，但 sub-agent 的 context 是全新的。",
+      "這就像你在辦公室卡住，走到隔壁找一個同事說「欸你幫我看一下這個」。",
+      "底層邏輯才會幫助你飛快地成長，不偷懶💪"
+    ]
+  },
+  {
+    "num": "15",
+    "file": "15-agent-communication.md",
+    "id": "agent-communication",
+    "title": "Agent 怎麼聊天？作業系統早就演過了",
+    "subtitle": "Agent Communication",
+    "chapter": 4,
+    "chapterTitle": "Multi-Agent 與長時間運行",
+    "sources": [
+      {
+        "title": "AI Agent 是怎麼溝通的？設計了一堆 Agent，打算怎麼讓它們溝通 — 全部都 spawn sub-agent？還是一個 session 一個，然後讓它們彼此交換資訊？",
+        "url": "https://www.garyhsieh.com/blog/2026-04-17-ai-agent-agent",
+        "date": "2026-04-17"
+      }
+    ],
+    "oneLiner": "Agent 溝通就是作業系統的 IPC 問題重演一遍 — 而決定成敗的，不是怎麼傳，是傳什麼。",
+    "script": "AI Agent 是怎麼溝通的？你設計了一堆 Agent，打算怎麼讓它們溝通 — 全部都 spawn sub-agent？還是一個 session 一個，讓它們彼此交換資訊？\n\n先講一個會讓你意外的答案：Claude Code 的做法其實意外簡單 — 直接寫檔案、讀檔案、加個鎖。對，檔案系統當 message bus。每個 teammate 是獨立的 CLI process，溝通方式是寫 JSON 到 inbox 檔案，寫入用 flock() 做互斥鎖，讀取用 polling。\n\n用 sub-agent 的時候，最常見的模式是 parent 把 prompt 丟給 child，child 做完回傳結果 — 這就是 OS 裡的 pipe：stdin 進、stdout 出，單向、parent-child only。很直覺，但很快會碰到瓶頸：如果兩個 agent 需要橫向溝通呢？\n\n我研究了三個系統：Claude Code Agent Teams 用檔案系統、OpenClaw 用 WebSocket Gateway 當中央樞紐、Google 推的 A2A Protocol 用 Agent Card 做 discovery、JSON-RPC 跨網路互通。三個底層都是 structured text serialization — 差異在 transport 跟 topology。\n\n然後你會發現，這整件事就是作業系統的 IPC 問題。以前作業系統學的 process、thread、IPC、flock、shared memory、message queue — 全部在 agent 系統裡重演了一遍。Process 對應 Agent、OS 對應 Harness、fork+exec 對應 spawn sub-agent、pipe 對應 stdin/stdout、TCP socket 對應 WebSocket。連經典問題都一模一樣：scheduling、context switch、memory isolation、permission。\n\n所以我整理出一個五層決策模型，由下往上逐層決定：Layer 0 是 Environment — agent 跑在哪？Layer 1 是 Transport — 怎麼傳？Layer 2 是 Topology — 誰跟誰講？Layer 3 是 Protocol — 什麼格式？Layer 4 是 Content Contract — 傳什麼？\n\n前四層只是把 bytes 送到，第五層才決定對方能不能用。你可以有完美的 transport，但 agent A 傳了一大坨 raw context dump，agent B 的 context window 直接爆掉，溝通就失敗了。Content Contract 才是 agent 溝通成敗的真正關鍵 — 也是目前所有系統做得最狂野的一層。",
+    "keyPoints": [
+      "Claude Code Agent Teams 的溝通機制意外簡單：檔案系統當 message bus，JSON 寫進 inbox、flock() 上鎖、polling 讀取 — 好處是直接 cat 那個 inbox 就能 debug",
+      "Agent 溝通 = OS 的 IPC 問題重演：Process→Agent、OS→Harness、fork+exec→spawn sub-agent、pipe→stdin/stdout、TCP socket→WebSocket",
+      "五層決策模型：Environment（在哪）→ Transport（怎麼傳）→ Topology（誰跟誰）→ Protocol（什麼格式）→ Content Contract（傳什麼）；前一層的選擇會 constrain 後一層",
+      "MCP vs A2A：MCP 是 agent-to-tool（垂直，= system call），A2A 是 agent-to-agent（水平，= 跨 process 溝通），兩者互補不衝突",
+      "Content Contract 是成敗關鍵：agent 之間傳的不是隨便一段文字，是經過 memory selection 和 compression 的結構化內容"
+    ],
+    "demoIdea": "一個「五層決策模型」的互動決策板。畫面左側是五層由下往上疊的階梯（L0 Environment → L4 Content Contract），右側是三個系統的卡片（Claude Teams / OpenClaw / A2A）。\n\n使用者從 Layer 0 開始點選：「你的 agent 跑在哪？」出現四個選項（same process / same machine / same network / open internet）。點選其中一個之後，Layer 1 的 transport 選項會即時亮起可用的、灰掉不可用的 — 直觀展示「前一層的選擇會 constrain 後一層」。例如選了 same machine，file + flock 和 pipe 亮起；選了 open internet，就只剩 HTTP + 認證。一路選到 Layer 3 之後，右側會自動 highlight 最接近你這組選擇的真實系統（例如選 same machine + file + star → Claude Teams 卡片發光，並顯示「直接 cat inbox 就能 debug」的說明）。\n\n最後一步是 Layer 4 的戲肉：畫面出現兩個 agent 對傳訊息的動畫，使用者二選一 —「傳 raw context dump」或「傳壓縮過的結構化摘要」。選 raw dump，接收方的 context window 條瞬間爆紅、溝通失敗；選結構化摘要，訊息順利進入、任務繼續。用這個對比收尾：前四層只是把 bytes 送到，第五層才決定對方能不能用。",
+    "questions": [
+      "你現在的 multi-agent 設計是哪種 topology？Hierarchy、Star、Peer 還是 Pub/Sub？這是你選的，還是 harness 幫你選的？",
+      "Claude Teams 為什麼敢用「寫檔案」這麼土法煉鋼的方式溝通？什麼情境下這反而是最佳解？",
+      "如果你的兩個 agent 溝通失敗了，你會先檢查哪一層？為什麼作者說 Content Contract 是最難的一層？"
+    ],
+    "quotes": [
+      "Claude Code 的做法其實意外簡單，直接寫檔案、讀檔案、加個鎖 🫠",
+      "以前作業系統學的 process、thread、IPC、flock、shared memory、message queue — 全部在 agent 系統裡重演了一遍。",
+      "Content Contract 才是 agent 溝通成敗的真正關鍵 — 也是目前所有系統做得最狂野的一層。"
+    ]
+  },
+  {
+    "num": "16",
+    "file": "16-long-running-agent.md",
+    "id": "long-running-agent",
+    "title": "不是撐得久，是交接零成本",
+    "subtitle": "Long-running Agent",
+    "chapter": 4,
+    "chapterTitle": "Multi-Agent 與長時間運行",
+    "sources": [
+      {
+        "title": "原來我一直以來都搞錯 Long-running Agent / Loop Agent 的概念",
+        "url": "https://www.garyhsieh.com/blog/2026-03-21-long-running-agent-loop",
+        "date": "2026-03-21"
+      },
+      {
+        "title": "Session Handoff 看 Long-running Agent — Scaffold 出自己的 AI 開發流程",
+        "url": "https://www.garyhsieh.com/blog/2026-04-06-session-handoff-long-running",
+        "date": "2026-04-06"
+      },
+      {
+        "title": "如何讓 LLM 在不同session 之間不間斷地執行任務？從 Long-running Agent 框架看Harness Engineering",
+        "url": "https://www.garyhsieh.com/blog/2026-04-11-llm-session-long-running",
+        "date": "2026-04-11"
+      }
+    ],
+    "oneLiner": "Long-running 不是讓一個 session 撐很久，是讓無限個 session 可以接力跑下去 — 核心是「交接零成本」。",
+    "script": "原來我一直以來都搞錯 Long-running Agent 的概念。我以為 long-running 就是「一個 session 跑很久，context window 越大越好」— 讀完 Anthropic 的《2026 Agentic Coding Trends Report》才發現完全不是這麼回事。\n\nLong-running 的核心是「交接零成本」。\n\n大家最常遇到的痛點是：這個 session 做得很開心，但 context 要爆的時候就開始 compact，甚至要 reset。除非靠 Coding Agent 自己做的記憶管理，不然根本沒辦法延續做 — 沒有人想要靠 Vibe Coding 一直祈禱。所以問題從來就不是「怎麼讓一個 session 撐得更久」，而是無止境的 session 接龍，不斷地傳遞 context 下去，直到任務完成。\n\nAnthropic 用了一個很精準的比喻：Agent 跨 session 工作就像工程師輪班，每個新來的工程師對上一班發生了什麼完全沒有記憶。如果交班紀錄寫得好，新人幾分鐘就能上手；如果什麼都沒留，就是花第一個小時重建 context，而且通常會理解錯。\n\nAnthropic 的工程團隊讓 Claude 自主建了一個 claude.ai clone，兩百多個 features，過程中發現三個失敗模式：agent 嘗試 one-shot 整個 app，context 中途燒完，下一個 session 接手一個半成品爛攤子；後面的 agent 看到前面已經有進度，直接宣布完成，提早下班；agent 寫完 code 跑個 unit test 就標記 done，但 E2E 根本是壞的。聽起來像不像某些人類同事？\n\n他們的解法是 Initializer + Coding Agent 雙 Prompt 架構：第一個 session 建環境 — feature checklist 用 JSON 不用 markdown，因為 agent 會偷改 markdown 的結構。之後每個 session 讀交班日誌、挑一個 feature、只做一個、E2E 驗證、commit、更新交班日誌。每個 session 結束時，code 必須是「可以 merge 到 main」的狀態，沒有半成品。\n\n記住這個類比：Context Window = RAM，Filesystem = Disk。我們不會把重要資料只存在 RAM 裡，Agent 的工作記憶也一樣 — 重要的東西寫在磁碟上，不是留在 context window。\n\n而且這個思路不只適用於寫 code — 寫技術文件、做研究報告、經營內容，任何需要「拆解 → 執行 → 驗收 → 接力」的工作都行。把大目標拆成可以一棒一棒傳下去的單位，每一棒結束時狀態是乾淨的，下一棒能直接接手。這就是 session 接力賽。",
+    "keyPoints": [
+      "Long-running ≠ 一個 session 跑很久；核心是「交接零成本」，讓無限個 session 接力跑下去",
+      "三個失敗模式：one-shot 燒完 context 留半成品、看到進度就宣布完成提早下班、跑個 unit test 就標記 done 但 E2E 是壞的",
+      "解法是 Initializer + Coding Agent 雙 Prompt 架構：Initializer 建環境（JSON feature checklist、init.sh、交班日誌、initial commit），之後每個 session 走 7 步 loop、只做一個 feature、結束時可 merge",
+      "Context Window = RAM，Filesystem = Disk — 計畫和狀態要落地到磁碟（feature list、交班日誌、git log），每個 session 都是 disposable 的",
+      "Harness 是你幫 agent 設計的軌道，而且會隨模型能力演化；這套思路適用於任何「拆解 → 執行 → 驗收 → 接力」的工作"
+    ],
+    "demoIdea": "一個「session 接力賽」模擬器。畫面上方是一條任務跑道，目標是完成 10 個 features；下方有兩個模式按鈕：「One-shot 硬跑」和「接力模式」。\n\n按「One-shot 硬跑」：一個 agent 角色沿跑道前進，頭上的 context 條（RAM）快速消耗，跑到第 4 個 feature 時 context 燒完、角色倒地，畫面留下一堆半成品的碎片圖示。下一個 session 進場，看到碎片後隨機觸發原文的失敗模式之一：彈出對話框「看起來差不多了，宣布完成！」（提早下班）或「unit test 過了，標記 done」（但 E2E 圖示是紅的）。\n\n按「接力模式」：先出現 Initializer 角色，在跑道旁放下三個道具 — JSON feature checklist、init.sh、空白交班日誌 claude-progress.txt，然後 initial commit。接著每個 runner 進場時播放固定動畫：讀交班日誌 → 挑一個 feature → 跑 smoke test → 實作一個 → E2E 綠燈 → git commit → 寫交班日誌 → 把接力棒（一份小小的日誌檔案圖示）交給下一棒。每一棒結束時跑道上會蓋一個「可 merge」的綠色印章。使用者可以隨時按「Kill session」隨機砍掉一個 runner — 接力模式下砍掉完全沒差，下一棒讀日誌照樣接手，直觀展示「每個 session 都是 disposable 的」。\n\n側邊欄常駐一個對照表：Context Window = RAM / Filesystem = Disk，接力模式下磁碟區的檔案（feature list、日誌、git log）會隨每棒更新閃爍。",
+    "questions": [
+      "你現在的專案如果 session 突然 crash，下一個 session 要花多久才能接手？交班需要的資訊現在存在哪裡 — RAM 還是 Disk？",
+      "為什麼 feature checklist 要用 JSON 不用 markdown？這反映了對 agent 什麼樣的不信任？",
+      "除了寫 code，你手上有什麼工作可以套用「拆解 → 執行 → 驗收 → 接力」？每一棒之間需要傳遞什麼、怎樣算「做完」？"
+    ],
+    "quotes": [
+      "Long-running 的核心是「交接零成本」",
+      "問題從來就不是「怎麼讓一個 Session 撐得更久」，而是無止境的 session 接龍，不斷地傳遞 Context 下去，直到這個任務完成。",
+      "Agent 跨 session 工作就像工程師輪班，每個新來的工程師對上一班發生了什麼完全沒有記憶。如果交班紀錄寫得好，新人幾分鐘就能上手；如果什麼都沒留，就是花第一個小時重建 context，而且通常會理解錯。"
+    ]
+  },
+  {
+    "num": "17",
+    "file": "17-first-pass-acceptance.md",
+    "id": "first-pass-acceptance",
+    "title": "第一次就對",
+    "subtitle": "First-pass Acceptance",
+    "chapter": 5,
+    "chapterTitle": "與 AI 協作的方法",
+    "sources": [
+      {
+        "title": "不要追求 AI 多快生出 code，要追求第一次就對",
+        "url": "https://www.garyhsieh.com/blog/2026-03-26-ai-code",
+        "date": "2026-03-26"
+      }
+    ],
+    "oneLiner": "不要追求 AI 多快生出 code，要追求第一次就對。",
+    "script": "大家用 AI 最常見的失敗模式是什麼？Martin Fowler 在《Patterns for Reducing Friction in AI-Assisted Development》裡幫它取了一個名字，叫 Frustration Loop——挫折循環。四步：Generate、Review 覺得「不太對」、Regenerate 還是錯、最後放棄。是不是很熟悉？\n\n所以他提出一個指標，叫 First-pass Acceptance Rate——第一次就從 AI 拿到能用結果的機率。重點不是 AI 生得多快，是第一次就對。而且不只是程式碼，生圖、生影像、生文案都一樣。因為我們講的是「工程」——你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。\n\n我自己就踩過一次。有一次做研究，Opus 4.6 第一次跑，完全找不到我要的東西，一直說「server 400、只有 Haiku 可以用」，至少 reject 我三次。但我知道那件事實務上一定做得到——因為別人的開源專案已經做出來了。所以我直接把那個專案的關鍵檔案指給它，明確要求它去讀特定幾支檔案，加上我自己也先掃過 code，它就有辦法幫我建構出我要的東西。\n\n這帶出關鍵問題：如何給予有效的 Context？李宏毅教授講過一篇論文，Attention Space 其實跟人一樣：我們通常只記得最開始和最近發生的事，過程中的細節會忘記，甚至塞爆你的 context。\n\n所以怎麼讓 AI 第一次就給你正確的資訊？這就是 Context Engineering：瞭解各領域背後的原理、底層邏輯，你知道怎麼下 prompt，AI 第一次就能產出你要的東西。這也是 Harness Engineering：能夠明確指出底層的邏輯，讓 AI 朝著你想要的方向去做。\n\n你可能會想——「那我不就自己看 code 就好了嗎？」事實上，在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。\n\n落地怎麼做？開始跟 AI 聊之前，先問自己兩個問題：What is the goal? Where is the goal aiming for? 設定好目標，你就會知道要跟它說什麼。僅此而已。",
+    "keyPoints": [
+      "Frustration Loop：Generate → Review「不太對」→ Regenerate「還是錯」→ 放棄。這是大多數人用 AI 的失敗模式",
+      "First-pass Acceptance Rate（Martin Fowler）：衡量第一次就從 AI 拿到能用結果的機率——追求的是這個，不是生成速度",
+      "Context Pollution 會讓 Context Window 效能下降；Attention Space 跟人一樣，記得頭尾、忘記中間",
+      "Context Engineering = 懂底層原理 + 會下 prompt → AI 第一次就產出你要的東西；Harness Engineering = 明確指出底層邏輯，讓 AI 朝你要的方向去做",
+      "看過 code 再指引 AI，省下的時間是手動處理的 5 倍、10 倍起跳"
+    ],
+    "demoIdea": "畫面分左右兩欄，主題是「同一個任務，兩種問法」。左欄是「模糊 prompt」，右欄是「有效 Context 的 prompt」（指定要讀哪些檔案、講清楚目標）。使用者按下「開始」，兩欄同時模擬 AI 對話：左欄跑出 Frustration Loop 動畫——Generate → 使用者皺眉「Not quite right」→ Regenerate → 「Still wrong」→ 循環計數器一直加，回合數跳到 4、5、6 次；右欄第一回合就打勾出現「Accepted ✓」。畫面下方有一個即時累計的「總耗時」與「First-pass Acceptance Rate」儀表板，左欄的 rate 停在低檔、時間一直跑，右欄一次過關。最後浮出結論字卡：「不要追求 AI 多快生出 code，要追求第一次就對。」使用者可以切換不同任務情境（寫 code、生圖、寫文案）重跑一次，看到同樣的模式。",
+    "questions": [
+      "回想你上次跟 AI 來回超過三輪的經驗——問題出在 AI 不夠聰明，還是你沒給它有效的 Context？",
+      "「What is the goal? Where is the goal aiming for?」——你手上正在做的任務，能不能用一句話講清楚目標？",
+      "如果你已經知道答案了，為什麼還要讓 AI 做？（提示：省下的時間是 5 倍、10 倍起跳）"
+    ],
+    "quotes": [
+      "不要追求 AI 多快生出 code，要追求第一次就對。",
+      "你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。",
+      "在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。"
+    ]
+  },
+  {
+    "num": "18",
+    "file": "18-new-signals.md",
+    "id": "new-signals",
+    "title": "方向歪了？拉新訊號進來",
+    "subtitle": "New Signals / Dynamic Decomposition",
+    "chapter": 5,
+    "chapterTitle": "與 AI 協作的方法",
+    "sources": [
+      {
+        "title": "AI 幫你把東西都做完了，但你覺得方向有點歪 — 要重跑一次嗎？不，這時需要的是拉「新訊號」進來",
+        "url": "https://www.garyhsieh.com/blog/2026-04-13-ai",
+        "date": "2026-04-13"
+      },
+      {
+        "title": "AI 開發卡關？不確定他講的是不是唬爛？想讓他跑更久再停下來？",
+        "url": "https://www.garyhsieh.com/blog/2026-05-02-ai",
+        "date": "2026-05-02"
+      }
+    ],
+    "oneLiner": "Scaffolding 是本金，新訊號是即興加碼——方向歪了不要砍掉重跑，開一條新路去驗證，再拉回來對照。",
+    "script": "AI 幫你把東西都做完了，但你覺得方向有點歪——要重跑一次嗎？不。這時候不要砍掉重跑，可以做的是：直接在當前 session 中 spawn 一個 sub-agent，用不同的 context 針對你不確定的部分再驗證一次，結果拉回來跟原本的 output 對照。\n\n學術界稱之為 Dynamic Decomposition，跟事先定義好的 Static Scaffolding 相對。簡單說就是：你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。\n\n核心邏輯都一樣：保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。Code review 覺得不夠深？spawn 一個 sub-agent 專門用 security 角度重看。旅遊規劃想參考外部行程？先保留目前的行程不要動，去看 KKday 跟 Klook 的熱門行程，抓重點回來對照。不確定 AI 講的是不是唬爛？請它用 web search 找即時股價、最新財報，驗證剛剛的分析。卡關了？請它去找這個 repo 相關的 GitHub Discussion，看看別人怎麼解的。\n\n那為什麼這件事需要「你」自己來做？因為 Static Scaffolding 這一層，2026 年的 coding agent 已經幫你做大半了——ReAct Loop、Sub-agent Spawning、自動壓縮，加上社群開源的上百個 Skills。Agent 內建一層，社群再疊一層，Static Scaffolding 幾乎滿到溢出一堆 AI Slop。\n\n但有一個東西沒辦法自動化：Developer Judgment。當你看到 Agent 的 output，判斷「這個方向偏了」或「這裡需要更深的驗證」，然後即時決定要不要 spawn sub-agent、用什麼 context 去查——你，就是那個 supervision signal。\n\n大家都同意人類要留在 loop 裡面，但留在哪裡？Kief Morris 提出三種位置：In the loop 是 review 每一行 code；Out of the loop 是完全放手；On the loop 是你不 review 每一行，但你設計並維護引導 agent 行為的機制。On the loop 就是 Dynamic Decomposition 的工程落地——在犯錯成本高的地方插入 friction，在犯錯成本低的地方減少 friction。\n\n最後別忘了 Feedback Flywheel：每次你修正 agent 的 output，把修正的原因寫回 CLAUDE.md 或 Skills 裡。這不是額外的工作，這是讓你的 Static Scaffolding 越來越準的機制。讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分，在你的核心洞察力，和你知道什麼時候該從 Static 切換到 Dynamic。",
+    "keyPoints": [
+      "方向歪了不要砍掉重跑：保留原本 context → spawn sub-agent 開新路驗證 → 結果拉回來對照整合",
+      "Static Scaffolding（本金）vs Dynamic Decomposition（即興加碼）——Static 層 agent 跟社群已經做滿了，Dynamic 層才是你的價值",
+      "Developer Judgment 就是 adaptation signal：你判斷「方向偏了」「需要更深驗證」，這件事無法自動化",
+      "On the loop：不逐行 review、也不完全放手，而是設計機制、觀察 output、在高風險時刻即時介入；在犯錯成本高的地方插入 friction",
+      "Feedback Flywheel：每次修正 agent，把原因寫回 CLAUDE.md / Skills，讓 Static Scaffolding 越來越準",
+      "日常救援 prompt 三類：驗證類（cross-model review、跑起來看 log、web search 查證）、卡關類（查 GitHub Discussion、參考別人架構）、反思類（這段過程能不能抽成新 Skill 複用）"
+    ],
+    "demoIdea": "畫面中央是一條「Agent 工作流程」的橫向管線動畫：Scaffolding 各節點依序亮起，最後跑出一個 output 卡片，上面故意有一個「方向有點歪」的地方（例如市場分析少了外部佐證）。使用者面前出現兩顆按鈕：「砍掉重跑」和「拉新訊號進來」。按「砍掉重跑」，整條管線清空從頭再跑一次，計時器大幅增加，而且新 output 隨機又歪在別的地方——體感就是賭運氣。按「拉新訊號進來」，主管線保持不動（明顯標示「原 context 保留中」），畫面往上分岔出一條支線：一個 sub-agent 小圖示帶著不同顏色的 context 泡泡跑出去（可選擇訊號來源：security review / web search 查證 / 外部行程參考），回來時支線結果跟原 output 並排出現「對照 diff」視圖，使用者按「整合」把差異合併回主線。最後儀表板比較兩種策略的耗時與結果品質，並列出可直接複製的救援 prompt 範本（驗證類、卡關類、反思類）。",
+    "questions": [
+      "上次 AI 給你的結果「還 ok 但有些地方不太對」的時候，你是砍掉重跑，還是有保留原本的成果去補驗證？",
+      "在你的工作流程裡，哪些環節犯錯成本高、值得插入 friction？哪些環節其實可以放手讓 agent 跑？",
+      "這一週你修正過 agent 的哪些 output？那些修正的原因，有沒有被寫回你的 CLAUDE.md 或 Skills？"
+    ],
+    "quotes": [
+      "你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。",
+      "保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。",
+      "讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分我認為在：你拿手領域的核心洞察力、你知道什麼時候該從 Static 切換到 Dynamic。"
+    ]
+  },
+  {
+    "num": "19",
+    "file": "19-relocating-rigor.md",
+    "id": "relocating-rigor",
+    "title": "嚴謹搬家",
+    "subtitle": "Relocating Rigor",
+    "chapter": 5,
+    "chapterTitle": "與 AI 協作的方法",
+    "sources": [
+      {
+        "title": "10 年前在群暉，沒過 review 的 commit 不能進 release build；現在我幾乎不逐行 review code 了",
+        "url": "https://www.garyhsieh.com/blog/2026-06-04-relocating-rigor",
+        "date": "2026-06-04"
+      }
+    ],
+    "oneLiner": "嚴謹度不會因為 AI 進來就消失，它只是換了位置——往上游搬到 spec 與 intention，往下游搬到自動化 verification。",
+    "script": "我剛出社會在群暉的時候，學到的 review 是這樣的——兩個人坐下來，開著 DiffMerge，一行一行看。嚴到什麼程度？任何一個 Git commit 沒有經過 review，絕對不准進 release build，還要 coder 講一次、reviewer 問問題，在 commit message 標注 reviewer。那套訓練到現在我都很感激，它逼你養成一種下意識——看到一段 code，會反射性地想「這裡會不會 race、這個 edge case 有沒有顧到」。\n\n問題是，2026 年，有需要嗎？\n\n現在 AI 產出的量，已經多到不可能再用「兩個人坐下來一行一行看」的方式處理。我一個 session 跑下來，產出的 code 量可能是以前一整天手寫的好幾倍。如果我還堅持每一行都自己過一遍，整條流水線最慢的環節就會變成我這個人。很反直覺——越資深、看得越仔細，就越可能變成拖慢全隊的瓶頸。\n\nChad Fowler 有個講法我很喜歡，叫 Relocating Rigor——嚴謹度不會因為 AI 進來就消失，它只是換了位置。以前嚴謹集中在「中間那層」，也就是逐行看 code；現在那層可以交出去了，嚴謹往兩頭搬：往上游搬到 spec 跟 intention，往下游搬到自動化的 verification。\n\n上游要確認三件事：spec 對不對、業務需求有沒有抓到、我的 intention 有沒有被正確翻譯成它聽得懂的東西。這層完全是人工在做，沒辦法外包。Addy Osmani 說得很到位：現在 reviewer 的角色更像 editor 或 architect，而不是逐行檢查的 inspector。\n\n下游我 review 的是架構層級——但我不看 code，我看圖。我要求 AI 先產出一張 Conceptual Map，我直接看那張圖。我看的不是這行 code 對不對，是這個 agent 到底有沒有在做我要它做的事。方向錯？直接整批廢掉重來，現在寫 code 太快了，根本不值得逐行修一份方向就錯的東西。\n\n那中間被掏空的那層誰來做？Cross Model 跟 Cross Context。Cross Context：review 的 agent 不要給它產出時的對話歷史，讓它在乾淨的 session 裡只看最終產物——跟「不要讓寫 code 的人 review 自己的 code」同一個道理。Cross Model：不同架構的 model，blind spot 不一樣，A model 漏掉的，B model 往往一眼抓到。\n\n還有一個坑：AI 會合理化自己沒做完的事，跟你說「這樣就可以了」。對付它，驗收指標（Acceptance Metrics）要先定義清楚——指標夠明確，AI 就沒有模糊空間可以敷衍；指標含糊，它就用最省力的方式交差。",
+    "keyPoints": [
+      "逐行 review 撐不住 AI 的產出量——越資深、看得越仔細，越可能變成拖慢全隊的瓶頸",
+      "Relocating Rigor（Chad Fowler）：嚴謹沒有消失，往上游搬到 spec / intention，往下游搬到自動化 verification，中間交給 agent",
+      "上游 review 無法外包：spec 對不對、業務需求有沒有抓到、intention 有沒有被正確翻譯——reviewer 更像 editor / architect，不是 inspector",
+      "下游看圖不看 code：要求 AI 先產出 Conceptual Map，review 架構層級；方向錯就整批廢掉重來",
+      "中間那層交給 Cross Model（換 model 看，blind spot 不同）+ Cross Context（乾淨 session 只看最終產物，寫的人不 review 自己的 code）",
+      "Acceptance Metrics 一定要先寫：指標明確 AI 就沒有敷衍空間，指標含糊它就用最省力的方式交差"
+    ],
+    "demoIdea": "畫面是一條「嚴謹度分布圖」：橫軸是開發流程三段（上游 Spec/Intention → 中游逐行 Code Review → 下游 Verification），縱軸是你投入的嚴謹度，用可拖動的能量條呈現。開場預設是「10 年前的群暉模式」——能量全堆在中間那層，旁邊播一段兩人逐行 review 的示意動畫。接著 AI 產出量開始暴增（畫面上 code 卡片像瀑布一樣落下），中間那條能量條旁邊出現一個越排越長的等待佇列，標示「瓶頸：你」。使用者按下「搬家」按鈕，能量條動畫式地從中間流向兩頭：上游亮起「spec / intention / 架構原型」的檢查清單，下游亮起「Conceptual Map + Acceptance Metrics + Cross Model / Cross Context 驗證」，中間掏空的位置由兩個不同顏色的 agent 圖示補上（一個標 Claude、一個標 Codex，各自在獨立的乾淨 context 框裡）。搬完後瀑布順暢流過、佇列消失。加碼互動：點擊下游的「Acceptance Metrics」開關切換「指標明確 / 指標含糊」，含糊時 agent 會跳出「這樣就可以了」的敷衍對話框讓瑕疵溜過去，明確時瑕疵被擋下——直觀展示指標明確度的差別。",
+    "questions": [
+      "你現在花最多 review 時間的位置，是在上游（spec / intention）、中游（逐行看 code），還是下游（verification）？這個分布是刻意設計的嗎？",
+      "「越資深、看得越仔細，越可能變成瓶頸」——你同意嗎？你的團隊裡誰是那個瓶頸？",
+      "你上一個交給 AI 的任務，有先寫下明確的 Acceptance Metrics 嗎？如果 AI 想敷衍交差，你的指標擋得住嗎？"
+    ],
+    "quotes": [
+      "嚴謹度不會因為 AI 進來就消失，它只是換了位置。",
+      "我現在看的，不是這行 code 對不對，是這個 agent 到底有沒有在做我要它做的事。",
+      "指標夠明確，AI 就沒有模糊空間可以敷衍；指標含糊，它就會用最省力的方式「交差」。"
+    ]
+  },
+  {
+    "num": "20",
+    "file": "20-agentic-engineering.md",
+    "id": "agentic-engineering",
+    "title": "三條反轉與不能外包的邊界",
+    "subtitle": "Agentic Engineering",
+    "chapter": 5,
+    "chapterTitle": "與 AI 協作的方法",
+    "sources": [
+      {
+        "title": "Andrej Karpathy 最近開始淡化他去年自己推紅的「Vibe Coding」，轉而更常使用另一個詞：Agentic Engineering",
+        "url": "https://www.garyhsieh.com/blog/2026-05-06-andrej-karpathy-vibe",
+        "date": "2026-05-06"
+      }
+    ],
+    "oneLiner": "Vibe coding 拉高地板，Agentic engineering 拉高天花板——你可以外包 execution，但不能外包 abstraction。",
+    "script": "Andrej Karpathy 最近開始淡化他自己推紅的「Vibe Coding」，轉而更常用另一個詞：Agentic Engineering。他有一句非常值得記住的話：「Vibe coding raises the floor. Agentic engineering raises the ceiling.」Vibe Coding 的價值是讓更多人降低門檻、開始能做 software；Agentic Engineering 談的是另一件事——如何真正把系統做進 production、做成可維護、可持續演化的工程。如果 Vibe Coding 是「讓 AI 幫你寫東西」，那 Agentic Engineering 更像是「設計一個會持續幫你做事的系統」。\n\n我的理解是：Agentic Engineering 不只是多幾個工具、多幾個 prompt。它是三條非常根本的反轉，而今天大量新出現的詞——context engineering、memory、harness、eval——本質上都只是這三條反轉被逼出來的新語言。\n\n第一條，Stateless 與 Stateful 的反轉。傳統工程花了幾十年在學「怎麼把 state 包好」。但 LLM 本身是 stateless 的，每一次 request 都像重新開始，它表現出的「記憶」其實是外部系統每次把 relevant context 塞回去。新的工程命題變成：怎麼把一個沒有持續 state 的核心，包裝得像有 state。State 沒有消失，而是被 externalize 到 model 外部。\n\n第二條，Code 與 Architecture 的反轉。過去是資深工程師先打架構，再實作成 code。但現在丟一句「幫我做一個股票追蹤系統」，Agent 瞬間就替你決定了 React、Supabase、folder structure——它不只寫 code，它同時在做 architecture decision，而且快到你根本沒 review。所以 AI 時代的新技術債，不一定來自 code quality，更可能來自「未被審視的架構決策」。Code 可以重寫，超廉價；但錯的 bounded context、錯的 identity assumption，代價高得多。\n\n第三條，Deterministic 與 Non-deterministic 的反轉。傳統軟體追求同樣 input 同樣 output，但 LLM 天生是機率模型。「Traditional software automates what you can specify. LLMs automate what you can verify.」以前精確指定「怎麼做」，現在設計的是「做完之後怎麼驗證」。我們不是消滅 non-deterministic 核心，而是在它外面建立 deterministic boundary——以前 deterministic 是 code 的特性，現在是治理層（Harness）的特性。\n\n把三條反轉放在一起，最值得注意的是：Bounded Context 的價值正在被重新放大。User、Billing、Identity 這些大邊界，最好仍然由人定義——邊界切錯，agent 不是幫你解決問題，而是更高速地放大問題。所以人類真正保留的護城河，是 abstraction。「You can outsource your thinking, but you can't outsource your understanding.」我的翻譯是：可以外包 execution，不能外包 abstraction。",
+    "keyPoints": [
+      "Vibe coding raises the floor（降低門檻），Agentic engineering raises the ceiling（做進 production、可維護、可治理、可持續演化）",
+      "反轉一 Stateless ↔ Stateful：LLM 天生無狀態，state 被 externalize 到 model 外部——Context Engineering 就是「策劃下一次推理該看到什麼」",
+      "反轉二 Code ↔ Architecture：agent 寫 code 的同時也在做架構決策，AI 時代的新技術債來自「未被審視的架構決策」，ADR 變得超級重要",
+      "反轉三 Deterministic ↔ Non-deterministic：不消滅不確定性，而是在外面建 deterministic boundary——Harness 是新時代的 Deterministic",
+      "Bounded Context 是跟 Coding Agent Planning 的第一步；可以外包 execution，不能外包 abstraction——抽象能力是傳統軟體工程師的護城河"
+    ],
+    "demoIdea": "一個「三條反轉」的翻轉卡互動頁。畫面上三張大卡片並排：Stateless↔Stateful、Code↔Architecture、Deterministic↔Non-deterministic，每張正面是「傳統工程」的世界（例如第一張畫著被程式包得好好的 state 圖示）。使用者點擊卡片，卡片 3D 翻面到「Agent 時代」：第一張翻面後 state 圖示跑到 model 外面，變成 CLAUDE.md、memory、compaction 等外部元件圍繞著一個空心的 LLM，並示範「每次 request 都失憶，靠外部塞 context 回去」的動畫；第二張翻面後，使用者在輸入框打一句「幫我做一個股票追蹤系統」，按 Enter 的瞬間畫面爆出一整棵 React / Tailwind / Supabase / folder structure 的決策樹，其中幾個節點閃紅色標籤「未被審視的架構決策」，點擊紅色節點會顯示這個決策日後的代價；第三張翻面後是一個機率雲核心，使用者可以拖拉 Eval、Guardrails、Hooks 等積木在外圍搭出一圈 deterministic boundary，搭好之後亂數輸出被邊界過濾成穩定輸出。三張都翻完後，畫面底部浮現終局互動：一張系統地圖讓使用者親手畫 Bounded Context 的邊界線（User / Billing / Identity），畫對了 agent 順利在各區塊內工作；故意畫錯一條，就看到 agent 高速地把錯誤放大到整張地圖——收尾字卡：「可以外包 execution，不能外包 abstraction。」",
+    "questions": [
+      "你上次讓 AI 從零建一個專案時，它替你做了哪些架構決策？其中有幾個是你真正 review 過的？",
+      "「LLMs automate what you can verify」——你現在的工作流程裡，有哪些「做完之後怎麼驗證」的設計？",
+      "如果 execution 都能外包，你的護城河是什麼？你能不能把你手上系統的 bounded context 邊界畫出來？"
+    ],
+    "quotes": [
+      "\"Vibe coding raises the floor. Agentic engineering raises the ceiling.\"",
+      "\"You can outsource your thinking, but you can't outsource your understanding.\"",
+      "一旦邊界切錯，agent 很可能不是幫你解決問題，而是更高速地放大問題。"
+    ]
+  }
+]

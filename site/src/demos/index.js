@@ -1,0 +1,23 @@
+// Demo 註冊表 — 每個概念一個懶載入模組
+export const demoRegistry = {
+  'next-token-prediction': () => import('./next-token-prediction.js'),
+  'deterministic-vs-nondeterministic': () => import('./deterministic-vs-nondeterministic.js'),
+  'llm-stateless': () => import('./llm-stateless.js'),
+  'context-window': () => import('./context-window.js'),
+  'context-pollution-rewind': () => import('./context-pollution-rewind.js'),
+  'prompt-cache': () => import('./prompt-cache.js'),
+  'agent-anatomy': () => import('./agent-anatomy.js'),
+  'tool-use': () => import('./tool-use.js'),
+  'agent-vs-workflow': () => import('./agent-vs-workflow.js'),
+  'hooks': () => import('./hooks.js'),
+  'harness': () => import('./harness.js'),
+  'memory-map': () => import('./memory-map.js'),
+  'self-improving-agent': () => import('./self-improving-agent.js'),
+  'sub-agents': () => import('./sub-agents.js'),
+  'agent-communication': () => import('./agent-communication.js'),
+  'long-running-agent': () => import('./long-running-agent.js'),
+  'first-pass-acceptance': () => import('./first-pass-acceptance.js'),
+  'new-signals': () => import('./new-signals.js'),
+  'relocating-rigor': () => import('./relocating-rigor.js'),
+  'agentic-engineering': () => import('./agentic-engineering.js'),
+}
