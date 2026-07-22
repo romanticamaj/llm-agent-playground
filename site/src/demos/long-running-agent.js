@@ -1,282 +1,282 @@
-// Long-running Agent — session 接力賽
-// 核心互動：完成 10 個 feature。One-shot 硬跑會在 context（RAM）燒完時倒地、留半成品爛攤子並觸發失敗模式；
-// 接力模式先由 Initializer 把計畫落地到 Disk，之後每棒讀日誌→做一個→E2E→commit→寫日誌→交棒。
-// 隨時「Kill session」：接力模式下砍掉沒差，下一棒讀日誌照樣接手 —— 每個 session 都是 disposable。
+// Long-running Agent — session 接力賽 · DemoStage 導演版
+// 6 拍：目標 10 features｜One-shot 燒完 context 倒地｜One-shot 被 Kill＝大災難｜
+//       接力模式把計畫落地 Disk 一棒棒交接｜接力被 Kill＝完全沒差（核心戲劇對比放大）｜sandbox 自由玩。
+import { createStage, pop, shake, enterFly, confettiBurst } from './_stage.js'
+
+const EASE = 'cubic-bezier(.16,1,.3,1)'
+const GREEN = '#4ade80', RED = '#f87171'
+const TOTAL = 10
 
 export default function mount(el, ctx) {
   const accent = (ctx && ctx.accent) || '#5b8cff'
-  const GREEN = '#4ade80'
-  const RED = '#f87171'
-  const TOTAL = 10
-
-  // 內嵌手繪 SVG icon（幾何極簡線條）
-  const ico = (d, s = 22) => `<svg class="lr-ico" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`
+  const ico = (d, s = 20) => `<svg class="lr-ico" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`
   const P_RUNNER = '<circle cx="14" cy="5" r="2"/><path d="M14 7.5l-1.5 4.5M14 9l3 1.5M12.5 9.5l-2.5 2M12.5 12l1.5 5M12.5 12l-2.5 3 1 3"/>'
   const P_STAND = '<circle cx="12" cy="5" r="2"/><path d="M12 7.5v6.5M12 14l-2.5 5M12 14l2.5 5M12 9l-3 2M12 9l3 2"/>'
   const P_GEAR = '<circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.5M12 18v2.5M20.5 12H18M6 12H3.5M17.7 6.3l-1.8 1.8M8.1 15.9l-1.8 1.8M17.7 17.7l-1.8-1.8M8.1 8.1L6.3 6.3"/>'
-  const P_FIRE = '<path d="M12 3c3 3 4 5.5 4 8a4 4 0 0 1-8 0c0-1.5.6-2.7 1.5-3.7C9.7 8.8 12 7 12 3z"/><path d="M12 21a4 4 0 0 1-2.2-7.3"/>'
-  const P_FLAG = '<path d="M6 3v18"/><path d="M6 4h11l-2 3 2 3H6"/>'
-  const P_SKULL = '<path d="M6 17.2A8 8 0 1 1 18 17.2V19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><path d="M12 15v2M10 20v-2M14 20v-2"/>'
   const P_BATT = '<rect x="3" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><path d="M6 11v2"/>'
+  const P_SKULL = '<path d="M6 17.2A8 8 0 1 1 18 17.2V19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><path d="M12 15v2M10 20v-2M14 20v-2"/>'
+  const P_FLAG = '<path d="M6 3v18"/><path d="M6 4h11l-2 3 2 3H6"/>'
   const P_TROPHY = '<path d="M7 4h10v3a5 5 0 0 1-10 0z"/><path d="M7 6H4.5a2.5 2.5 0 0 0 3 2.6M17 6h2.5a2.5 2.5 0 0 1-3 2.6"/><path d="M12 12v4M10 20h4M10 16h4l.6 4H9.4z"/>'
-  const P_SPEECH = '<path d="M4 5h16v11H9l-4 4v-4H4z"/>'
+  const P_FIRE = '<path d="M12 3c3 3 4 5.5 4 8a4 4 0 0 1-8 0c0-1.5.6-2.7 1.5-3.7C9.7 8.8 12 7 12 3z"/><path d="M12 21a4 4 0 0 1-2.2-7.3"/>'
   const P_PUZZLE = '<path d="M10 4a1.6 1.6 0 0 1 3.2 0c0 .5.4.9.9.9H16v2.9c0 .5.4.9.9.9a1.6 1.6 0 0 1 0 3.2c-.5 0-.9.4-.9.9V19h-2.9c-.5 0-.9-.4-.9-.9a1.6 1.6 0 0 0-3.2 0c0 .5-.4.9-.9.9H5v-3.1c0-.5-.4-.9-.9-.9a1.6 1.6 0 0 1 0-3.2c.5 0 .9-.4.9-.9V5h3.1c.5 0 .9-.4.9-.9z"/>'
-  const P_LOG = '<ellipse cx="7" cy="12" rx="2.5" ry="4"/><path d="M7 8h9a2.5 4 0 0 1 0 8H7"/><path d="M16 9.5a2 2.5 0 0 0 0 5"/>'
-  const P_WRENCH = '<path d="M15.5 4a4 4 0 0 0-5 5L4 15.5 8.5 20l6.5-6.5a4 4 0 0 0 5-5l-2.8 2.8-2.2-.5-.5-2.2z"/>'
   const P_FILE = '<path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/>'
-  const P_QUESTION = '<path d="M9 9a3 3 0 1 1 4 2.8c-.8.5-1 1-1 2"/><path d="M12 17h.01"/>'
+  const P_WRENCH = '<path d="M15.5 4a4 4 0 0 0-5 5L4 15.5 8.5 20l6.5-6.5a4 4 0 0 0 5-5l-2.8 2.8-2.2-.5-.5-2.2z"/>'
 
   const style = document.createElement('style')
   style.textContent = `
-    .lr-root{position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;padding:20px;box-sizing:border-box;color:#e6e9f2;font-family:'Noto Sans TC',sans-serif;overflow:auto}
-    .lr-ico{vertical-align:-.2em;flex:none}
-    .lr-guide{font-size:17px;color:#c3c8d8;line-height:1.6}
-    .lr-guide b{color:${accent}}
-    .lr-body{flex:1;display:grid;grid-template-columns:1fr 220px;gap:16px;min-height:0}
-    .lr-main{display:flex;flex-direction:column;gap:12px;min-height:0}
-    .lr-runnerbox{background:#101319;border:1px solid #232838;border-radius:10px;padding:12px 14px}
-    .lr-runnerhead{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#9aa0b0;margin-bottom:6px}
-    .lr-runnerhead .who{color:#e6e9f2;font-weight:600;display:inline-flex;align-items:center;gap:7px}
-    .lr-ram{height:16px;border-radius:8px;background:#0c0f16;overflow:hidden}
-    .lr-ram>span{display:block;height:100%;width:100%;background:${GREEN};transition:width .45s ease,background .3s}
-    .lr-runner-emoji{display:inline-flex;align-items:center;color:${accent}}
-    .lr-track{position:relative;display:grid;grid-template-columns:repeat(${TOTAL},1fr);gap:6px;background:#101319;border:1px solid #232838;border-radius:10px;padding:14px 12px}
-    .lr-cell{position:relative;height:48px;border-radius:8px;background:#161b26;border:1px solid #262c3c;display:flex;align-items:center;justify-content:center;font-size:13px;color:#6b7186;flex-direction:column;gap:2px}
-    .lr-cell.active{border-color:${accent};box-shadow:0 0 0 1px ${accent} inset}
-    .lr-cell.done{background:#132318;border-color:${GREEN};color:#bff0d0}
-    .lr-cell.done .stamp{color:${GREEN};font-weight:700}
-    .lr-cell.broken{background:#241417;border-color:${RED};color:#f2b8b8}
-    .lr-cell .fnum{font-family:'Space Grotesk';font-size:12px}
-    .lr-marker{position:absolute;top:-14px;color:${accent};transition:left .45s ease;transform:translateX(-50%);display:flex}
-    .lr-debris{display:flex;gap:8px;flex-wrap:wrap;min-height:26px;font-size:15px;align-items:center;color:#8b90a2}
-    .lr-dialog{background:#1a1420;border:1px solid #4a2a3a;border-radius:10px;padding:10px 12px;font-size:15px;color:#f0c0d0;display:none;animation:lr-in .3s ease;line-height:1.5}
-    .lr-dialog .lr-ico{color:#f0c0d0}
-    .lr-dialog.show{display:block}
-    .lr-side{background:#0e1119;border:1px solid #232838;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
-    .lr-side h4{margin:0;font-size:15px;color:#9aa0b0}
-    .lr-mem{display:flex;flex-direction:column;gap:6px}
-    .lr-memrow{display:flex;justify-content:space-between;font-size:14px;background:#141824;border:1px solid #242a3a;border-radius:7px;padding:6px 9px}
-    .lr-memrow b{color:${accent}}
-    .lr-disk{display:flex;flex-direction:column;gap:6px}
-    .lr-file{font-size:14px;font-family:'Space Grotesk',monospace;background:#141824;border:1px solid #242a3a;border-radius:7px;padding:7px 9px;color:#8b90a2;transition:.2s}
-    .lr-file .fv{color:#c3c8d8;display:block;margin-top:2px;font-size:13px}
-    .lr-file.flash{border-color:${accent};color:#e6e9f2;box-shadow:0 0 14px -4px ${accent}}
-    .lr-file.empty{opacity:.4}
-    .lr-ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .lr-ctrls .demo-btn{font-size:16.5px;display:inline-flex;align-items:center;gap:7px}
-    .lr-note{font-size:15px;color:#8b90a2;flex:1;min-width:180px;line-height:1.5}
-    @keyframes lr-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-    @keyframes lr-fall{to{transform:translateY(10px) rotate(80deg);opacity:.3}}
+  .lr-scene{display:grid;grid-template-columns:1fr 232px;gap:16px;margin-bottom:12px}
+  .lr-main{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .lr-box{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .lr-head{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--text-dim);margin-bottom:8px}
+  .lr-who{color:var(--text);font-weight:600;display:inline-flex;align-items:center;gap:8px}
+  .lr-ram{height:16px;border-radius:8px;background:rgba(0,0,0,.4);overflow:hidden}
+  .lr-ram>span{display:block;height:100%;width:100%;background:${GREEN};transition:width .45s ease,background .3s}
+  .lr-track{position:relative;display:grid;grid-template-columns:repeat(${TOTAL},1fr);gap:6px;
+    background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:16px 12px}
+  .lr-cell{position:relative;height:50px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;color:var(--text-dim)}
+  .lr-cell.active{border-color:${accent};box-shadow:0 0 0 1px ${accent} inset}
+  .lr-cell.done{background:${GREEN}18;border-color:${GREEN};color:#bff0d0}
+  .lr-cell.done .stamp{color:${GREEN};font-weight:700}
+  .lr-cell.broken{background:${RED}1c;border-color:${RED};color:#f2b8b8}
+  .lr-cell .fnum{font-family:var(--font-mono);font-size:12px}
+  .lr-cell .stamp{font-size:11px}
+  .lr-marker{position:absolute;top:-15px;color:${accent};transition:left .45s ${EASE};transform:translateX(-50%);display:flex}
+  .lr-debris{display:flex;gap:9px;flex-wrap:wrap;min-height:28px;font-size:14px;align-items:center;color:var(--text-dim)}
+  .lr-dialog{background:${RED}14;border:1px solid ${RED}55;border-radius:10px;padding:10px 12px;font-size:15px;
+    color:#f0c0d0;display:none;line-height:1.5}
+  .lr-dialog.show{display:block}
+  .lr-side{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;padding:14px;
+    display:flex;flex-direction:column;gap:10px}
+  .lr-side h4{margin:0;font-size:14px;color:var(--text-dim);letter-spacing:.02em}
+  .lr-side .mono{font-family:var(--font-mono);font-size:12px;color:var(--text-dim)}
+  .lr-file{font-size:13px;font-family:var(--font-mono);background:rgba(255,255,255,.04);border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;color:var(--text-dim);transition:.25s}
+  .lr-file .fv{color:var(--text);display:block;margin-top:3px;font-size:12px}
+  .lr-file.flash{border-color:${accent};color:var(--text);box-shadow:0 0 14px -4px ${accent}}
+  .lr-file.empty{opacity:.42}
+  .lr-ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .lr-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);
+    border:1px solid var(--line);border-radius:999px;padding:9px 17px;cursor:pointer;transition:all .25s ${EASE};
+    display:inline-flex;align-items:center;gap:7px}
+  .lr-btn:hover{border-color:var(--text);transform:translateY(-1px)}
+  .lr-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
+  .lr-btn.hide{display:none}
+  @keyframes lrFall{to{transform:translateY(12px) rotate(78deg);opacity:.28}}
+  @media(max-width:760px){.lr-scene{grid-template-columns:1fr}}
   `
   el.appendChild(style)
 
-  const root = document.createElement('div')
-  root.className = 'lr-root'
   let cells = ''
   for (let i = 0; i < TOTAL; i++) cells += `<div class="lr-cell" data-i="${i}"><span class="fnum">#${i + 1}</span><span class="stamp"></span></div>`
-  root.innerHTML = `
-    <div class="lr-guide">目標：完成 <b>${TOTAL} 個 feature</b>。比一比 <b>One-shot 硬跑</b>（一個 session 撐到 context 燒完）和 <b>接力模式</b>（無限 session 接力）。跑到一半按 <b>Kill session</b> 看兩種模式差多少。</div>
-    <div class="lr-body">
-      <div class="lr-main">
-        <div class="lr-runnerbox">
-          <div class="lr-runnerhead"><span class="who"><span class="lr-runner-emoji">${ico(P_STAND, 22)}</span> 待命中</span><span class="ram-lbl">context (RAM) 100%</span></div>
-          <div class="lr-ram"><span class="lr-rambar"></span></div>
-        </div>
-        <div class="lr-track"><div class="lr-marker" style="left:5%">${ico(P_RUNNER, 22)}</div>${cells}</div>
-        <div class="lr-debris"></div>
-        <div class="lr-dialog"></div>
-      </div>
-      <div class="lr-side">
-        <h4>Context = RAM</h4>
-        <div class="lr-mem"><div class="lr-memrow"><span>目前 runner 的工作記憶</span><b class="lr-ramnum">100%</b></div><div style="font-size:13px;color:#6b7186">session 結束就清空 — disposable</div></div>
-        <h4 style="margin-top:4px">Filesystem = Disk（落地才不會消失）</h4>
-        <div class="lr-disk">
-          <div class="lr-file empty" data-f="list">feature-list.json<span class="fv">— 尚未建立</span></div>
-          <div class="lr-file empty" data-f="log">claude-progress.txt<span class="fv">— 尚未建立</span></div>
-          <div class="lr-file empty" data-f="git">git log<span class="fv">— 尚未 commit</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="lr-ctrls">
-      <button class="demo-btn act-oneshot">${ico(P_FIRE, 17)} One-shot 硬跑</button>
-      <button class="demo-btn primary act-relay">${ico(P_FLAG, 17)} 接力模式</button>
-      <button class="demo-btn act-kill">${ico(P_SKULL, 17)} Kill session</button>
-      <button class="demo-btn act-reset">↺ 重置</button>
-      <span class="lr-note"></span>
-    </div>
-  `
-  el.appendChild(root)
 
-  const $ = s => root.querySelector(s)
-  const $$ = s => Array.from(root.querySelectorAll(s))
-  const rambar = $('.lr-rambar'), ramLbl = $('.ram-lbl'), ramNum = $('.lr-ramnum')
-  const who = $('.who'), marker = $('.lr-marker'), debris = $('.lr-debris'), dialog = $('.lr-dialog')
-  const note = $('.lr-note')
-  const cellEls = $$('.lr-cell')
+  const scene = document.createElement('div')
+  scene.className = 'lr-scene'
+  scene.innerHTML = `
+    <div class="lr-main">
+      <div class="lr-box ds-unit lr-runnerbox">
+        <div class="lr-head"><span class="lr-who"><span class="ic">${ico(P_STAND)}</span> 待命中</span><span class="ram-lbl">context (RAM) 100%</span></div>
+        <div class="lr-ram"><span class="lr-rambar"></span></div>
+      </div>
+      <div class="lr-track ds-unit"><div class="lr-marker" style="left:5%">${ico(P_RUNNER)}</div>${cells}</div>
+      <div class="lr-debris ds-unit"></div>
+      <div class="lr-dialog ds-unit"></div>
+    </div>
+    <div class="lr-side ds-unit">
+      <h4>Context = RAM</h4>
+      <div class="mono">session 結束就清空 — disposable</div>
+      <h4 style="margin-top:4px">Filesystem = Disk</h4>
+      <div class="lr-file empty" data-f="list">feature-list.json<span class="fv">— 尚未建立</span></div>
+      <div class="lr-file empty" data-f="log">claude-progress.txt<span class="fv">— 尚未建立</span></div>
+      <div class="lr-file empty" data-f="git">git log<span class="fv">— 尚未 commit</span></div>
+    </div>`
+
+  const ctrls = document.createElement('div')
+  ctrls.className = 'lr-ctrls ds-unit'
+  ctrls.innerHTML = `
+    <button class="lr-btn primary hide" data-b="relay">${ico(P_FLAG, 16)} 接力模式</button>
+    <button class="lr-btn hide" data-b="oneshot">${ico(P_FIRE, 16)} One-shot 硬跑</button>
+    <button class="lr-btn hide" data-b="kill">${ico(P_SKULL, 16)} Kill session</button>
+    <button class="lr-btn hide" data-b="reset">重來</button>`
+
+  let stage
+  const $ = s => scene.querySelector(s)
+  const rambar = $('.lr-rambar'), ramLbl = $('.ram-lbl'), who = $('.lr-who')
+  const marker = $('.lr-marker'), debris = $('.lr-debris'), dialog = $('.lr-dialog')
+  const cellEls = [...scene.querySelectorAll('.lr-cell')]
+  const btn = b => ctrls.querySelector(`[data-b="${b}"]`)
 
   const timers = new Set()
-  const later = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
-  const clearTimers = () => { timers.forEach(clearTimeout); timers.clear() }
+  const T = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
+  const clearT = () => { timers.forEach(clearTimeout); timers.clear() }
 
-  let st
-  function reset() {
-    clearTimers()
-    st = { mode: null, done: 0, ram: 100, runner: 0, gen: 0, running: false }
-    setRam(100); who.innerHTML = `<span class="lr-runner-emoji">${ico(P_STAND, 22)}</span> 待命中`
-    marker.style.left = '5%'; debris.innerHTML = ''; dialog.className = 'lr-dialog'
-    cellEls.forEach(c => { c.className = 'lr-cell'; c.querySelector('.stamp').textContent = '' })
-    setFile('list', '— 尚未建立', true); setFile('log', '— 尚未建立', true); setFile('git', '— 尚未 commit', true)
-    note.textContent = '選一個模式開始。'
-  }
+  // st.gen 是「當前 session 世代」— 主控權轉移用參照：kill 時 gen++ 讓舊排程全失效
+  let st = { mode: null, done: 0, ram: 100, runner: 0, gen: 0, running: false }
 
   function setRam(v) {
     st.ram = Math.max(0, Math.min(100, v))
     rambar.style.width = st.ram + '%'
     rambar.style.background = st.ram < 25 ? RED : (st.ram < 55 ? '#e0b050' : GREEN)
     ramLbl.textContent = 'context (RAM) ' + Math.round(st.ram) + '%'
-    ramNum.textContent = Math.round(st.ram) + '%'
   }
+  function setWho(html) { who.innerHTML = html }
   function setFile(f, txt, empty, flash) {
     const e = $(`.lr-file[data-f="${f}"]`)
     e.querySelector('.fv').textContent = txt
     e.classList.toggle('empty', !!empty)
-    if (flash) { e.classList.add('flash'); later(() => e.classList.remove('flash'), 600) }
+    if (flash) { e.classList.add('flash'); T(() => e.classList.remove('flash'), 600) }
   }
   function markerTo(i) { marker.style.left = ((i + 0.5) / TOTAL * 100) + '%' }
-  function activate(i) { cellEls.forEach(c => c.classList.remove('active')); if (cellEls[i]) cellEls[i].classList.add('active'); markerTo(i) }
-  function completeCell(i) { const c = cellEls[i]; c.classList.remove('active'); c.classList.add('done'); c.querySelector('.stamp').textContent = '✓可merge' }
+  function activate(i) { cellEls.forEach(c => c.classList.remove('active')); if (cellEls[i]) { cellEls[i].classList.add('active'); pop(cellEls[i]) } markerTo(i) }
+  function completeCell(i) { const c = cellEls[i]; c.classList.remove('active'); c.classList.add('done'); c.querySelector('.stamp').textContent = '可merge'; pop(c) }
+  function scatter(list, label) {
+    debris.innerHTML = `<span>${label}</span>`
+    list.forEach((p, k) => { const s = document.createElement('span'); s.innerHTML = ico(p, 19); s.style.animation = `lrFall .6s ${k * .08}s ease forwards`; debris.appendChild(s) })
+  }
 
-  // ---------- One-shot ----------
+  // ---- One-shot：一個 session 一口氣做，context 邊做邊燒 ----
   function oneShot() {
-    if (st.running) return
-    reset(); st.mode = 'oneshot'; st.running = true
-    who.innerHTML = `<span class="lr-runner-emoji">${ico(P_RUNNER, 22)}</span> Session 1（一口氣做完全部）`
-    note.innerHTML = 'One-shot：一個 session 想 <b>one-shot 整個 app</b>，context 邊做邊燒…'
-    const gen = st.gen
-    stepOneShot(0, gen)
+    resetScene(); st.mode = 'oneshot'; st.running = true
+    setWho(`<span class="ic">${ico(P_RUNNER)}</span> Session 1（一口氣做完全部）`)
+    stepOneShot(0, st.gen)
   }
   function stepOneShot(i, gen) {
     if (gen !== st.gen || !st.running) return
     if (i >= TOTAL) { win(); return }
     activate(i); setRam(st.ram - 26)
-    later(() => {
+    T(() => {
       if (gen !== st.gen) return
       if (st.ram <= 0) { collapse(i, gen); return }
       completeCell(i); st.done = i + 1
-      later(() => stepOneShot(i + 1, gen), 350)
-    }, 620)
+      T(() => stepOneShot(i + 1, gen), 340)
+    }, 600)
   }
   function collapse(i, gen) {
-    who.innerHTML = `<span class="lr-runner-emoji" style="color:${RED}">${ico(P_BATT, 22)}</span> Session 1 倒地（context 燒完）`
-    cellEls[i].classList.add('broken')
-    // 半成品碎片
-    debris.innerHTML = '半成品爛攤子：'
-    ;[P_PUZZLE, P_LOG, P_WRENCH, P_FILE, P_QUESTION].forEach((p, k) => { const s = document.createElement('span'); s.className = 'lr-frag'; s.innerHTML = ico(p, 20); s.style.animation = `lr-fall .6s ${k * 0.08}s ease forwards`; debris.appendChild(s) })
-    note.innerHTML = `<span style="color:${RED}">Session 1 在 feature #${i + 1} context 燒完倒下，沒東西落地到 disk。</span>`
-    later(() => { if (gen === st.gen) nextSessionSeesMess(gen) }, 1000)
-  }
-  function nextSessionSeesMess(gen) {
-    who.innerHTML = `<span class="lr-runner-emoji">${ico(P_STAND, 22)}</span> Session 2 接手一個爛攤子`
-    setRam(100)
-    const fails = [
-      '看起來差不多了，宣布完成！（其實只做了幾個 feature 就提早下班）',
-      'unit test 過了，標記 done ✓（但 E2E 根本是壞的）',
-      '前面好像有進度，那我也不用重做了 → 直接 close。',
-    ]
-    const f = fails[Math.floor(Math.random() * fails.length)]
-    dialog.className = 'lr-dialog show'
-    dialog.innerHTML = ico(P_SPEECH, 16) + ' Session 2：「' + f + '」'
-    if (f.includes('E2E')) cellEls.forEach((c, k) => { if (c.classList.contains('done')) { c.classList.remove('done'); c.classList.add('broken'); c.querySelector('.stamp').textContent = 'E2E✗' } })
-    note.innerHTML = `<span style="color:${RED}">失敗模式：沒有交班紀錄，下一棒重建 context 還理解錯。這就是 one-shot 的下場。</span>`
-    st.running = false
+    setWho(`<span class="ic" style="color:${RED}">${ico(P_BATT)}</span> Session 1 倒地（context 燒完）`)
+    cellEls[i].classList.add('broken'); shake(scene.querySelector('.lr-runnerbox'))
+    scatter([P_PUZZLE, P_FILE, P_WRENCH], '半成品爛攤子：')
+    if (gen === st.gen) st.running = false
   }
 
-  // ---------- Relay ----------
+  // ---- Relay：Initializer 落地 disk，之後每棒讀日誌→做一個→E2E→commit→寫日誌→交棒 ----
   function relay() {
-    if (st.running) return
-    reset(); st.mode = 'relay'; st.running = true
+    resetScene(); st.mode = 'relay'; st.running = true
     const gen = st.gen
-    who.innerHTML = `<span class="lr-runner-emoji">${ico(P_GEAR, 22)}</span> Initializer 建環境`
-    note.innerHTML = 'Initializer：把計畫和軌道落地到 <b>Disk</b>（agent 會偷改 markdown，所以 checklist 用 JSON）。'
-    later(() => { if (gen !== st.gen) return; setFile('list', `10 features · JSON`, false, true) }, 400)
-    later(() => { if (gen !== st.gen) return; setFile('log', '（空白，待第一棒）', false, true) }, 800)
-    later(() => { if (gen !== st.gen) return; setFile('git', 'initial commit', false, true) }, 1200)
-    later(() => { if (gen === st.gen) runnerEnters(gen) }, 1700)
+    setWho(`<span class="ic">${ico(P_GEAR)}</span> Initializer 建環境`)
+    T(() => { if (gen === st.gen) setFile('list', '10 features · JSON', false, true) }, 350)
+    T(() => { if (gen === st.gen) setFile('log', '（空白，待第一棒）', false, true) }, 750)
+    T(() => { if (gen === st.gen) setFile('git', 'initial commit', false, true) }, 1150)
+    T(() => { if (gen === st.gen) runnerEnters(gen) }, 1650)
   }
-
   function runnerEnters(gen) {
     if (gen !== st.gen || !st.running) return
     if (st.done >= TOTAL) { win(); return }
     st.runner++
     const n = st.runner, fi = st.done
-    setRam(100)
-    who.innerHTML = `<span class="lr-runner-emoji">${ico(P_RUNNER, 22)}</span> Runner ${n}（乾淨的一棒）`
-    activate(fi)
+    setRam(100); activate(fi)
+    setWho(`<span class="ic">${ico(P_RUNNER)}</span> Runner ${n}（乾淨的一棒）`)
     const seq = [
-      () => { note.innerHTML = `Runner ${n}：<b>讀交班日誌</b> → 知道做到 #${fi} 了。`; setFile('log', `讀取：已完成 ${fi}/${TOTAL}`, false, true) },
-      () => { note.textContent = `Runner ${n}：挑一個 feature（只做 #${fi + 1}） → 跑 smoke test`; setRam(78) },
-      () => { note.textContent = `Runner ${n}：實作 feature #${fi + 1}…`; setRam(52) },
-      () => { note.innerHTML = `Runner ${n}：<b style="color:${GREEN}">E2E 綠燈</b>（不是只跑 unit test）`; setRam(40) },
-      () => { note.textContent = `Runner ${n}：git commit`; setFile('git', `commit: feat #${fi + 1}`, false, true) },
-      () => {
-        completeCell(fi); st.done = fi + 1
-        setFile('log', `更新：已完成 ${st.done}/${TOTAL}`, false, true)
-        note.innerHTML = `Runner ${n}：寫交班日誌 → 這一棒結束時 code 是<b style="color:${GREEN}">可 merge</b> 的，交棒 ${ico(P_FLAG, 15)}`
-      },
+      () => setFile('log', `讀取：已完成 ${fi}/${TOTAL}`, false, true),
+      () => setRam(72),
+      () => setRam(48),
+      () => setRam(38),
+      () => setFile('git', `commit: feat #${fi + 1}`, false, true),
+      () => { completeCell(fi); st.done = fi + 1; setFile('log', `更新：已完成 ${st.done}/${TOTAL}`, false, true) },
     ]
-    runSeq(seq, 0, gen, () => later(() => runnerEnters(gen), 500))
+    runSeq(seq, 0, gen, () => T(() => runnerEnters(gen), 480))
   }
-
   function runSeq(seq, i, gen, done) {
     if (gen !== st.gen || !st.running) return
     if (i >= seq.length) { done(); return }
-    seq[i]()
-    later(() => runSeq(seq, i + 1, gen, done), 700)
+    seq[i](); T(() => runSeq(seq, i + 1, gen, done), 620)
   }
 
+  // ---- Kill：核心戲劇對比 ----
   function kill() {
-    if (!st.running || !st.mode) { note.textContent = '目前沒有正在跑的 session。'; return }
-    st.gen++ // 讓所有排程中的 callback 失效
-    clearTimers()
+    if (!st.running || !st.mode) return
+    st.gen++; clearT()          // 世代 +1：所有排程中的 callback 立即失效
     if (st.mode === 'oneshot') {
-      who.innerHTML = `<span class="lr-runner-emoji" style="color:${RED}">${ico(P_SKULL, 22)}</span> Session 被砍 — 全部消失`
-      debris.innerHTML = '沒落地的東西全丟了：'
-      ;[P_PUZZLE, P_LOG, P_FILE].forEach(p => { const s = document.createElement('span'); s.className = 'lr-frag'; s.innerHTML = ico(p, 20); debris.appendChild(s) })
-      note.innerHTML = `<span style="color:${RED}">One-shot 下 Kill = 大災難：context 只在 RAM，砍掉就歸零。</span>`
-      st.running = false
+      setWho(`<span class="ic" style="color:${RED}">${ico(P_SKULL)}</span> Session 被砍 — 全部消失`)
+      setRam(0); scatter([P_PUZZLE, P_FILE], '沒落地的東西全丟了：')
+      dialog.className = 'lr-dialog show'
+      dialog.innerHTML = 'One-shot 下 Kill = 大災難：context 只活在 RAM，砍掉就歸零，前面的進度全部蒸發。'
+      shake(scene.querySelector('.lr-runnerbox')); st.running = false
     } else {
-      // 接力模式：這棒死了，下一棒讀日誌照樣接手
       cellEls.forEach(c => c.classList.remove('active'))
-      who.innerHTML = `<span class="lr-runner-emoji" style="color:${RED}">${ico(P_SKULL, 22)}</span> 這一棒被砍…`
-      note.innerHTML = `<span style="color:${GREEN}">接力模式砍掉完全沒差 — 進度在 disk（已完成 ${st.done}/${TOTAL}），下一棒讀日誌接手。</span>`
+      setWho(`<span class="ic" style="color:${RED}">${ico(P_SKULL)}</span> 這一棒被砍…`)
+      dialog.className = 'lr-dialog show'
+      dialog.style.borderColor = GREEN + '66'; dialog.style.background = GREEN + '14'; dialog.style.color = '#c9ffd8'
+      dialog.innerHTML = `接力模式砍掉完全沒差 — 進度在 disk（已完成 <b>${st.done}/${TOTAL}</b>），下一棒讀日誌照樣接手。`
       const gen = st.gen
-      later(() => { if (gen === st.gen && st.running) runnerEnters(gen) }, 900)
+      T(() => { if (gen === st.gen && st.running) { dialog.classList.remove('show'); runnerEnters(gen) } }, 1400)
     }
   }
 
   function win() {
     st.running = false
     cellEls.forEach(c => c.classList.remove('active'))
-    who.innerHTML = `<span class="lr-runner-emoji" style="color:${GREEN}">${ico(P_TROPHY, 22)}</span> 10/10 完成`
-    note.innerHTML = st.mode === 'relay'
-      ? `<b style="color:${GREEN}">接力賽完成：</b>無限 session 一棒接一棒，交接零成本，每棒都可 merge。`
-      : `完成！但這只有在 context 沒燒完時才可能 — 真實大專案幾乎撐不到。`
+    setWho(`<span class="ic" style="color:${GREEN}">${ico(P_TROPHY)}</span> 10/10 完成`)
+    const r = scene.querySelector('.lr-track').getBoundingClientRect(), br = stage.body.getBoundingClientRect()
+    confettiBurst(stage.body, r.left - br.left + r.width / 2, r.top - br.top + 20, GREEN, 30)
   }
 
-  const onOne = () => oneShot(), onRelay = () => relay(), onKill = () => kill(), onReset = () => reset()
-  $('.act-oneshot').addEventListener('click', onOne)
-  $('.act-relay').addEventListener('click', onRelay)
-  $('.act-kill').addEventListener('click', onKill)
-  $('.act-reset').addEventListener('click', onReset)
+  function showBtns(list) { ctrls.querySelectorAll('.lr-btn').forEach(b => b.classList.toggle('hide', !list.includes(b.dataset.b))) }
+  btn('relay').onclick = () => { pop(btn('relay')); if (!st.running) relay() }
+  btn('oneshot').onclick = () => { pop(btn('oneshot')); if (!st.running) oneShot() }
+  btn('kill').onclick = () => { pop(btn('kill')); kill() }
+  btn('reset').onclick = () => { pop(btn('reset')); startSandboxRun() }
 
-  reset()
-
-  return () => {
-    clearTimers()
-    $('.act-oneshot').removeEventListener('click', onOne)
-    $('.act-relay').removeEventListener('click', onRelay)
-    $('.act-kill').removeEventListener('click', onKill)
-    $('.act-reset').removeEventListener('click', onReset)
-    style.remove(); root.remove()
+  // 每拍開場先歸零場景
+  function resetScene() {
+    clearT()
+    st = { mode: null, done: 0, ram: 100, runner: 0, gen: st.gen + 1, running: false }
+    setRam(100); setWho(`<span class="ic">${ico(P_STAND)}</span> 待命中`)
+    marker.style.transition = 'none'; marker.style.left = '5%'; void marker.offsetWidth; marker.style.transition = ''
+    debris.innerHTML = ''; dialog.className = 'lr-dialog'; dialog.style.cssText = ''
+    cellEls.forEach(c => { c.className = 'lr-cell'; c.querySelector('.stamp').textContent = '' })
+    setFile('list', '— 尚未建立', true); setFile('log', '— 尚未建立', true); setFile('git', '— 尚未 commit', true)
+    showBtns([])
   }
+
+  function startSandboxRun() { resetScene(); showBtns(['relay', 'oneshot', 'kill', 'reset']) }
+
+  function buildBeats() {
+    return [
+      { narration: '目標：完成 <b>10 個 feature</b>。記住這條對照 — Context Window = <b>RAM</b>，Filesystem = <b>Disk</b>。', focus: ['.lr-track', '.lr-side'], nextLabel: '先看 One-shot →',
+        enter() { resetScene() } },
+
+      { narration: '<b>One-shot 硬跑：</b>一個 session 想一口氣做完，context（RAM）邊做邊燒 — 到 #4 就<b style="color:' + RED + '">燒完倒地</b>，只留半成品爛攤子。', focus: ['.lr-runnerbox', '.lr-track', '.lr-debris'], nextLabel: '這時候砍掉會怎樣？ →',
+        enter() { oneShot() } },
+
+      { narration: '此刻按 <b>Kill session</b> — context 只活在 RAM，砍掉<b style="color:' + RED + '">全部歸零</b>。什麼都沒落地，這是大災難。', focus: ['.lr-runnerbox', '.lr-dialog', '.lr-side'], nextLabel: '換接力模式 →',
+        enter() {
+          resetScene(); st.mode = 'oneshot'; st.running = true
+          setWho(`<span class="ic">${ico(P_RUNNER)}</span> Session 1（一口氣做完全部）`)
+          const gen = st.gen
+          stepOneShot(0, gen)
+          T(() => { if (gen === st.gen) kill() }, 2100)   // 跑到一半自動示範 kill 災難
+        } },
+
+      { narration: '<b>接力模式：</b>Initializer 先把計畫落地到 <b>Disk</b>（checklist 用 JSON，因為 agent 會偷改 markdown）。之後每棒讀日誌→做一個→E2E→commit→寫日誌→交棒。', focus: ['.lr-track', '.lr-side'], nextLabel: '接力被砍會怎樣？ →',
+        enter() { relay() } },
+
+      { narration: '接力途中按 <b>Kill session</b> — <b style="color:' + GREEN + '">完全沒差</b>。進度在 disk，下一棒讀交班日誌照樣接手。每個 session 都是 disposable 的。', focus: ['.lr-track', '.lr-dialog', '.lr-side'], nextLabel: '換我玩 →',
+        enter() {
+          resetScene(); st.mode = 'relay'; st.running = true
+          const gen = st.gen
+          setFile('list', '10 features · JSON', false, true); setFile('git', 'initial commit', false, true)
+          st.done = 3; [0, 1, 2].forEach(completeCell); setFile('log', '讀取：已完成 3/10', false, true)
+          T(() => { if (gen === st.gen) runnerEnters(gen) }, 500)
+          T(() => { if (gen === st.gen) kill() }, 2400)    // 自動示範接力 kill 無痛接手
+        } },
+
+      { narration: '換你玩 — <b>接力模式</b> vs <b>One-shot 硬跑</b>，中途隨時 <b>Kill session</b>，比較兩種模式差多少。', sandbox: true,
+        enter() { startSandboxRun() } },
+    ]
+  }
+
+  stage = createStage(el, ctx, { beats: buildBeats() })
+  stage.body.append(scene, ctrls)
+
+  return () => { clearT(); stage.destroy(); style.remove() }
 }

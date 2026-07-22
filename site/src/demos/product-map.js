@@ -1,55 +1,38 @@
-// Demo：同一顆大腦，不同的身體
-// 核心互動：四張產品卡並排，按「派任務」同時跑進度，各自在能力邊界處停下並標記；
-// 點卡片展開「工具／權限／記憶在哪」三行規格。
+// Demo：同一顆大腦，不同的身體 — DemoStage 導演版
+// 5 拍：同一句任務｜四張卡同時開跑｜保守兩個止步｜開放兩個跑完｜sandbox 自由派任務＋看規格。
+import { createStage, pop, shake, enterFly } from './_stage.js'
 
 export default function mount(el, ctx) {
   const accent = ctx?.accent || '#5b8cff'
-  const GREEN = '#4ade80'
-  const AMBER = '#fbbf24'
-
+  const GREEN = '#4ade80', AMBER = '#fbbf24'
   const TASK = '幫我讀桌面的報表檔並整理成 HTML'
 
-  // stop：進度停在哪（0~1），kind：邊界類型
   const CARDS = [
-    {
-      id: 'web', name: 'ChatGPT／Claude 網頁版', tag: '只能聊 + web search',
-      stop: 0.30, kind: 'wall',
+    { id: 'web', name: 'ChatGPT／Claude 網頁版', tag: '只能聊 + web search', stop: 0.30, kind: 'wall',
       steps: ['讀懂你的任務', '想去打開桌面的檔案…', '停：碰不到你的電腦'],
       boundary: '不能碰你的電腦，只能聊天和搜尋網路。桌面的檔案它看不到。',
-      spec: { tool: '只有內建的網路搜尋，沒有讀寫檔案的手', perm: '完全碰不到你的本機', mem: '關掉分頁就忘光' },
-    },
-    {
-      id: 'cowork', name: 'Cowork', tag: '有限工具、介面漂亮',
-      stop: 0.68, kind: 'partial',
+      spec: { tool: '只有內建的網路搜尋，沒有讀寫檔案的手', perm: '完全碰不到你的本機', mem: '關掉分頁就忘光' } },
+    { id: 'cowork', name: 'Cowork', tag: '有限工具、介面漂亮', stop: 0.68, kind: 'partial',
       steps: ['讀懂你的任務', '用有限工具讀到報表', '整理內容', '停：能寫回你電腦，但工具有限'],
       boundary: '有幾樣工具、能把結果寫回你的電腦，介面漂亮好用，但能做的動作是被框住的。',
-      spec: { tool: '一組精選、受控的工具', perm: '可讀、可寫到你指定的地方', mem: '單次工作階段內記得' },
-    },
-    {
-      id: 'code', name: 'Claude Code', tag: '全工具、跑完整流程',
-      stop: 1.0, kind: 'done',
+      spec: { tool: '一組精選、受控的工具', perm: '可讀、可寫到你指定的地方', mem: '單次工作階段內記得' } },
+    { id: 'code', name: 'Claude Code', tag: '全工具、跑完整流程', stop: 1.0, kind: 'done',
       steps: ['讀懂你的任務', '讀取報表檔', '解析與整理', '產生 HTML', '寫檔完成'],
       boundary: '幾乎所有工具都能用，能一路把完整流程跑完並交出成品。',
-      spec: { tool: '終端機、讀寫檔案、執行程式，全都有', perm: '在你的專案目錄裡放手去做', mem: '靠專案內的檔案（如 CLAUDE.md）延續' },
-    },
-    {
-      id: 'claw', name: 'OpenClaw 龍蝦', tag: '跑完還記進常駐記憶',
-      stop: 1.0, kind: 'done-mem',
+      spec: { tool: '終端機、讀寫檔案、執行程式，全都有', perm: '在你的專案目錄裡放手去做', mem: '靠專案內的檔案（如 CLAUDE.md）延續' } },
+    { id: 'claw', name: 'OpenClaw 龍蝦', tag: '跑完還記進常駐記憶', stop: 1.0, kind: 'done-mem',
       steps: ['讀懂你的任務', '讀取報表檔', '解析與整理', '產生 HTML', '寫檔完成', '把結果記進常駐記憶'],
       boundary: '做完 Claude Code 的全部，還多一步：把這次的結果記進自己長期常駐的記憶。',
-      spec: { tool: '全套工具 + 常駐執行', perm: '長期在你環境裡運作', mem: '寫進自己的長期記憶，下次還記得' },
-    },
+      spec: { tool: '全套工具 + 常駐執行', perm: '長期在你環境裡運作', mem: '寫進自己的長期記憶，下次還記得' } },
   ]
 
   const style = document.createElement('style')
   style.textContent = `
-  .pm-wrap{position:absolute;inset:0;display:flex;flex-direction:column;gap:16px;padding:24px 30px;box-sizing:border-box;font-family:var(--font-tc,'Noto Sans TC',sans-serif);overflow:auto}
-  .pm-lead{font-size:17px;color:#9aa0b0;line-height:1.6}
-  .pm-lead b{color:#e8ebf2;font-weight:600}
-  .pm-task{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .pm-task{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .pm-task .hint{font-size:14px;color:#7d8496}
   .pm-task .q{font-size:16px;color:#c3c8d4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:8px 15px;border-radius:10px}
   .pm-task .q b{color:#e8ebf2}
-  .pm-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;min-height:0}
+  .pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
   @media (max-width:900px){.pm-grid{grid-template-columns:repeat(2,1fr)}}
   .pm-card{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.02);display:flex;flex-direction:column;overflow:hidden;transition:border-color .2s}
   .pm-card.done{border-color:rgba(74,222,128,.4)}
@@ -75,29 +58,34 @@ export default function mount(el, ctx) {
   .pm-spec .r{font-size:13px;line-height:1.45;color:#aeb4c2;display:flex;gap:7px}
   .pm-spec .r b{color:#e8ebf2;font-weight:600;flex-shrink:0;min-width:4.6em}
   .pm-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .pm-hint{font-size:14px;color:#7d8496}
+  .pm-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .2s}
+  .pm-btn:hover{border-color:var(--text)}
+  .pm-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
+  .pm-btn.hide{display:none}
   .pm-icon{width:14px;height:14px}
   .pm-i11{width:1.05em;height:1.05em;vertical-align:-.12em}
   `
   el.appendChild(style)
 
-  const wrap = document.createElement('div')
-  wrap.className = 'pm-wrap'
-  const cardsHtml = CARDS.map((c) => `
-    <div class="pm-card" data-id="${c.id}">
+  const task = document.createElement('div')
+  task.className = 'pm-task ds-unit'
+  task.innerHTML = `<span class="hint">同一句任務：</span><span class="q"><b>「${TASK}」</b></span>`
+
+  const grid = document.createElement('div')
+  grid.className = 'pm-grid ds-unit'
+  grid.innerHTML = CARDS.map(c => `
+    <div class="pm-card ds-unit" data-id="${c.id}">
       <div class="pm-ch"><div class="nm">${c.name}</div><div class="tg">${c.tag}</div></div>
       <div class="pm-bar"><i data-bar="${c.id}"></i></div>
       <div class="pm-steps">${c.steps.map((s, i) => `
         <div class="pm-step" data-step="${c.id}-${i}">
           <svg class="dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/></svg>
-          <span>${s}</span>
-        </div>`).join('')}
+          <span>${s}</span></div>`).join('')}
       </div>
       <div class="pm-badge" data-badge="${c.id}"></div>
       <div class="pm-more" data-more="${c.id}">
         <svg class="pm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
-        工具／權限／記憶在哪
-      </div>
+        工具／權限／記憶在哪</div>
       <div class="pm-spec" data-spec="${c.id}">
         <div class="r"><b>工具</b><span>${c.spec.tool}</span></div>
         <div class="r"><b>權限</b><span>${c.spec.perm}</span></div>
@@ -105,118 +93,128 @@ export default function mount(el, ctx) {
       </div>
     </div>`).join('')
 
-  wrap.innerHTML = `
-    <div class="pm-lead">同一顆大腦（LLM），裝進<b>不同的身體</b>：能碰的工具、能寫的權限、記不記得住，全都不一樣。</div>
-    <div class="pm-task">
-      <span class="pm-hint">同一句任務：</span>
-      <span class="q"><b>「${TASK}」</b></span>
-    </div>
-    <div class="pm-grid">${cardsHtml}</div>
-    <div class="pm-controls">
-      <button class="demo-btn primary" id="pm-run">派任務</button>
-      <button class="demo-btn" id="pm-reset">重置</button>
-      <span class="pm-hint">按下後四張卡同時跑，各自在能力邊界處停下。點每張卡看規格。</span>
-    </div>
-  `
-  el.appendChild(wrap)
+  const controls = document.createElement('div')
+  controls.className = 'pm-controls ds-unit'
+  controls.innerHTML = `
+    <button class="pm-btn primary hide" data-b="run">派任務</button>
+    <button class="pm-btn hide" data-b="reset">重置</button>`
 
-  const rafs = new Set()
-  const timers = new Set()
-  const setT = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
+  const $ = s => grid.querySelector(s)
+  const btn = b => controls.querySelector(`[data-b="${b}"]`)
 
   const okIcon = '<svg class="icon pm-i11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
   const stopIcon = '<svg class="icon pm-i11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg>'
   const memIcon = '<svg class="icon pm-i11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5v14"/><path d="M12 9h4"/><path d="M12 13h4"/></svg>'
 
-  let running = false
-  function reset() {
-    running = false
-    CARDS.forEach((c) => {
-      wrap.querySelector(`[data-bar="${c.id}"]`).style.width = '0'
-      wrap.querySelector(`[data-bar="${c.id}"]`).style.background = accent
-      const card = wrap.querySelector(`.pm-card[data-id="${c.id}"]`)
-      card.className = 'pm-card'
-      const badge = wrap.querySelector(`[data-badge="${c.id}"]`)
-      badge.className = 'pm-badge'; badge.innerHTML = ''
-      c.steps.forEach((_, i) => wrap.querySelector(`[data-step="${c.id}-${i}"]`).classList.remove('on'))
+  const rafs = new Set()
+  const timers = new Set()
+  const T = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
+  const clearAll = () => { rafs.forEach(cancelAnimationFrame); rafs.clear(); timers.forEach(clearTimeout); timers.clear() }
+
+  let running = false, interactive = false, stage
+
+  function clearCards() {
+    CARDS.forEach(c => {
+      const bar = $(`[data-bar="${c.id}"]`); bar.style.width = '0'; bar.style.background = accent
+      $(`.pm-card[data-id="${c.id}"]`).className = 'pm-card ds-unit'
+      const badge = $(`[data-badge="${c.id}"]`); badge.className = 'pm-badge'; badge.innerHTML = ''
+      $(`[data-spec="${c.id}"]`).classList.remove('show')
+      c.steps.forEach((_, i) => $(`[data-step="${c.id}-${i}"]`).classList.remove('on'))
+      c.__done = false
     })
-    wrap.querySelector('#pm-run').disabled = false
+  }
+
+  function finishCard(c) {
+    for (let i = 0; i < c.steps.length; i++) $(`[data-step="${c.id}-${i}"]`).classList.add('on')
+    const card = $(`.pm-card[data-id="${c.id}"]`), badge = $(`[data-badge="${c.id}"]`), bar = $(`[data-bar="${c.id}"]`)
+    if (c.kind === 'done' || c.kind === 'done-mem') {
+      card.classList.add('done'); bar.style.background = GREEN; badge.className = 'pm-badge ok show'
+      badge.innerHTML = (c.kind === 'done-mem' ? memIcon : okIcon) + '<span>' + c.boundary + '</span>'
+    } else {
+      card.classList.add(c.kind); bar.style.background = AMBER; badge.className = 'pm-badge stop show'
+      badge.innerHTML = stopIcon + '<span>' + c.boundary + '</span>'
+      shake(card)
+    }
+    pop(badge)
+  }
+
+  function finishAllInstant() {
+    CARDS.forEach(c => {
+      const bar = $(`[data-bar="${c.id}"]`); bar.style.transition = 'none'; bar.style.width = '100%'; void bar.offsetWidth; bar.style.transition = ''
+      if (!c.__done) { c.__done = true; finishCard(c) }
+    })
+    running = false
   }
 
   function run() {
     if (running) return
-    reset()
-    running = true
-    wrap.querySelector('#pm-run').disabled = true
-    const t0 = performance.now()
-    const DUR = 2000
-    const revealed = {}
-    CARDS.forEach((c) => { revealed[c.id] = -1 })
-
+    clearCards(); running = true
+    if (interactive) btn('run').disabled = true
+    const t0 = performance.now(), DUR = 2000
+    const revealed = {}; CARDS.forEach(c => { revealed[c.id] = -1 })
     const tick = () => {
       const p = Math.min(1, (performance.now() - t0) / DUR)
       let allStopped = true
-      CARDS.forEach((c) => {
+      CARDS.forEach(c => {
         const cur = Math.min(p, c.stop)
         if (p < c.stop) allStopped = false
-        const bar = wrap.querySelector(`[data-bar="${c.id}"]`)
-        bar.style.width = (cur / (c.stop || 1)) * 100 + '%'
-        const total = c.steps.length
-        const shouldShow = Math.floor((cur / c.stop) * total + 0.0001)
-        while (revealed[c.id] < shouldShow - 1 && revealed[c.id] < total - 1) {
-          revealed[c.id]++
-          const st = wrap.querySelector(`[data-step="${c.id}-${revealed[c.id]}"]`)
-          if (st) st.classList.add('on')
+        $(`[data-bar="${c.id}"]`).style.width = (cur / (c.stop || 1)) * 100 + '%'
+        const shouldShow = Math.floor((cur / c.stop) * c.steps.length + 0.0001)
+        while (revealed[c.id] < shouldShow - 1 && revealed[c.id] < c.steps.length - 1) {
+          revealed[c.id]++; $(`[data-step="${c.id}-${revealed[c.id]}"]`)?.classList.add('on')
         }
-        if (cur >= c.stop && !c.__done) {
-          c.__done = true
-          finishCard(c)
-        }
+        if (cur >= c.stop && !c.__done) { c.__done = true; finishCard(c) }
       })
       if (p < 1 && !allStopped) { const id = requestAnimationFrame(tick); rafs.add(id) }
       else {
         rafs.clear()
-        CARDS.forEach((c) => { if (!c.__done) { c.__done = true; finishCard(c) } })
-        setT(() => { running = false; wrap.querySelector('#pm-run').disabled = false; CARDS.forEach((c) => { c.__done = false }) }, 100)
+        CARDS.forEach(c => { if (!c.__done) { c.__done = true; finishCard(c) } })
+        T(() => { running = false; if (interactive) btn('run').disabled = false }, 100)
       }
     }
-    CARDS.forEach((c) => { c.__done = false })
     const id = requestAnimationFrame(tick); rafs.add(id)
   }
 
-  function finishCard(c) {
-    // 確保所有已抵達的步驟亮起
-    const upto = Math.round(c.steps.length)
-    for (let i = 0; i < upto; i++) wrap.querySelector(`[data-step="${c.id}-${i}"]`).classList.add('on')
-    const card = wrap.querySelector(`.pm-card[data-id="${c.id}"]`)
-    const badge = wrap.querySelector(`[data-badge="${c.id}"]`)
-    const bar = wrap.querySelector(`[data-bar="${c.id}"]`)
-    if (c.kind === 'done' || c.kind === 'done-mem') {
-      card.classList.add('done')
-      bar.style.background = GREEN
-      badge.className = 'pm-badge ok show'
-      badge.innerHTML = (c.kind === 'done-mem' ? memIcon : okIcon) + '<span>' + c.boundary + '</span>'
-    } else {
-      card.classList.add(c.kind)
-      bar.style.background = AMBER
-      badge.className = 'pm-badge stop show'
-      badge.innerHTML = stopIcon + '<span>' + c.boundary + '</span>'
-    }
-  }
-
-  wrap.addEventListener('click', (e) => {
-    const more = e.target.closest('.pm-more')
-    if (more) {
-      const spec = wrap.querySelector(`[data-spec="${more.dataset.more}"]`)
-      spec.classList.toggle('show')
-    }
+  grid.addEventListener('click', e => {
+    const more = e.target.closest('.pm-more'); if (!more) return
+    $(`[data-spec="${more.dataset.more}"]`).classList.toggle('show')
   })
-  wrap.querySelector('#pm-run').addEventListener('click', run)
-  wrap.querySelector('#pm-reset').addEventListener('click', reset)
+  btn('run').onclick = () => { pop(btn('run')); run() }
+  btn('reset').onclick = () => { pop(btn('reset')); clearAll(); clearCards() }
 
-  return () => {
-    rafs.forEach((id) => cancelAnimationFrame(id)); rafs.clear()
-    timers.forEach((id) => clearTimeout(id)); timers.clear()
-    style.remove(); wrap.remove()
+  function showBtns(list) { controls.querySelectorAll('.pm-btn').forEach(b => b.classList.toggle('hide', !list.includes(b.dataset.b))) }
+
+  function resetScene() {
+    clearAll(); running = false; interactive = false
+    clearCards(); showBtns([])
   }
+  function startSandboxRun() {
+    resetScene(); interactive = true
+    showBtns(['run', 'reset'])
+    CARDS.forEach((c, i) => enterFly($(`.pm-card[data-id="${c.id}"]`), { y: 18, dur: 460, delay: i * 80 }))
+  }
+
+  function buildBeats() {
+    return [
+      { narration: '同一句任務，交給四個產品 — 背後可能是<b>同一顆大腦</b>（同一個模型）。', focus: ['.pm-task', '.pm-grid'], nextLabel: '派下去 →',
+        enter() { resetScene() } },
+
+      { narration: '按下去，四張卡<b>同時開跑</b> — 各自在能力邊界處停下。', focus: ['.pm-grid'], nextLabel: '誰止步了？ →',
+        enter() { resetScene(); T(() => run(), 400) } },
+
+      { narration: '最保守的兩個：網頁版<b>碰不到你的電腦</b>、Cowork 能寫回檔案但<b>工具受限</b>。', focus: ['.pm-card[data-id="web"]', '.pm-card[data-id="cowork"]'], nextLabel: '那開放的呢？ →',
+        enter() { finishAllInstant() } },
+
+      { narration: '最開放的兩個：Claude Code <b>全工具跑完整流程</b>；龍蝦跑完還<b>記進常駐記憶</b>。', focus: ['.pm-card[data-id="code"]', '.pm-card[data-id="claw"]'], nextLabel: '換我派任務 →',
+        enter() { finishAllInstant() } },
+
+      { narration: '差別不在腦子 — 在<b>身體多大、能碰你多少東西</b>。換你派任務，點開每張卡的工具／權限／記憶。', sandbox: true,
+        enter() { startSandboxRun() } },
+    ]
+  }
+
+  stage = createStage(el, ctx, { beats: buildBeats() })
+  stage.body.append(task, grid, controls)
+
+  return () => { clearAll(); stage.destroy(); style.remove() }
 }
