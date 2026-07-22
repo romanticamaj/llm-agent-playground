@@ -2,7 +2,7 @@
 id: long-running-agent
 title: 不是撐得久，是交接零成本
 subtitle: Long-running Agent
-chapter: 4
+chapter: 5
 chapterTitle: Multi-Agent 與長時間運行
 source:
   - title: "原來我一直以來都搞錯 Long-running Agent / Loop Agent 的概念"

@@ -2,13 +2,15 @@ import './style.css'
 import concepts from './data/concepts.json'
 import { initBg, setBgAccent, pulseBg } from './bg3d.js'
 import { demoRegistry } from './demos/index.js'
+import { loadTeaser } from './teasers/index.js'
 
 const CHAPTERS = {
-  1: { en: 'THE NATURE OF LLMS', accent: '#8ea9e8' },
-  2: { en: 'FROM LLM TO AGENT', accent: '#72c2ae' },
-  3: { en: 'MEMORY', accent: '#d9a866' },
-  4: { en: 'MULTI-AGENT & LONG-RUNNING', accent: '#a794d4' },
-  5: { en: 'WORKING WITH AI', accent: '#cf8b96' },
+  1: { en: 'THE NATURE OF LLMS', accent: '#8ea9e8', route: '入門 · 授課主線' },
+  2: { en: 'FROM CHAT TO AGENT', accent: '#72c2ae', route: '入門 · 授課主線' },
+  3: { en: 'MEMORY', accent: '#d9a866', route: '進階 · 工程師路線' },
+  4: { en: 'AGENT ENGINEERING', accent: '#a794d4', route: '進階 · 工程師路線' },
+  5: { en: 'MULTI-AGENT & LONG-RUNNING', accent: '#cf8b96', route: '進階 · 工程師路線' },
+  6: { en: 'WORKING WITH AI', accent: '#b8c48a', route: '進階 · 工程師路線' },
 }
 
 const app = document.getElementById('app')
@@ -35,7 +37,7 @@ let html = `
 <section class="section hero" id="top" data-chapter="1">
   <div class="kicker reveal">////// Interactive AI Concepts</div>
   <h1 class="reveal d1">AI 概念<br>實驗室</h1>
-  <p class="sub reveal d2">用 20 個概念，從 LLM 的本質一路走到 Agent 工程。<br>每一個概念，都可以親手玩。</p>
+  <p class="sub reveal d2">用 27 個概念，從 LLM 的本質一路走到 Agent 工程。<br>每一個概念，都可以親手玩。</p>
   <p class="credit reveal d3">SOURCE // <a href="https://www.garyhsieh.com/blog" target="_blank" rel="noopener">garyhsieh.com</a> · PRESS <b>P</b> FOR STAGE MODE</p>
   <div class="marquee reveal d3"><div class="track" id="marquee-track"></div></div>
   <div class="scroll-hint">SCROLL</div>
@@ -49,21 +51,31 @@ for (const c of concepts) {
     const ch = CHAPTERS[c.chapter]
     html += `
 <section class="section chapter-divider" id="ch${c.chapter}" data-chapter="${c.chapter}" data-chapter-start>
+  <div class="ch-route reveal">${esc(ch.route)}</div>
   <div class="ch-num reveal">0${c.chapter}</div>
   <div class="ch-title reveal d1">${esc(c.chapterTitle)}</div>
   <div class="ch-en reveal d2">${esc(ch.en)}</div>
 </section>`
   }
+  const srcBtn = (!c.classroom && c.sources.length)
+    ? `<a class="btn-secondary" href="${c.sources[0].url}" target="_blank" rel="noopener">原文 ↗</a>`
+    : ''
   html += `
 <section class="section concept" id="${c.id}" data-chapter="${c.chapter}" data-id="${c.id}">
   <div class="concept-inner">
-    <div class="meta reveal"><span class="num">${c.num}</span><span class="subtitle">${esc(c.subtitle)}</span></div>
-    <h2 class="reveal d1">${esc(c.title)}</h2>
-    <div class="one-liner reveal d2">${mdInline(c.oneLiner)}</div>
-    <div class="actions reveal d3">
-      <button class="btn-primary" data-demo="${c.id}">進入互動</button>
-      <button class="btn-secondary" data-notes="${c.id}">課堂筆記</button>
-      <a class="btn-secondary" href="${c.sources[0]?.url || '#'}" target="_blank" rel="noopener">原文 ↗</a>
+    <div class="concept-text">
+      <div class="meta reveal"><span class="num">${c.num}</span><span class="subtitle">${esc(c.subtitle)}</span></div>
+      <h2 class="reveal d1">${esc(c.title)}</h2>
+      <div class="one-liner reveal d2">${mdInline(c.oneLiner)}</div>
+      <div class="actions reveal d3">
+        <button class="btn-primary" data-demo="${c.id}">進入互動</button>
+        <button class="btn-secondary" data-notes="${c.id}">課堂筆記</button>
+        ${srcBtn}
+      </div>
+    </div>
+    <div class="teaser-card reveal d2" data-teaser="${c.id}" data-demo="${c.id}" title="點擊進入互動">
+      <div class="teaser-stage"></div>
+      <div class="teaser-hint">LIVE · 點擊互動</div>
     </div>
   </div>
 </section>`
@@ -72,7 +84,7 @@ for (const c of concepts) {
 html += `
 <section class="section outro" data-chapter="5">
   <h2 class="reveal">概念是入口，<br>原文是完整的旅程。</h2>
-  <p class="reveal d1">這 20 個概念都來自 Gary 的第一手實作心得。每一篇原文都有更多細節、來源與工程脈絡。</p>
+  <p class="reveal d1">這 27 個概念都來自 Gary 的第一手實作心得與授課現場。每一篇原文都有更多細節、來源與工程脈絡。</p>
   <div class="actions reveal d2"><a class="btn-primary" style="text-decoration:none" href="https://www.garyhsieh.com/blog" target="_blank" rel="noopener">去讀原文 ↗</a></div>
 </section>
 
@@ -134,6 +146,51 @@ function updateHud(sec) {
     hudBl.innerHTML = `// GARY'S AI LAB`
   }
   hudBr.innerHTML = `<b>${String(sec._index + 1).padStart(2, '0')}</b> / ${String(sections.length).padStart(2, '0')}`
+}
+
+/* ============ live teasers ============ */
+const teaserCleanups = new Map()
+const teaserIO = new IntersectionObserver(entries => {
+  for (const e of entries) {
+    const card = e.target
+    const id = card.dataset.teaser
+    if (e.isIntersecting && !teaserCleanups.has(id)) {
+      teaserCleanups.set(id, null) // 占位防重入
+      loadTeaser(id).then(mountFn => {
+        const stage = card.querySelector('.teaser-stage')
+        stage.innerHTML = ''
+        const cleanup = mountFn(stage, { accent: CHAPTERS[Number(card.closest('.section').dataset.chapter)].accent, concept: byId[id] })
+        teaserCleanups.set(id, cleanup)
+      })
+    } else if (!e.isIntersecting && teaserCleanups.has(id)) {
+      const fn = teaserCleanups.get(id)
+      if (typeof fn === 'function') { try { fn() } catch {} }
+      teaserCleanups.delete(id)
+    }
+  }
+}, { rootMargin: '160px 0px' })
+document.querySelectorAll('.teaser-card').forEach(t => teaserIO.observe(t))
+
+/* ============ hero kinetic type ============ */
+const heroH1 = document.querySelector('.hero h1')
+if (heroH1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const frag = document.createDocumentFragment()
+  for (const line of heroH1.innerHTML.split('<br>')) {
+    const lineEl = document.createElement('span')
+    lineEl.className = 'h1-line'
+    for (const chch of [...line]) {
+      const sp = document.createElement('span')
+      sp.className = 'h1-ch'
+      sp.textContent = chch
+      lineEl.appendChild(sp)
+    }
+    frag.appendChild(lineEl)
+  }
+  heroH1.innerHTML = ''
+  heroH1.appendChild(frag)
+  heroH1.querySelectorAll('.h1-ch').forEach((sp, i) => {
+    sp.style.animationDelay = (0.15 + i * 0.055) + 's'
+  })
 }
 
 /* ============ scroll spy ============ */
@@ -206,7 +263,9 @@ function openNotes(id) {
     <h4>關鍵重點</h4><ul>${c.keyPoints.map(k => `<li>${mdInline(k)}</li>`).join('')}</ul>
     <h4>課堂提問</h4><ul>${c.questions.map(q => `<li>${mdInline(q)}</li>`).join('')}</ul>
     <h4>原文金句</h4>${c.quotes.map(q => `<blockquote>${mdInline(q)}</blockquote>`).join('')}
-    <h4>原文出處</h4>${c.sources.map(s => `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">↗ ${esc(s.title || s.url)}</a>`).join('')}
+    ${c.classroom
+      ? `<h4>出處</h4><p>2026-07 課堂實錄</p>` + (c.sources.length ? `<h4>延伸閱讀</h4>` + c.sources.map(s => `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">↗ ${esc(s.title || s.url)}</a>`).join('') : '')
+      : `<h4>原文出處</h4>` + c.sources.map(s => `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">↗ ${esc(s.title || s.url)}</a>`).join('')}
   `
   notes.classList.add('open')
   notesBody.scrollTop = 0

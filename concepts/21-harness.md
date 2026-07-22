@@ -2,8 +2,8 @@
 id: harness
 title: 從「會動」到「可控」
 subtitle: The Agent Harness
-chapter: 2
-chapterTitle: 從 LLM 到 Agent
+chapter: 4
+chapterTitle: Agent 工程
 source:
   - title: "OpenClaw 跟 Claude Code 都用 Opus 4.6 — 為什麼做同一件事，結果差這麼多？"
     url: https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code

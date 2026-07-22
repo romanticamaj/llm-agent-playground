@@ -35,6 +35,8 @@ function parseFrontmatter(src) {
       }
       let v = rawVal.replace(/^["']|["']$/g, '')
       if (/^\d+$/.test(v)) v = Number(v)
+      else if (v === 'true') v = true
+      else if (v === 'false') v = false
       fm[key] = v
     }
     i++
@@ -72,6 +74,7 @@ const concepts = files.map(f => {
     chapter: fm.chapter,
     chapterTitle: fm.chapterTitle,
     sources: fm.source || [],
+    classroom: fm.classroom === true,
     oneLiner: (s['一句話'] || '').trim(),
     script: (s['三分鐘講稿'] || '').trim(),
     keyPoints: listItems(s['關鍵重點']),

@@ -2,7 +2,7 @@
 id: sub-agents
 title: 卡住了？叫 AI 去找幫手
 subtitle: Sub-agents
-chapter: 4
+chapter: 5
 chapterTitle: Multi-Agent 與長時間運行
 source:
   - title: "跟 AI Coding Agent 工作卡住的時候，這招滿好用的 — 叫他去「找幫手」"

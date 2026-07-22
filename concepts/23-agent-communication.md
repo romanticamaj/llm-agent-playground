@@ -2,7 +2,7 @@
 id: agent-communication
 title: Agent 怎麼聊天？作業系統早就演過了
 subtitle: Agent Communication
-chapter: 4
+chapter: 5
 chapterTitle: Multi-Agent 與長時間運行
 source:
   - title: "AI Agent 是怎麼溝通的？設計了一堆 Agent，打算怎麼讓它們溝通 — 全部都 spawn sub-agent？還是一個 session 一個，然後讓它們彼此交換資訊？"

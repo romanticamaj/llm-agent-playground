@@ -4,6 +4,17 @@
 
 export default function mount(el, ctx) {
   const accent = ctx?.accent || '#5b8cff'
+  const GREEN = '#4ade80'
+
+  // 工作流分類器用的任務卡（新模式）
+  const TASKS = [
+    { id: 'invoice', name: '發票對帳', answer: 'det', why: '第一步抓兩邊金額、第二步逐筆比對、第三步標出差異 — 步驟說得出來，交給程式最穩。' },
+    { id: 'schedule', name: '診所排班', answer: 'non', why: '「排得公平」沒辦法量化成規則：誰上大夜、誰換班的委屈，程式寫不出來，要靠判斷 — 交給 AI 或人。' },
+    { id: 'report', name: '每月報表', answer: 'det', why: '固定來源、固定欄位、固定格式，每月重複同一套步驟 — 決定性工作，寫成程式跑。' },
+    { id: 'copy', name: '寫社群文案', answer: 'non', why: '好不好、有沒有梗沒有標準答案，要的是變化與語感 — 非決定性，交給 AI。' },
+    { id: 'backup', name: '備份檔案', answer: 'det', why: '複製哪些檔、放哪裡、幾點跑，全都說得出來 — 標準的決定性流程。' },
+    { id: 'reply', name: '客訴回覆草稿', answer: 'non', why: '每封客訴的情緒與脈絡都不同，回覆要拿捏語氣 — 非決定性，AI 起草再由人確認。' },
+  ]
 
   const OUTPUTS = [
     '今天像被揉皺又攤平的一張紙。',
@@ -46,12 +57,49 @@ export default function mount(el, ctx) {
   .dvn-temp .val{font-size:16px;font-weight:600;color:${accent};font-variant-numeric:tabular-nums;width:2.6em;text-align:right}
   .dvn-temp .desc{font-size:13px;color:#7d8496;min-width:6em}
   .dvn-controls{display:flex;gap:12px;flex-wrap:wrap}
+  .dvn-modebar{display:inline-flex;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.12);border-radius:11px;background:rgba(255,255,255,.03);align-self:flex-start}
+  .dvn-modebtn{font-size:15px;padding:7px 15px;border-radius:8px;border:none;background:transparent;color:#9aa0b0;cursor:pointer;font-family:inherit}
+  .dvn-modebtn.on{background:${accent};color:#0b0d12;font-weight:600}
+  .dvn-classic,.dvn-classifier{display:flex;flex-direction:column;gap:16px;flex:1;min-height:0}
+  .dvn-classic[hidden],.dvn-classifier[hidden]{display:none}
+  .dvn-crit{display:flex;gap:12px;flex-wrap:wrap;font-size:14px}
+  .dvn-crit .c{flex:1;min-width:220px;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 13px;line-height:1.5;color:#aeb4c2}
+  .dvn-crit .c b{color:#e8ebf2}
+  .dvn-pool{display:flex;gap:10px;flex-wrap:wrap;min-height:44px;align-items:flex-start}
+  .dvn-chip{font-size:16px;padding:9px 15px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#e8ebf2;cursor:grab;user-select:none;transition:transform .12s,border-color .18s,opacity .2s}
+  .dvn-chip:hover{border-color:rgba(255,255,255,.3)}
+  .dvn-chip.sel{border-color:${accent};box-shadow:0 0 0 1px ${accent} inset}
+  .dvn-chip.placed{display:none}
+  .dvn-chip.wrong{animation:dvn-shake .4s}
+  @keyframes dvn-shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .dvn-baskets{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px;min-height:150px}
+  @media (max-width:760px){.dvn-baskets{grid-template-columns:1fr}}
+  .dvn-basket{border:1.5px dashed rgba(255,255,255,.2);border-radius:14px;padding:13px 15px;display:flex;flex-direction:column;gap:6px;transition:border-color .18s,background .18s}
+  .dvn-basket.det{border-color:rgba(74,222,128,.35)}
+  .dvn-basket.non{border-color:rgba(251,191,36,.35)}
+  .dvn-basket.hot{background:rgba(255,255,255,.05)}
+  .dvn-basket .bh{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .dvn-basket.det .bh{color:${GREEN}}
+  .dvn-basket.non .bh{color:#fbbf24}
+  .dvn-basket .bs{font-size:13px;color:#828a9c}
+  .dvn-drop{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+  .dvn-item{border-radius:9px;padding:8px 11px;font-size:15px;line-height:1.45;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3)}
+  .dvn-item .nm{font-weight:600;color:#eef1f7;display:flex;align-items:center;gap:6px}
+  .dvn-item .why{font-size:14px;color:#aeb4c2;margin-top:3px;line-height:1.5}
+  .dvn-progress{font-size:15px;color:#7d8496}
+  .dvn-progress b{color:${GREEN}}
+  .dvn-icon{width:1.05em;height:1.05em;vertical-align:-.12em}
   `
   el.appendChild(style)
 
   const wrap = document.createElement('div')
   wrap.className = 'dvn-wrap'
   wrap.innerHTML = `
+    <div class="dvn-modebar">
+      <button class="dvn-modebtn on" data-mode="classic">10 次對比</button>
+      <button class="dvn-modebtn" data-mode="classifier">工作流分類器</button>
+    </div>
+    <div class="dvn-classic">
     <div class="dvn-lead">同樣的輸入，跑 10 次。<b>左邊的函式</b>每次都走同一條路、給同一個答案；<b>右邊的 LLM</b>在機率上抽樣，10 次散成 10 條不同的路。這就是 <b>確定</b> vs. <b>非確定</b>。</div>
     <div class="dvn-cols">
       <div class="dvn-card">
@@ -76,6 +124,28 @@ export default function mount(el, ctx) {
     <div class="dvn-controls">
       <button class="demo-btn primary" id="dvn-run">同時跑 10 次</button>
       <button class="demo-btn" id="dvn-clear">清除</button>
+    </div>
+    </div>
+    <div class="dvn-classifier" hidden>
+      <div class="dvn-lead">六張任務卡，<b>點一下卡片再點籃子</b>（或直接拖）分到正確的一邊。判斷準則就兩條，看下面。</div>
+      <div class="dvn-crit">
+        <div class="c"><b>說得出第一步第二步第三步</b> ＝ Deterministic，交給程式。</div>
+        <div class="c"><b>像「公平」這種沒辦法量化的</b> ＝ 非決定性，交給 AI。排班的公平就是例子。</div>
+      </div>
+      <div class="dvn-pool" id="dvn-pool"></div>
+      <div class="dvn-baskets">
+        <div class="dvn-basket det" data-basket="det">
+          <div class="bh"><svg class="dvn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3"/><path d="M16 9l4 3-4 3"/><path d="M13 6l-2 12"/></svg>Deterministic 給程式</div>
+          <div class="bs">步驟講得出、每次結果一致</div>
+          <div class="dvn-drop" data-drop="det"></div>
+        </div>
+        <div class="dvn-basket non" data-basket="non">
+          <div class="bh"><svg class="dvn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4 4 4 0 0 1 0 8 4 4 0 0 1-8 0 4 4 0 0 1 0-8 4 4 0 0 1 4-4z"/><path d="M12 7v10"/></svg>Non-deterministic 給 AI</div>
+          <div class="bs">要判斷、沒有標準答案</div>
+          <div class="dvn-drop" data-drop="non"></div>
+        </div>
+      </div>
+      <div class="dvn-progress" id="dvn-prog">已正確分類 <b>0</b> / ${TASKS.length}</div>
     </div>
   `
   el.appendChild(wrap)
@@ -240,6 +310,90 @@ export default function mount(el, ctx) {
   window.addEventListener('resize', onResize)
 
   setT(() => { fitCanvas(cL); fitCanvas(cR) }, 30)
+
+  // ── 新模式：工作流分類器 ──────────────────────────────
+  const classicView = wrap.querySelector('.dvn-classic')
+  const classifierView = wrap.querySelector('.dvn-classifier')
+  const pool = wrap.querySelector('#dvn-pool')
+  const prog = wrap.querySelector('#dvn-prog')
+  const okMark = '<svg class="dvn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:' + GREEN + '"><path d="M20 6L9 17l-5-5"/></svg>'
+
+  // 打散順序，讓兩類交錯
+  const shuffled = TASKS.map((t) => t).sort(() => Math.random() - 0.5)
+  shuffled.forEach((t) => {
+    const chip = document.createElement('button')
+    chip.className = 'dvn-chip'
+    chip.dataset.id = t.id
+    chip.draggable = true
+    chip.textContent = t.name
+    pool.appendChild(chip)
+  })
+
+  let selectedId = null
+  let placedCount = 0
+
+  function selectChip(chip) {
+    if (chip.classList.contains('placed')) return
+    const same = chip.dataset.id === selectedId
+    pool.querySelectorAll('.dvn-chip').forEach((c) => c.classList.remove('sel'))
+    if (same) { selectedId = null } else { chip.classList.add('sel'); selectedId = chip.dataset.id }
+  }
+
+  function place(id, basket) {
+    const task = TASKS.find((t) => t.id === id)
+    const chip = pool.querySelector(`.dvn-chip[data-id="${id}"]`)
+    if (!task || !chip || chip.classList.contains('placed')) return
+    if (task.answer === basket) {
+      chip.classList.add('placed')
+      chip.classList.remove('sel')
+      selectedId = null
+      const drop = wrap.querySelector(`.dvn-drop[data-drop="${basket}"]`)
+      const item = document.createElement('div')
+      item.className = 'dvn-item'
+      item.innerHTML = `<div class="nm">${okMark}${task.name}</div><div class="why">${task.why}</div>`
+      drop.appendChild(item)
+      placedCount++
+      prog.innerHTML = `已正確分類 <b>${placedCount}</b> / ${TASKS.length}`
+      if (placedCount === TASKS.length) {
+        prog.innerHTML = `全部分對了。<b>能拆成步驟的給程式、要靠判斷的給 AI</b> — 這就是分派工作的第一準則。`
+      }
+    } else {
+      chip.classList.remove('wrong'); void chip.offsetWidth; chip.classList.add('wrong')
+      const wrongBasket = task.answer === 'det' ? '給程式的那邊' : '給 AI 的那邊'
+      prog.innerHTML = `<span style="color:#f87171">「${task.name}」放錯了</span> — 想想：${task.why.split('—')[0].trim()}它該去${wrongBasket}。`
+    }
+  }
+
+  pool.addEventListener('click', (e) => {
+    const chip = e.target.closest('.dvn-chip')
+    if (chip) selectChip(chip)
+  })
+
+  wrap.querySelectorAll('.dvn-basket').forEach((b) => {
+    const basket = b.dataset.basket
+    b.addEventListener('click', () => { if (selectedId) place(selectedId, basket) })
+    b.addEventListener('dragover', (e) => { e.preventDefault(); b.classList.add('hot') })
+    b.addEventListener('dragleave', () => b.classList.remove('hot'))
+    b.addEventListener('drop', (e) => {
+      e.preventDefault(); b.classList.remove('hot')
+      const id = e.dataTransfer.getData('text/plain')
+      if (id) place(id, basket)
+    })
+  })
+  pool.addEventListener('dragstart', (e) => {
+    const chip = e.target.closest('.dvn-chip')
+    if (chip && !chip.classList.contains('placed')) e.dataTransfer.setData('text/plain', chip.dataset.id)
+  })
+
+  wrap.querySelector('.dvn-modebar').addEventListener('click', (e) => {
+    const btn = e.target.closest('.dvn-modebtn')
+    if (!btn) return
+    wrap.querySelectorAll('.dvn-modebtn').forEach((b) => b.classList.toggle('on', b === btn))
+    const isClassic = btn.dataset.mode === 'classic'
+    classicView.hidden = !isClassic
+    classifierView.hidden = isClassic
+    if (isClassic) setT(() => { fitCanvas(cL); fitCanvas(cR) }, 20)
+  })
 
   return () => {
     rafs.forEach((id) => cancelAnimationFrame(id)); rafs.clear()

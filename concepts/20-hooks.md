@@ -2,8 +2,8 @@
 id: hooks
 title: 說服是修辭，約束是工程
 subtitle: Hooks & Anti-Rationalization
-chapter: 2
-chapterTitle: 從 LLM 到 Agent
+chapter: 4
+chapterTitle: Agent 工程
 source:
   - title: "為什麼會有 Hook 存在？從 anti-rationalization 切入如何不讓 agent 惡搞，否則 prompt 寫得再好，LLM 都可以耍小聰明"
     url: https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent

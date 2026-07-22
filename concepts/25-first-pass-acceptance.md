@@ -2,7 +2,7 @@
 id: first-pass-acceptance
 title: 第一次就對
 subtitle: First-pass Acceptance
-chapter: 5
+chapter: 6
 chapterTitle: 與 AI 協作的方法
 source:
   - title: "不要追求 AI 多快生出 code，要追求第一次就對"

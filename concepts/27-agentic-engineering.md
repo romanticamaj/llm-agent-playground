@@ -2,7 +2,7 @@
 id: agentic-engineering
 title: 三條反轉與不能外包的邊界
 subtitle: Agentic Engineering
-chapter: 5
+chapter: 6
 chapterTitle: 與 AI 協作的方法
 source:
   - title: "Andrej Karpathy 最近開始淡化他去年自己推紅的「Vibe Coding」，轉而更常使用另一個詞：Agentic Engineering"

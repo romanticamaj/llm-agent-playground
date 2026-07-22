@@ -2,7 +2,7 @@
 id: relocating-rigor
 title: 嚴謹搬家
 subtitle: Relocating Rigor
-chapter: 5
+chapter: 6
 chapterTitle: 與 AI 協作的方法
 source:
   - title: "10 年前在群暉，沒過 review 的 commit 不能進 release build；現在我幾乎不逐行 review code 了"

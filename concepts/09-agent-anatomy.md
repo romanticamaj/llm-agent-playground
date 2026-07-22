@@ -3,7 +3,7 @@ id: agent-anatomy
 title: Agent 是怎麼做出來的？
 subtitle: Anatomy of an Agent
 chapter: 2
-chapterTitle: 從 LLM 到 Agent
+chapterTitle: 從聊天到 Agent
 source:
   - title: "Agent 是怎麼做出來的？"
     url: https://www.garyhsieh.com/blog/2026-04-30-agent

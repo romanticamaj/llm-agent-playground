@@ -2,8 +2,8 @@
 id: new-signals
 title: 方向歪了？拉新訊號進來
 subtitle: New Signals / Dynamic Decomposition
-chapter: 5
-chapterTitle: 與 AI 協作的方法
+chapter: 2
+chapterTitle: 從聊天到 Agent
 source:
   - title: "AI 幫你把東西都做完了，但你覺得方向有點歪 — 要重跑一次嗎？不，這時需要的是拉「新訊號」進來"
     url: https://www.garyhsieh.com/blog/2026-04-13-ai
@@ -11,6 +11,9 @@ source:
   - title: "AI 開發卡關？不確定他講的是不是唬爛？想讓他跑更久再停下來？"
     url: https://www.garyhsieh.com/blog/2026-05-02-ai
     date: 2026-05-02
+  - title: "「先透過 Web Search 幫我驗證一下」— 用 AI Agent 最該學會的第一句"
+    url: https://www.garyhsieh.com/blog/2026-04-15-web-search-ai
+    date: 2026-04-15
 ---
 
 ## 一句話
@@ -24,6 +27,8 @@ AI 幫你把東西都做完了，但你覺得方向有點歪——要重跑一�
 學術界稱之為 Dynamic Decomposition，跟事先定義好的 Static Scaffolding 相對。簡單說就是：你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。
 
 核心邏輯都一樣：保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。Code review 覺得不夠深？spawn 一個 sub-agent 專門用 security 角度重看。旅遊規劃想參考外部行程？先保留目前的行程不要動，去看 KKday 跟 Klook 的熱門行程，抓重點回來對照。不確定 AI 講的是不是唬爛？請它用 web search 找即時股價、最新財報，驗證剛剛的分析。卡關了？請它去找這個 repo 相關的 GitHub Discussion，看看別人怎麼解的。
+
+而拉新訊號最該學會的第一個 tool，就是 web search。我在課堂上一直講：你用 AI Agent 要學會的第一句話，就是「先透過 web search 幫我驗證一下」。為什麼？因為模型的知識是凍結在某個時間點的，它腦袋裡沒有此刻的世界 — 未來你要做任何東西，都要幫 AI 拉新訊號進來，而怎麼拉？最基本、最必學的就是用 web search 去拉。舉個生活例子：我幫我媽做 market research，她想幫產品取名叫「汽車材料大爆賣」，那這名字到底有沒有人用過、會不會撞名？不用自己 Google 半天，直接叫 AI 用 web search 去查一圈、回報結果 — 這就是把外面的即時訊號拉進來、幫你做判斷。第一個 tool 學會了，後面所有的驗證跟研究都是它的延伸。
 
 那為什麼這件事需要「你」自己來做？因為 Static Scaffolding 這一層，2026 年的 coding agent 已經幫你做大半了——ReAct Loop、Sub-agent Spawning、自動壓縮，加上社群開源的上百個 Skills。Agent 內建一層，社群再疊一層，Static Scaffolding 幾乎滿到溢出一堆 AI Slop。
 

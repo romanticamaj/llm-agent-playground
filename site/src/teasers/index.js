@@ -1,5 +1,8 @@
-// Demo 註冊表 — 每個概念一個懶載入模組
-export const demoRegistry = {
+// Live teaser 註冊表 — 概念頁上常駐播放的 micro-animation
+// 自訂 teaser 覆蓋 Ch1/Ch2（授課主線）；其餘用 _generic
+import generic from './_generic.js'
+
+const custom = {
   'next-token-prediction': () => import('./next-token-prediction.js'),
   'deterministic-vs-nondeterministic': () => import('./deterministic-vs-nondeterministic.js'),
   'llm-stateless': () => import('./llm-stateless.js'),
@@ -10,21 +13,21 @@ export const demoRegistry = {
   'prompt-cache': () => import('./prompt-cache.js'),
   'agent-anatomy': () => import('./agent-anatomy.js'),
   'tool-use': () => import('./tool-use.js'),
+  'new-signals': () => import('./new-signals.js'),
   'skill': () => import('./skill.js'),
   'project-prefix': () => import('./project-prefix.js'),
   'product-map': () => import('./product-map.js'),
   'output-format': () => import('./output-format.js'),
   'tool-verification': () => import('./tool-verification.js'),
-  'agent-vs-workflow': () => import('./agent-vs-workflow.js'),
-  'hooks': () => import('./hooks.js'),
-  'harness': () => import('./harness.js'),
-  'memory-map': () => import('./memory-map.js'),
-  'self-improving-agent': () => import('./self-improving-agent.js'),
-  'sub-agents': () => import('./sub-agents.js'),
-  'agent-communication': () => import('./agent-communication.js'),
-  'long-running-agent': () => import('./long-running-agent.js'),
-  'first-pass-acceptance': () => import('./first-pass-acceptance.js'),
-  'new-signals': () => import('./new-signals.js'),
-  'relocating-rigor': () => import('./relocating-rigor.js'),
-  'agentic-engineering': () => import('./agentic-engineering.js'),
+}
+
+export async function loadTeaser(id) {
+  const loader = custom[id]
+  if (!loader) return generic
+  try {
+    const mod = await loader()
+    return mod.default || generic
+  } catch {
+    return generic
+  }
 }

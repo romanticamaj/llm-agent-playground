@@ -2,8 +2,8 @@
 id: agent-vs-workflow
 title: Agent 還是 Workflow？
 subtitle: Agent vs. Workflow
-chapter: 2
-chapterTitle: 從 LLM 到 Agent
+chapter: 4
+chapterTitle: Agent 工程
 source:
   - title: "我們要的是 AI Agent 還是一個Workflow？"
     url: https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow
