@@ -664,3 +664,16 @@ body.presentation .hud-bl { left: 24px; }
   animation: chIn 0.9s cubic-bezier(.16,1,.3,1) forwards;
 }
 @keyframes chIn { to { opacity: 1; transform: none; } }
+
+/* ---------- 全站捲軸樣式（含 demo 內部捲動區） ---------- */
+* { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.16) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); background-clip: content-box; }
+*::-webkit-scrollbar-corner { background: transparent; }
