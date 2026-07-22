@@ -1,337 +1,330 @@
-// Demo：貨車滿了怎麼辦（Compaction）
-// 核心互動：貨車從台中開往台北，貨物格隨「繼續聊天」增加、儀表逼近 100 萬 token；
-// 99% 觸發 compaction：79 萬貨變灰蒸發、只留 20 萬精華繼續開。
-// 防禦招式：①寫行程記錄表存 3 件關鍵貨進路邊倉庫，compaction 後撈回 ②換新車搬精華。
+// Demo：貨車滿了怎麼辦（Compaction）— DemoStage 導演版
+// 6 拍劇本：貨車台中→台北｜堆貨｜爆車 compaction 大蒸發｜寫記錄表存硬碟｜換新車｜sandbox 完整旅程。
+import { createStage, pop, shake, enterFly, countUp, confettiBurst } from './_stage.js'
+
+const EASE = 'cubic-bezier(.16,1,.3,1)'
+const GREEN = '#4ade80', RED = '#f87171', GRAY = '#565d70', GOLD = '#fbbf24'
+const KEY_LABELS = ['客戶預算 80 萬', '交期 3/15', '窗口 Amy']
+const P = { taichung: 9, hsinchu: 34, miaoli: 60, taipei: 88 }
+const MILES = [
+  { name: '台中', at: P.taichung }, { name: '新竹', at: P.hsinchu },
+  { name: '苗栗', at: P.miaoli }, { name: '台北', at: P.taipei },
+]
 
 export default function mount(el, ctx) {
-  const accent = ctx?.accent || '#5b8cff'
-  const GREEN = '#4ade80', RED = '#f87171', GRAY = '#5a6070', GOLD = '#fbbf24'
-  const CAP = 100 // 萬 token
-  const ico = (d, s = 18) => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`
-  const I = {
-    disk: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v6h10V4"/><circle cx="15" cy="14" r="2"/>',
-    doc: '<path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/><path d="M9 13h7M9 17h5"/>',
-    truck: '<path d="M3 6h11v9H3z"/><path d="M14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>'
-  }
+  const accent = ctx?.accent || '#8ea9e8'
+
+  // ---- 手繪 SVG（側視貨車 / 倉庫硬碟 / 旗幟）----
+  const TRUCK = (tone) => `<svg viewBox="0 0 230 140" width="230" height="140" fill="none"
+    stroke="${tone}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="8" y="40" width="124" height="66" rx="4" fill="rgba(10,12,18,.72)"/>
+    <path d="M132 106 V58 h30 l24 26 v22 z" fill="rgba(10,12,18,.72)"/>
+    <path d="M165 62 h13 l14 16 h-27 z" fill="rgba(255,255,255,.05)"/>
+    <path d="M8 106 h182"/>
+    <circle cx="46" cy="112" r="15" fill="rgba(10,12,18,.9)"/><circle cx="46" cy="112" r="5"/>
+    <circle cx="164" cy="112" r="15" fill="rgba(10,12,18,.9)"/><circle cx="164" cy="112" r="5"/>
+    <path d="M200 78 h8"/></svg>`
+  const WAREHOUSE = `<svg viewBox="0 0 130 120" width="130" height="120" fill="none"
+    stroke="${accent}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 52 L65 20 L118 52" fill="rgba(10,12,18,.7)"/>
+    <rect x="22" y="52" width="86" height="56" fill="rgba(10,12,18,.7)"/>
+    <rect x="38" y="66" width="54" height="34" rx="3"/>
+    <path d="M38 78 h54"/><circle cx="65" cy="89" r="5"/><path d="M65 84 v-4"/></svg>`
+  const FLAG = `<svg viewBox="0 0 22 44" width="22" height="44" fill="none"
+    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 42 V4"/><path d="M6 6 h13 l-4 5 l4 5 h-13" fill="currentColor" fill-opacity=".22"/></svg>`
 
   const style = document.createElement('style')
   style.textContent = `
-  .cp-wrap{position:absolute;inset:0;display:flex;flex-direction:column;gap:15px;padding:20px 28px;box-sizing:border-box;font-family:var(--font-tc,'Noto Sans TC',sans-serif);overflow:auto}
-  .cp-lead{font-size:17px;color:#9aa0b0;line-height:1.55}
-  .cp-lead b{color:#e8ebf2;font-weight:600}
-  .cp-road{position:relative;height:58px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);margin-top:2px}
-  .cp-mile{position:absolute;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:translateX(-50%);font-size:12.5px;color:#7d8496;gap:3px}
-  .cp-mile i{width:2px;height:12px;background:rgba(255,255,255,.2);border-radius:2px}
-  .cp-mile.reached{color:${accent}}.cp-mile.reached i{background:${accent}}
-  .cp-truck{position:absolute;top:50%;transform:translate(-50%,-50%);transition:left 1.1s cubic-bezier(.4,.1,.3,1);color:${accent};z-index:3;display:flex;align-items:center;gap:6px}
-  .cp-truck .cargobox{display:flex;gap:2px;background:rgba(20,22,30,.85);padding:3px;border-radius:6px;border:1px solid rgba(255,255,255,.12)}
-  .cp-truck .cargobox b{width:6px;height:6px;border-radius:1.5px;display:block}
-  .cp-gauge{display:flex;align-items:center;gap:14px}
-  .cp-bar{flex:1;height:22px;border-radius:11px;background:rgba(255,255,255,.05);overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.08)}
-  .cp-fill{height:100%;width:0;background:linear-gradient(90deg,${accent},${GOLD});transition:width .5s;border-radius:11px}
-  .cp-fill.warn{background:linear-gradient(90deg,${GOLD},${RED});animation:cp-flash .6s infinite}
-  @keyframes cp-flash{50%{opacity:.5}}
-  .cp-pct{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;color:#e8ebf2;min-width:150px;text-align:right}
-  .cp-pct small{font-size:13px;color:#7d8496;font-weight:400}
-  .cp-hold{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
-  .cp-cargo-wrap{flex:1;min-width:300px}
-  .cp-htitle{font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:#7d8496;margin-bottom:7px;display:flex;align-items:center;gap:7px}
-  .cp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:4px;min-height:70px;padding:9px;border-radius:11px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08)}
-  .cp-box{aspect-ratio:1;border-radius:4px;background:${accent};opacity:.85;transition:all .7s;position:relative}
-  .cp-box.key{background:${GOLD};opacity:1;box-shadow:0 0 0 1.5px ${GOLD}}
-  .cp-box.saved{outline:1.5px dashed ${GREEN};outline-offset:1px}
-  .cp-box.evap{background:${GRAY};opacity:0;transform:translateY(-24px) scale(.4)}
-  .cp-box.kept{background:${GREEN};opacity:1}
-  .cp-ware{width:190px;flex:none}
-  .cp-warebox{min-height:70px;border-radius:11px;border:1.6px dashed rgba(255,255,255,.16);padding:10px;display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.02)}
-  .cp-witem{font-size:13px;color:#c3c8d4;display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:7px;background:${GREEN}12;border:1px solid ${GREEN}33}
-  .cp-witem svg{color:${GREEN};flex:none}
-  .cp-wempty{font-size:13px;color:#5a6070;line-height:1.5;text-align:center;margin:auto}
-  .cp-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .cp-defense{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:11px 13px;border-radius:11px;background:rgba(91,140,255,.05);border:1px solid ${accent}22}
-  .cp-defense .dl{font-size:13.5px;color:${accent};letter-spacing:.05em;font-weight:600;margin-right:2px}
-  .cp-note{font-size:14.5px;color:#7d8496;line-height:1.5;min-height:20px}
-  .cp-note.hot{color:${accent}}.cp-note.bad{color:${RED}}.cp-note.good{color:${GREEN}}
-  .cp-score{display:flex;gap:20px;flex-wrap:wrap;font-size:15px;color:#c3c8d4}
-  .cp-score b{font-variant-numeric:tabular-nums}
-  .cp-score .ok{color:${GREEN}}.cp-score .lost{color:${RED}}
-  .demo-btn.cp-active{border-color:${GREEN};color:${GREEN}}
+  .cp-scene{position:relative;height:clamp(300px,54vh,470px);border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.25));
+    border:1px solid var(--line);overflow:hidden;margin-bottom:16px}
+  .cp-sky{position:absolute;inset:0;background:radial-gradient(120% 80% at 20% 0%,rgba(142,169,232,.10),transparent 60%)}
+  .cp-road{position:absolute;left:0;right:0;bottom:24px;height:6px;background:rgba(255,255,255,.14);border-radius:3px}
+  .cp-road:before{content:'';position:absolute;top:2px;left:2%;right:2%;height:2px;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.4) 0 16px,transparent 16px 34px)}
+  .cp-flag{position:absolute;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;
+    align-items:center;color:#727a90;transition:color .5s}
+  .cp-flag .lb{font-size:13px;margin-top:2px;letter-spacing:.04em}
+  .cp-flag.reached{color:${accent}}
+  .cp-truck{position:absolute;bottom:22px;left:9%;transform:translateX(-50%);
+    transition:left 1.2s ${EASE},bottom .7s ${EASE},opacity .7s,filter .7s;z-index:4}
+  .cp-truck.stopped{filter:grayscale(1) brightness(.5);bottom:14px}
+  .cp-bed{position:absolute;left:14px;top:44px;width:120px;height:62px;display:flex;flex-wrap:wrap-reverse;
+    align-content:flex-start;gap:3px;padding:3px;overflow:hidden}
+  .cp-block{width:16px;height:16px;border-radius:3px;background:${accent};box-shadow:0 0 0 1px rgba(0,0,0,.3);
+    transition:background .5s,transform .6s ${EASE},opacity .6s}
+  .cp-block.key{background:${GOLD};box-shadow:0 0 0 1.5px ${GOLD},0 0 8px ${GOLD}66}
+  .cp-block.kept{background:${GREEN}}
+  .cp-block.evap{background:${GRAY}!important;box-shadow:none!important;
+    transform:translateY(-46px) scale(.35) rotate(24deg);opacity:0}
+  .cp-newtruck{position:absolute;bottom:22px;left:-18%;transform:translateX(-50%);
+    transition:left 1.3s ${EASE};z-index:5}
+  .cp-warehouse{position:absolute;bottom:22px;left:${P.miaoli}%;transform:translateX(-50%);z-index:2}
+  .cp-ware{position:absolute;left:calc(50% - 62px);bottom:98px;width:150px;display:flex;flex-direction:column;gap:4px}
+  .cp-witem{font-size:11.5px;color:#d3d7e2;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;
+    background:${GREEN}18;border:1px solid ${GREEN}44;font-family:var(--font-mono)}
+  .cp-witem .dot{width:8px;height:8px;border-radius:2px;background:${GOLD};flex:none}
+  .cp-hidden{opacity:0;pointer-events:none}
+  .cp-fly{position:absolute;width:16px;height:16px;border-radius:3px;z-index:40;pointer-events:none}
+  .cp-score{position:absolute;top:14px;right:16px;font-family:var(--font-mono);font-size:13px;
+    padding:8px 14px;border-radius:999px;background:rgba(10,12,18,.7);border:1px solid var(--line);color:#d3d7e2}
+  .cp-score b{font-size:16px}.cp-score.full b{color:${GREEN}}.cp-score.hurt b{color:${RED}}
+  .cp-gauge{display:flex;align-items:center;gap:16px}
+  .cp-bar{flex:1;height:20px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line);overflow:hidden}
+  .cp-fill{height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,${accent},${GOLD});transition:width .6s ${EASE}}
+  .cp-fill.warn{background:linear-gradient(90deg,${GOLD},${RED});animation:cpFlash .5s infinite}
+  @keyframes cpFlash{50%{opacity:.45}}
+  .cp-pct{font-family:var(--font-mono);font-size:19px;font-weight:600;color:var(--text);min-width:168px;text-align:right}
+  .cp-pct small{font-size:12px;color:var(--text-dim);font-weight:400}
+  .cp-ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .cp-btn{font-family:var(--font-tc);font-size:14px;color:var(--text);background:rgba(255,255,255,.04);
+    border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .25s ${EASE}}
+  .cp-btn:hover{border-color:var(--text);transform:translateY(-1px)}
+  .cp-btn.primary{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
+  .cp-btn.hide{display:none}
   `
   el.appendChild(style)
 
-  const MILES = [
-    { name: '台中', at: 3 }, { name: '新竹', at: 36 }, { name: '苗栗', at: 63 }, { name: '台北', at: 97 }
-  ]
+  const scene = document.createElement('div')
+  scene.className = 'cp-scene ds-unit'
+  scene.innerHTML = `
+    <div class="cp-sky"></div>
+    <div class="cp-road"></div>
+    ${MILES.map(m => `<div class="cp-flag" data-at="${m.at}" style="left:${m.at}%">${FLAG}<span class="lb">${m.name}</span></div>`).join('')}
+    <div class="cp-warehouse cp-hidden"><div class="cp-ware"></div>${WAREHOUSE}</div>
+    <div class="cp-truck">${TRUCK(accent)}<div class="cp-bed"></div></div>
+    <div class="cp-newtruck cp-hidden">${TRUCK(GREEN)}<div class="cp-bed nb"></div></div>
+    <div class="cp-score cp-hidden"></div>`
 
-  const wrap = document.createElement('div')
-  wrap.className = 'cp-wrap'
-  wrap.innerHTML = `
-    <div class="cp-lead">一趟長對話就像貨車從<b>台中開往台北</b>：一直聊，貨（token）越裝越多。到 <b>99%</b> 車就塞爆，觸發 <b>compaction</b> — 大部分的貨被壓掉蒸發，只留一小撮精華繼續開。先看它預設怎麼「忘」，再用防禦招式保住關鍵貨。</div>
+  const gauge = document.createElement('div')
+  gauge.className = 'cp-gauge ds-unit'
+  gauge.innerHTML = `<div class="cp-bar"><div class="cp-fill"></div></div>
+    <div class="cp-pct"><span class="num">0</span><small> 萬 / 100 萬 token</small></div>`
 
-    <div class="cp-road" id="cp-road">
-      <div class="cp-truck" id="cp-truck">${ico(I.truck, 30)}<span class="cargobox" id="cp-cargobox"></span></div>
-    </div>
+  const ctrls = document.createElement('div')
+  ctrls.className = 'cp-ctrls ds-unit'
+  ctrls.innerHTML = `
+    <button class="cp-btn primary hide" data-b="chat">繼續聊天（+貨）</button>
+    <button class="cp-btn hide" data-b="save">寫行程記錄表</button>
+    <button class="cp-btn hide" data-b="fetch">去查文件（撈回）</button>
+    <button class="cp-btn hide" data-b="swap">整理 context 換新車</button>
+    <button class="cp-btn hide" data-b="arrive">開到台北（結算）</button>`
 
-    <div class="cp-gauge">
-      <div class="cp-bar"><div class="cp-fill" id="cp-fill"></div></div>
-      <div class="cp-pct" id="cp-pct">0<small> 萬 / ${CAP} 萬 token</small></div>
-    </div>
+  let stage  // 於所有輔助函式定義後才建立（避免 enter() 在初始化前觸發）
 
-    <div class="cp-hold">
-      <div class="cp-cargo-wrap">
-        <div class="cp-htitle">${ico(I.truck, 15)} 車上貨物（每格 ≈ 一段對話）</div>
-        <div class="cp-grid" id="cp-grid"></div>
-      </div>
-      <div class="cp-ware">
-        <div class="cp-htitle">${ico(I.disk, 15)} 路邊倉庫（硬碟）</div>
-        <div class="cp-warebox" id="cp-ware"><div class="cp-wempty">先按「寫行程記錄表」<br>才會把關鍵貨存進來</div></div>
-      </div>
-    </div>
-
-    <div class="cp-defense">
-      <span class="dl">防禦招式（重跑時可先按）</span>
-      <button class="demo-btn" id="cp-def1">寫行程記錄表（存 3 件關鍵貨）</button>
-      <button class="demo-btn" id="cp-def2">整理 context 換新車</button>
-    </div>
-
-    <div class="cp-controls">
-      <button class="demo-btn primary" id="cp-chat">繼續聊天（+貨）</button>
-      <button class="demo-btn" id="cp-go">直接開到滿 → compaction</button>
-      <button class="demo-btn" id="cp-reset">重來</button>
-    </div>
-    <div class="cp-note" id="cp-note">按「繼續聊天」裝貨，或直接開到滿看貨車塞爆。</div>
-    <div class="cp-score" id="cp-score" style="display:none"></div>
-  `
-  el.appendChild(wrap)
-
-  const $ = (s) => wrap.querySelector(s)
-  const road = $('#cp-road'), truck = $('#cp-truck'), cargobox = $('#cp-cargobox')
-  const fill = $('#cp-fill'), pctEl = $('#cp-pct'), grid = $('#cp-grid')
-  const ware = $('#cp-ware'), note = $('#cp-note'), scoreEl = $('#cp-score')
-  const btnDef1 = $('#cp-def1'), btnDef2 = $('#cp-def2'), btnChat = $('#cp-chat'), btnGo = $('#cp-go')
+  // ---- 場景參照 & 狀態 ----
+  const $ = s => scene.querySelector(s)
+  const truck = $('.cp-truck'), bed = $('.cp-bed'), newTruck = $('.cp-newtruck'), newBed = $('.nb')
+  const warehouse = $('.cp-warehouse'), ware = $('.cp-ware'), scoreEl = $('.cp-score')
+  const fill = gauge.querySelector('.cp-fill'), pctNum = gauge.querySelector('.num')
+  const flags = [...scene.querySelectorAll('.cp-flag')]
+  const btn = b => ctrls.querySelector(`[data-b="${b}"]`)
 
   const timers = new Set()
-  const setT = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
+  const T = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
+  const clearT = () => { timers.forEach(clearTimeout); timers.clear() }
 
-  // 3 件關鍵貨（金色），其餘為一般貨
-  const KEY_LABELS = ['客戶預算 80 萬', '交期 3/15', '窗口 Amy']
-  let boxes = [] // {id,key,keyIdx}
-  let uid = 0, tokens = 0, compacted = false, busy = false
-  let savedToWarehouse = false, newTruck = false
+  let blocks = []            // {el,key,keyIdx}
+  const keys = KEY_LABELS.map(() => ({ onTruck: false, inWarehouse: false }))
+  let tokens = 0, busy = false
 
-  function keyCount() {
-    // 車上還有幾件關鍵貨（沒蒸發）
-    return boxes.filter((b) => b.key).length
+  // ---- 基礎動作 ----
+  function setGauge(to, { warn = false, anim = true } = {}) {
+    tokens = Math.max(0, Math.min(100, to))
+    fill.style.width = tokens + '%'
+    fill.classList.toggle('warn', warn)
+    if (anim) countUp(pctNum, tokens, { from: parseFloat(pctNum.textContent) || 0, dur: 550, fmt: v => Math.round(v) })
+    else pctNum.textContent = Math.round(tokens)
   }
+  function drive(pct) { truck.style.left = pct + '%'; flags.forEach(f => f.classList.toggle('reached', +f.dataset.at <= pct + 0.5)) }
+  function makeBlock(key, keyIdx, silent) {
+    const b = document.createElement('div')
+    b.className = 'cp-block' + (key ? ' key' : '')
+    if (key) { b.dataset.k = keyIdx; b.title = KEY_LABELS[keyIdx] }
+    bed.appendChild(b)
+    if (!silent) { enterFly(b, { y: 44, dur: 500 }); pop(b) }
+    blocks.push({ el: b, key, keyIdx })
+    return b
+  }
+  function addNormals(n, stepMs = 150) {
+    for (let i = 0; i < n; i++) T(() => makeBlock(false), i * stepMs)
+  }
+  function clearBed() { blocks.forEach(b => b.el.remove()); blocks = []; bed.innerHTML = '' }
 
-  function render() {
-    const pct = Math.min(100, tokens)
-    fill.style.width = pct + '%'
-    fill.classList.toggle('warn', pct >= 85)
-    pctEl.innerHTML = `${tokens}<small> 萬 / ${CAP} 萬 token</small>`
-    // 貨車位置：沿路前進（token 對應里程 0→97%）
-    const roadW = road.clientWidth
-    const x = 26 + (roadW - 60) * Math.min(1, pct / 97)
-    truck.style.left = x + 'px'
-    MILES.forEach((m, i) => {
-      const node = road.querySelector('.cp-mile[data-i="' + i + '"]')
-      if (node) node.classList.toggle('reached', pct >= m.at - 1)
+  function compact(keepN = 4) {
+    const survivors = []
+    blocks.forEach((b, i) => {
+      if (!b.key && survivors.length < keepN) { survivors.push(b); b.el.classList.add('kept') }
+      else { const el = b.el; T(() => el.classList.add('evap'), i * 40); T(() => el.remove(), 720 + i * 40) }
     })
-    // 迷你貨櫃
-    cargobox.innerHTML = ''
-    boxes.slice(-6).forEach((b) => {
-      const bb = document.createElement('b')
-      bb.style.background = b.key ? GOLD : accent
-      cargobox.appendChild(bb)
-    })
+    blocks = survivors
+    keys.forEach(k => { k.onTruck = false })
+    shake(truck); setGauge(20)
+    updateScore()
   }
 
-  function renderGrid() {
-    grid.innerHTML = ''
-    boxes.forEach((b) => {
-      const d = document.createElement('div')
-      d.className = 'cp-box' + (b.key ? ' key' : '') + (b.saved ? ' saved' : '')
-      d.dataset.id = b.id
-      if (b.key) d.title = KEY_LABELS[b.keyIdx]
-      grid.appendChild(d)
-    })
+  function flyGhost(fromR, toR, color) {
+    const bodyR = stage.body.getBoundingClientRect()
+    const g = document.createElement('div')
+    g.className = 'cp-fly'
+    g.style.cssText += `left:${fromR.left - bodyR.left}px;top:${fromR.top - bodyR.top}px;background:${color};box-shadow:0 0 8px ${color}`
+    stage.body.appendChild(g)
+    const a = g.animate([{ transform: 'translate(0,0) scale(1)' },
+      { transform: `translate(${toR.left - fromR.left}px,${toR.top - fromR.top}px) scale(.7)`, opacity: .5 }],
+      { duration: 620, easing: EASE, fill: 'forwards' })
+    a.onfinish = () => g.remove()
   }
 
-  function buildMiles() {
-    ;[...road.querySelectorAll('.cp-mile')].forEach((n) => n.remove())
-    MILES.forEach((m, i) => {
-      const node = document.createElement('div')
-      node.className = 'cp-mile'; node.dataset.i = i
-      node.style.left = m.at + '%'
-      node.innerHTML = `<i></i>${m.name}`
-      road.appendChild(node)
-    })
+  function addWareItem(idx) {
+    if (ware.querySelector(`[data-w="${idx}"]`)) return
+    const it = document.createElement('div')
+    it.className = 'cp-witem'; it.dataset.w = idx
+    it.innerHTML = `<span class="dot"></span>${KEY_LABELS[idx]}`
+    ware.appendChild(it); enterFly(it, { y: 12, dur: 400 })
   }
 
-  function addCargo(n) {
-    for (let k = 0; k < n; k++) {
-      // 每隔幾格塞一件關鍵貨，直到 3 件都上車
-      const placedKeys = boxes.filter((b) => b.key).length + boxes.filter((b) => b.wasKey).length
-      const makeKey = placedKeys < 3 && (boxes.length % 5 === 2)
-      boxes.push({ id: ++uid, key: makeKey, keyIdx: makeKey ? placedKeys : -1 })
-      tokens = Math.min(99, tokens + 4)
-    }
-    render(); renderGrid()
-  }
-
-  let readyToCompact = false
-  btnChat.addEventListener('click', () => {
-    if (busy || compacted) return
-    if (readyToCompact) { runCompaction(); return }
-    addCargo(3)
-    if (tokens >= 99) {
-      readyToCompact = true
-      note.textContent = '車滿了（99%）！再按一次「繼續聊天」就會觸發 compaction。'
-      note.className = 'cp-note hot'
-    }
-  })
-
-  btnGo.addEventListener('click', () => {
-    if (busy || compacted) return
-    busy = true
-    setT(function step() {
-      if (tokens < 99) { addCargo(4); setT(step, 120) }
-      else { busy = false; runCompaction() }
-    }, 120)
-  })
-
-  function runCompaction() {
-    if (compacted || busy) return
-    compacted = true; busy = true
-    note.textContent = 'Compaction 觸發：貨物重整中…大部分的貨要被壓掉了。'
-    note.className = 'cp-note hot'
-
-    // 保留：關鍵貨若已存倉庫 → 之後可撈回；車上一律先蒸發大部分
-    const nodes = [...grid.querySelectorAll('.cp-box')]
-    const keepCount = Math.max(1, Math.round(boxes.length * 0.2)) // 留 20% 精華（≈20萬）
-    // 若換了新車：精華貨（含 saved 的關鍵貨）直接保留、不蒸發
-    boxes.forEach((b, i) => {
-      const node = nodes[i]
-      const isKept = i < keepCount // 前 20% 當作「精華摘要」
-      const rescueLater = b.saved // 存過倉庫的關鍵貨可撈回
-      if (isKept) {
-        b.kept = true
-        node && node.classList.add('kept')
-      } else {
-        if (b.key && !rescueLater) b.wasKey = true // 這件關鍵貨被忘了
-        node && setT(() => node.classList.add('evap'), 60 + i * 12)
+  function saveKeys() {
+    const tr = truck.getBoundingClientRect()
+    let any = false
+    keys.forEach((k, i) => {
+      if (!k.inWarehouse) {
+        k.inWarehouse = true; any = true
+        addWareItem(i)
+        const wi = ware.querySelector(`[data-w="${i}"]`)
+        if (wi) T(() => flyGhost(tr, wi.getBoundingClientRect(), GOLD), 40)
       }
     })
-
-    setT(() => {
-      // 重建：只留精華（前 20%）
-      const kept = boxes.filter((b) => b.kept)
-      const lostKeys = boxes.filter((b) => b.key && !b.kept && !b.saved).length
-      boxes = kept
-      tokens = 20
-      renderGrid(); render()
-      note.innerHTML = `壓縮完成：<b style="color:${RED}">79 萬</b>的貨變灰蒸發了，只留 20 萬精華繼續前進。剩下的 79 萬去哪？<b style="color:${RED}">忘了。</b>`
-      note.className = 'cp-note bad'
-      busy = false
-      showScore()
-    }, 900)
-  }
-
-  function showScore() {
-    const onTruck = keyCount()
-    const inWare = savedToWarehouse ? 3 : 0
-    scoreEl.style.display = 'flex'
-    scoreEl.innerHTML = `
-      <span>關鍵貨保住：<b class="ok">${Math.max(onTruck, inWare ? 3 : onTruck)} / 3</b></span>
-      ${inWare ? `<span>其中倉庫存有 <b class="ok">3</b> 件，可按「去查文件」撈回</span>` : `<span class="lost">沒先存倉庫 → compaction 後大多找不回</span>`}`
-    if (savedToWarehouse) {
-      // 提供撈回按鈕
-      if (!$('#cp-fetch')) {
-        const b = document.createElement('button')
-        b.className = 'demo-btn'; b.id = 'cp-fetch'; b.textContent = '去查文件（撈回關鍵貨）'
-        b.addEventListener('click', fetchBack)
-        wrap.querySelector('.cp-defense').appendChild(b)
-      }
-    }
+    if (any) pop(warehouse)
+    updateScore()
   }
 
   function fetchBack() {
-    const btn = $('#cp-fetch'); if (!btn || btn.disabled) return
-    btn.disabled = true
-    KEY_LABELS.forEach((lb, i) => {
-      setT(() => {
-        boxes.push({ id: ++uid, key: true, keyIdx: i, saved: true, kept: true })
+    keys.forEach((k, i) => {
+      if (k.inWarehouse && !k.onTruck) {
+        k.onTruck = true
+        const b = makeBlock(true, i, true)
+        const wi = ware.querySelector(`[data-w="${i}"]`)
+        const br = b.getBoundingClientRect()
+        const wr = wi ? wi.getBoundingClientRect() : br
+        b.animate([{ transform: `translate(${wr.left - br.left}px,${wr.top - br.top}px) scale(.7)`, opacity: .4 },
+          { transform: 'none', opacity: 1 }], { duration: 620, easing: EASE })
+        pop(b)
         tokens = Math.min(99, tokens + 3)
-        renderGrid(); render()
-      }, i * 260)
+      }
     })
-    setT(() => {
-      note.innerHTML = `從路邊倉庫把 <b style="color:${GREEN}">3 件關鍵貨</b>撈回車上 — 因為你先寫進了硬碟，compaction 燒不掉它。`
-      note.className = 'cp-note good'
-      scoreEl.innerHTML = `<span>關鍵貨保住：<b class="ok">3 / 3</b> — 靠「寫文件 + 去查文件」救回全部。</span>`
-    }, 3 * 260 + 100)
+    setGauge(tokens)
+    updateScore()
   }
 
-  // ---- 防禦招式 ----
-  btnDef1.addEventListener('click', () => {
-    if (compacted) return
-    savedToWarehouse = true
-    btnDef1.classList.add('cp-active'); btnDef1.disabled = true
-    // 標記車上關鍵貨為 saved；若還沒上車，也先把 3 件登記進倉庫
-    boxes.forEach((b) => { if (b.key) b.saved = true })
-    ware.innerHTML = ''
-    KEY_LABELS.forEach((lb) => {
-      const it = document.createElement('div')
-      it.className = 'cp-witem'
-      it.innerHTML = `${ico(I.doc, 15)} ${lb}`
-      ware.appendChild(it)
-    })
-    renderGrid()
-    note.textContent = '已把 3 件關鍵貨寫進路邊倉庫（硬碟）。就算車上被 compaction 燒掉，文件還在。'
-    note.className = 'cp-note good'
-  })
-
-  btnDef2.addEventListener('click', () => {
+  function chat() {
     if (busy) return
-    newTruck = true
-    btnDef2.classList.add('cp-active'); btnDef2.disabled = true
-    // 換新車：把目前的關鍵貨 + 少量精華搬上新車，token 歸低
-    const keys = boxes.filter((b) => b.key)
-    boxes = keys.map((b) => ({ ...b, kept: true }))
-    // 補一點精華一般貨
-    for (let i = 0; i < 3; i++) boxes.push({ id: ++uid, key: false, kept: true })
-    tokens = Math.max(12, keys.length * 4 + 8)
-    compacted = false; readyToCompact = false
-    scoreEl.style.display = 'none'
-    renderGrid(); render()
-    note.textContent = '整理 context 換新車：舊車靠邊，把精華貨（含關鍵貨）搬上新車，繼續開 — 沒有硬蒸發，主動選擇留什麼。'
-    note.className = 'cp-note good'
-  })
-
-  $('#cp-reset').addEventListener('click', reset)
-  function reset() {
-    timers.forEach((id) => clearTimeout(id)); timers.clear()
-    boxes = []; uid = 0; tokens = 0; compacted = busy = false
-    savedToWarehouse = newTruck = readyToCompact = false
-    btnDef1.disabled = btnDef2.disabled = false
-    btnDef1.classList.remove('cp-active'); btnDef2.classList.remove('cp-active')
-    const f = $('#cp-fetch'); if (f) f.remove()
-    ware.innerHTML = '<div class="cp-wempty">先按「寫行程記錄表」<br>才會把關鍵貨存進來</div>'
-    scoreEl.style.display = 'none'; scoreEl.innerHTML = ''
-    note.textContent = '按「繼續聊天」裝貨，或直接開到滿看貨車塞爆。'
-    note.className = 'cp-note'
-    renderGrid(); render()
+    if (tokens >= 99) { busy = true; compact(); T(() => { busy = false }, 900); return }
+    for (let i = 0; i < 2; i++) makeBlock(false)
+    setGauge(Math.min(99, tokens + 14), { warn: tokens + 14 >= 85 })
   }
 
-  buildMiles()
-  renderGrid()
-  render()
-  const onResize = () => render()
-  window.addEventListener('resize', onResize)
-
-  return () => {
-    timers.forEach((id) => clearTimeout(id)); timers.clear()
-    window.removeEventListener('resize', onResize)
-    style.remove(); wrap.remove()
+  function swapSimple() {
+    // 舊車熄火 → 新車開來，精華貨（含保住的關鍵貨）搬上，token 歸低
+    truck.classList.add('stopped')
+    newBed.innerHTML = ''
+    newTruck.classList.remove('cp-hidden')
+    newTruck.style.left = '-18%'
+    T(() => { newTruck.style.left = (P.hsinchu + 6) + '%' }, 60)
+    const alive = keys.filter(k => k.onTruck || k.inWarehouse).length
+    T(() => {
+      for (let i = 0; i < 3; i++) { const b = document.createElement('div'); b.className = 'cp-block kept'; newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: i * 90 }) }
+      for (let i = 0; i < alive; i++) { const b = document.createElement('div'); b.className = 'cp-block key'; newBed.appendChild(b); enterFly(b, { y: 30, dur: 420, delay: 300 + i * 90 }) }
+    }, 900)
+    T(() => { const r = newTruck.getBoundingClientRect(), br = stage.body.getBoundingClientRect(); confettiBurst(stage.body, r.left - br.left + 60, r.top - br.top + 40, GREEN) }, 1500)
   }
+
+  function updateScore() {
+    const safe = keys.filter(k => k.onTruck || k.inWarehouse).length
+    scoreEl.innerHTML = `關鍵貨保住 <b>${safe} / 3</b>`
+    scoreEl.classList.toggle('full', safe === 3)
+    scoreEl.classList.toggle('hurt', safe < 3)
+  }
+
+  function arrive() {
+    if (busy) return
+    drive(P.taipei)
+    const safe = keys.filter(k => k.onTruck || k.inWarehouse).length
+    T(() => {
+      const r = truck.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
+      if (safe === 3) { confettiBurst(stage.body, r.left - br.left, r.top - br.top - 10, GOLD, 34); stage.setNarration('抵達台北，<b>3 件關鍵貨全數保住</b> — 這就是先存硬碟＋換新車的威力。') }
+      else stage.setNarration(`抵達台北，只保住 <b style="color:${RED}">${safe} / 3</b> — 沒存的關鍵貨在 compaction 時被忘了。按「寫記錄表」重來一次。`)
+    }, 1250)
+  }
+
+  function showBtns(list) {
+    ctrls.querySelectorAll('.cp-btn').forEach(b => b.classList.toggle('hide', !list.includes(b.dataset.b)))
+  }
+  btn('chat').onclick = () => { pop(btn('chat')); chat() }
+  btn('save').onclick = () => { pop(btn('save')); saveKeys() }
+  btn('fetch').onclick = () => { pop(btn('fetch')); fetchBack() }
+  btn('swap').onclick = () => { pop(btn('swap')); swapSimple() }
+  btn('arrive').onclick = () => { pop(btn('arrive')); arrive() }
+
+  // 每拍開場先歸零場景，再照劇本演
+  function resetScene() {
+    clearT(); busy = false
+    clearBed(); ware.innerHTML = ''
+    keys.forEach(k => { k.onTruck = false; k.inWarehouse = false })
+    setGauge(0, { anim: false })
+    truck.classList.remove('stopped'); truck.style.transition = 'none'; drive(P.taichung)
+    void truck.offsetWidth; truck.style.transition = ''
+    newTruck.classList.add('cp-hidden'); newBed.innerHTML = ''
+    warehouse.classList.add('cp-hidden'); scoreEl.classList.add('cp-hidden')
+    showBtns([])
+  }
+
+  function buildBeats() {
+    return [
+      { narration: '你的對話是一台<b>貨車</b> — 從台中出發，要開到台北。', focus: ['.cp-scene'], nextLabel: '開始堆貨 →',
+        enter() { resetScene(); truck.style.transition = 'none'; truck.style.left = '-16%'; void truck.offsetWidth; truck.style.transition = ''; T(() => drive(P.taichung), 40) } },
+
+      { narration: '每聊一句，就是往車上<b>堆一件貨</b>。token 儀表跟著往上爬。', focus: ['.cp-scene', '.cp-gauge'], nextLabel: '一路開到滿 →',
+        enter() { resetScene(); addNormals(8, 170); T(() => { setGauge(42); drive(P.hsinchu) }, 700) } },
+
+      { narration: '<b>滿了。</b>AI 自動觸發 compaction — 大部分的貨直接蒸發。剩下的 79 萬去哪？<b style="color:' + RED + '">忘了。</b>', focus: ['.cp-scene', '.cp-gauge'], nextLabel: '有救嗎？ →',
+        enter() { resetScene(); drive(P.miaoli); addNormals(18, 55); T(() => { setGauge(99, { warn: true }); shake(truck) }, 1150); T(() => compact(4), 1900) } },
+
+      { narration: '防禦第一招：重要的貨，先寫<b>行程記錄表</b>存到硬碟。就算車被壓縮，文件還在 — 按「去查文件」撈回。', focus: ['.cp-scene', '.cp-ctrls'], nextLabel: '還有第二招 →',
+        enter() {
+          resetScene(); drive(P.miaoli); scoreEl.classList.remove('cp-hidden')
+          warehouse.classList.remove('cp-hidden'); enterFly(warehouse, { y: 46, dur: 650 })
+          addNormals(11, 90)
+          keys.forEach((k, i) => T(() => { makeBlock(true, i); k.onTruck = true; updateScore() }, 300 + i * 240))
+          T(() => { setGauge(82); updateScore() }, 1300)
+          T(() => saveKeys(), 1900)                 // 寫記錄表：3 件關鍵貨進硬碟
+          T(() => { setGauge(99, { warn: true }); shake(truck) }, 2700)
+          T(() => compact(4), 3200)                 // compaction 再來，關鍵貨在硬碟安全
+          T(() => showBtns(['fetch']), 3400)
+        } },
+
+      { narration: '防禦第二招：<b>整理 context，換一台新車</b>。舊車熄火靠邊，精華貨搬上乾淨空車，繼續開。', focus: ['.cp-scene'], nextLabel: '換我開整趟 →',
+        enter() {
+          resetScene(); drive(P.miaoli)
+          addNormals(11, 70)
+          keys.forEach((k, i) => T(() => { makeBlock(true, i); k.onTruck = true }, 250 + i * 200))
+          T(() => setGauge(90, { warn: true }), 1100)
+          T(() => swapSimple(), 1700)
+        } },
+
+      { narration: '換你開完整趟 — <b>繼續聊天</b>裝貨、<b>寫記錄表</b>存硬碟、<b>查文件</b>撈回、<b>換新車</b>。開到台北看你保住幾件關鍵貨。', sandbox: true,
+        enter() {
+          resetScene(); drive(P.taichung); scoreEl.classList.remove('cp-hidden')
+          addNormals(6, 120)
+          keys.forEach((k, i) => T(() => { makeBlock(true, i); k.onTruck = true; updateScore() }, 250 + i * 200))
+          T(() => setGauge(38), 900)
+          updateScore(); showBtns(['chat', 'save', 'fetch', 'swap', 'arrive'])
+        } },
+    ]
+  }
+
+  stage = createStage(el, ctx, { beats: buildBeats() })
+  stage.body.append(scene, gauge, ctrls)
+
+  return () => { clearT(); stage.destroy(); style.remove() }
 }

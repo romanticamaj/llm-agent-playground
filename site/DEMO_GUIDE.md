@@ -43,6 +43,37 @@ export default function mount(el, ctx) {
 - 互動的因果要即時可見（按下去馬上有視覺回饋）。
 - 最好有一個「啊哈時刻」：一個開關/按鈕讓概念的對比瞬間顯現。
 
+## DemoStage 導演框架（改版 demo 一律使用）
+
+`src/demos/_stage.js` 提供 beat 節奏 + spotlight + 大旁白 + juice 工具。設計法則：**一次只教一件事、同時會動的東西 ≤ 1、每次點擊有 juice、先導遊後放生**。
+
+```js
+import { createStage, pop, shake, enterFly, countUp, confettiBurst } from './_stage.js'
+
+export default function mount(el, ctx) {
+  const stage = createStage(el, ctx, {
+    beats: [
+      { narration: '大旁白，一次一句，可用 <b>重點</b>。', focus: ['.xx-truck'],
+        enter(s) { /* 對 s.body 裡的場景做動畫、掛互動 */ }, exit(s) {} },
+      // ... 3-6 拍
+      { narration: '換你玩 — 全部解鎖。', sandbox: true, enter(s) { /* 開放所有控制 */ } },
+    ],
+  })
+  // 場景 DOM 一次蓋好放 stage.body（會被 dim 的視覺單元加 class="ds-unit"）
+  stage.body.innerHTML = `...`
+  return stage.destroy
+}
+```
+
+規範：
+- 場景一次蓋好放 `stage.body`，beat 之間**用動畫轉場，不重繪**（狀態轉換要「值得看」：飛走、點亮、滾動）
+- 每拍主角用 `focus: [selector|el]` 指定，其餘 `.ds-unit` 自動變暗模糊 — 這就是視線引導
+- 互動回饋必用 juice：按下 `pop()`、錯誤 `shake()`、數字 `countUp()`、成功 `confettiBurst(stage.body, x, y)`
+- 說明文字全部進 beat 的 narration（底部大旁白條），**不要**再放頂部大段引導文
+- 最後一拍必為 `sandbox: true`：解除 dim、隱藏下一步、開放所有控制自由玩
+- 底部旁白條高約 84px；場景內容過高時 body 可捲動
+- ←/→ 鍵已由框架接管換拍；demo 內不要再掛全域方向鍵
+
 ## 內容來源
 
 每個概念的教學內容在 `../concepts/NN-<id>.md`，其中「## 互動示範構想」一節就是該 demo 的設計稿 — 以它為藍本實作，可為了清楚與可行而簡化，但核心對比不能丟。
