@@ -145,7 +145,10 @@ function updateHud(sec) {
   } else {
     hudBl.innerHTML = `// GARY'S AI LAB`
   }
-  hudBr.innerHTML = `<b>${String(sec._index + 1).padStart(2, '0')}</b> / ${String(sections.length).padStart(2, '0')}`
+  const c2 = sec.dataset.id ? byId[sec.dataset.id] : null
+  if (c2) hudBr.innerHTML = `<b>${c2.num}</b> / ${String(concepts.length).padStart(2, '0')}`
+  else if (sec.hasAttribute('data-chapter-start')) hudBr.innerHTML = `<b>CH.${sec.dataset.chapter}</b> / 06`
+  else hudBr.innerHTML = `${concepts.length} CONCEPTS`
 }
 
 /* ============ live teasers ============ */
