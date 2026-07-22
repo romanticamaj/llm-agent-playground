@@ -1,4 +1,6 @@
-# AI 教學實驗室（AI Concepts Lab）
+# LLM Agent Playground — AI 概念實驗室
+
+**Live: [garyhsieh.com/ai-lab](https://www.garyhsieh.com/ai-lab)**
 
 把 Gary Hsieh（garyhsieh.com）的 AI 心得文章，整理成可直接上課使用的教學概念庫 + 互動式教學網站。
 
