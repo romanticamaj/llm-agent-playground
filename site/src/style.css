@@ -54,9 +54,8 @@ body::after {
 
 /* ---------- custom cursor ---------- */
 @media (pointer: fine) {
-  body:not(.presentation) { cursor: none; }
-  body:not(.presentation) a,
-  body:not(.presentation) button { cursor: none; }
+  body { cursor: none; }
+  body a, body button { cursor: none; }
 }
 .cursor-dot, .cursor-ring {
   position: fixed;
@@ -78,7 +77,6 @@ body::after {
   background: rgba(242, 241, 236, 0.06);
 }
 @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
-body.presentation .cursor-dot, body.presentation .cursor-ring { display: none; }
 
 /* ---------- mono micro-label（Igloo HUD 語彙） ---------- */
 .mono-label {
@@ -303,8 +301,8 @@ body.presentation .cursor-dot, body.presentation .cursor-ring { display: none; }
 .chapter-divider .ch-en::before { content: "////// "; color: var(--accent); }
 
 /* concept section */
-.concept { justify-content: flex-start; }
-.concept-inner { width: min(1040px, 100%); }
+.concept { justify-content: center; }
+.concept-inner { width: min(1460px, 100%); }
 .concept .meta {
   display: flex;
   gap: 16px;
@@ -525,7 +523,6 @@ body.presentation .topbar,
 body.presentation .rail,
 body.presentation .marquee,
 body.presentation .scroll-hint { opacity: 0; pointer-events: none; }
-body.presentation { cursor: none; }
 .pres-hud {
   position: fixed;
   bottom: 22px;
@@ -611,7 +608,7 @@ body.presentation .hud-bl { left: 24px; }
   align-items: center;
 }
 @media (min-width: 1100px) {
-  .concept-inner { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); }
+  .concept-inner { grid-template-columns: minmax(0, 1.5fr) minmax(380px, 1fr); gap: clamp(56px, 6vw, 128px); }
 }
 .teaser-card {
   position: relative;
