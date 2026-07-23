@@ -2,3 +2,7 @@ node_modules/
 dist/
 .playwright-mcp/
 *.log
+
+# local-only（教學流水線 skill 與專案脈絡留在本機，不進 public repo）
+/.claude/
+/CLAUDE.md
