@@ -47,8 +47,8 @@ export default function mount(el, ctx) {
     align-items:center;color:#727a90;transition:color .5s}
   .cp-flag .lb{font-size:15px;margin-top:2px;letter-spacing:.04em}
   .cp-flag.reached{color:${accent}}
-  .cp-truck{position:absolute;bottom:22px;left:9%;transform:translateX(-50%);
-    transition:left 1.2s ${EASE},bottom .7s ${EASE},opacity .7s,filter .7s;z-index:4}
+  .cp-truck{position:absolute;bottom:22px;left:9%;transform:translateX(-50%);will-change:left;
+    transition:left var(--drv,1.1s) ${EASE},bottom .7s ${EASE},opacity .7s,filter .7s;z-index:4}
   .cp-truck.stopped{filter:grayscale(1) brightness(.5);bottom:14px}
   .cp-bed{position:absolute;left:14px;top:44px;width:120px;height:62px;display:flex;flex-wrap:wrap-reverse;
     align-content:flex-start;gap:3px;padding:3px;overflow:hidden}
@@ -58,8 +58,8 @@ export default function mount(el, ctx) {
   .cp-block.kept{background:${GREEN}}
   .cp-block.evap{background:${GRAY}!important;box-shadow:none!important;
     transform:translateY(-46px) scale(.35) rotate(24deg);opacity:0}
-  .cp-newtruck{position:absolute;bottom:22px;left:-18%;transform:translateX(-50%);
-    transition:left 1.3s ${EASE};z-index:5}
+  .cp-newtruck{position:absolute;bottom:22px;left:-18%;transform:translateX(-50%);will-change:left;
+    transition:left var(--drv,1.3s) ${EASE};z-index:5}
   .cp-warehouse{position:absolute;bottom:22px;left:${P.miaoli}%;transform:translateX(-50%);z-index:2}
   .cp-ware{position:absolute;left:calc(50% - 62px);bottom:98px;width:150px;display:flex;flex-direction:column;gap:4px}
   .cp-witem{font-size:12.5px;color:#d3d7e2;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;
@@ -140,7 +140,15 @@ export default function mount(el, ctx) {
     if (anim) countUp(pctNum, tokens, { from: parseFloat(pctNum.textContent) || 0, dur: 550, fmt: v => Math.round(v) })
     else pctNum.textContent = Math.round(tokens)
   }
-  function drive(pct) { act.t.style.left = pct + '%'; flags.forEach(f => f.classList.toggle('reached', +f.dataset.at <= pct + 0.5)) }
+  let pos = P.taichung   // 旅程進度（只前進不倒退；聊天=前進）
+  function drive(pct, durS) {
+    const d = durS ?? Math.max(0.45, Math.min(1.5, Math.abs(pct - pos) * 0.035))
+    act.t.style.setProperty('--drv', d + 's')
+    act.t.style.left = pct + '%'
+    pos = pct
+    flags.forEach(f => f.classList.toggle('reached', +f.dataset.at <= pct + 0.5))
+    return d * 1000
+  }
   function makeBlock(key, keyIdx, silent) {
     const b = document.createElement('div')
     b.className = 'cp-block' + (key ? ' key' : '')
@@ -225,6 +233,7 @@ export default function mount(el, ctx) {
     if (tokens >= 99) { busy = true; compact(); T(() => { busy = false }, 900); return }
     for (let i = 0; i < 2; i++) makeBlock(false)
     setGauge(Math.min(99, tokens + 14), { warn: tokens + 14 >= 85 })
+    drive(Math.min(pos + 6, P.taipei - 6))   // 聊天 = 裝貨 + 往台北前進一段
   }
 
   function swapSimple() {
@@ -233,12 +242,13 @@ export default function mount(el, ctx) {
     if (act.t === newTruck) { shake(btn('swap')); return } // 已換過車
     busy = true
     const oldPos = parseFloat(truck.style.left) || P.taichung
+    const newPos = Math.min(oldPos + 9, P.taipei - 8)
     truck.classList.add('stopped')
     newBed.innerHTML = ''
     newTruck.classList.remove('cp-hidden')
     newTruck.style.transition = 'none'; newTruck.style.left = '-18%'
     void newTruck.offsetWidth; newTruck.style.transition = ''
-    T(() => { newTruck.style.left = Math.min(oldPos + 9, P.taipei - 8) + '%' }, 60)
+    T(() => { newTruck.style.left = newPos + '%' }, 60)
     const onTruckKeys = keys.map((k, i) => k.onTruck ? i : -1).filter(i => i >= 0)
     T(() => {
       blocks = []
@@ -258,6 +268,7 @@ export default function mount(el, ctx) {
       const r = newTruck.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
       confettiBurst(stage.body, r.left - br.left + 60, r.top - br.top + 40, GREEN)
       act = { t: newTruck, b: newBed }           // 主控權交接：之後開車/堆貨都是新車
+      pos = newPos                               // 旅程進度接續，不倒退
       setGauge(22)
       T(() => { truck.style.opacity = '0.25' }, 600)
       busy = false
@@ -274,7 +285,7 @@ export default function mount(el, ctx) {
   function arrive() {
     if (busy) return
     busy = true
-    drive(P.taipei)
+    const driveMs = drive(P.taipei)
     const safe = keys.filter(k => k.onTruck || k.inWarehouse).length
     T(() => {
       const r = act.t.getBoundingClientRect(), br = stage.body.getBoundingClientRect()
@@ -282,7 +293,7 @@ export default function mount(el, ctx) {
       else stage.setNarration(`抵達台北，只保住 <b style="color:${RED}">${safe} / 3</b> — 沒存的關鍵貨在 compaction 時被忘了。按「重來」，這次先寫記錄表。`)
       showBtns(['reset'])
       busy = false
-    }, 1350)
+    }, driveMs + 250)
   }
 
   function showBtns(list) {
