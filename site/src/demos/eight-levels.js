@@ -48,8 +48,9 @@ export default function mount(el, ctx) {
   .el-you.show{opacity:1}
   .el-you svg{width:22px;height:22px}
   .el-ground{margin-left:0;font-size:14px;color:var(--text-dim);letter-spacing:.04em;padding:6px 4px 0}
-  .el-quiz{display:flex;flex-direction:column;gap:14px}
-  .el-qcard{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:rgba(255,255,255,.02);
+  .el-quiz{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.el-quiz{grid-template-columns:1fr}}
+  .el-qcard{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.02);
     opacity:0;transform:translateY(14px);transition:all .5s ${EASE}}
   .el-qcard.in{opacity:1;transform:none}
   .el-q{font-size:16px;font-weight:600;color:var(--text);margin-bottom:10px}
@@ -191,7 +192,7 @@ export default function mount(el, ctx) {
         enter() {
           resetLadder(); setRungs(0, 7, false)
           $('.el-result').classList.remove('show')
-          $('.el-quiz').style.display = 'flex'
+          $('.el-quiz').style.display = 'grid'
           $$('.el-qcard').forEach((c, i) => { c.classList.remove('in'); T(() => c.classList.add('in'), 120 + i * 120) })
         } },
 

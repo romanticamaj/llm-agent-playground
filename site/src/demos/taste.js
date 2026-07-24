@@ -150,6 +150,7 @@ export default function mount(el, ctx) {
   /* ---- B5 品味挑戰 ---- */
   let idx = 0, matches = 0, locked = false
   function loadChallenge(i) {
+    if (i < 0 || i >= CH.length) return
     locked = false
     const c = CH[i]
     $('.cur').textContent = i + 1
@@ -184,6 +185,7 @@ export default function mount(el, ctx) {
     $('.ta-chd').innerHTML = `品味挑戰 · 完成`
     $('.ta-pair').classList.add('ta-hidden')
     $('.ta-reveal').innerHTML = `這沒有標準答案。你和多數的一致度：<b>${matches} / 5</b>。<br>但真正的品味不是猜中多數 — 而是你每一次<span class="ok">說得出為什麼</span>。`
+    $('[data-b="next"]').classList.add('hide')
     $('[data-b="again"]').classList.remove('hide')
     const wr = wrap.getBoundingClientRect(), rr = $('.ta-challenge').getBoundingClientRect()
     confettiBurst(stage.body, rr.left - wr.left + rr.width / 2, rr.top - wr.top + 30, accent, 28)
@@ -197,7 +199,7 @@ export default function mount(el, ctx) {
 
   $('.ta-pair').addEventListener('click', e => { const o = e.target.closest('.ta-opt'); if (o) choose(o.dataset.s) })
   $('.ta-foot').addEventListener('click', e => {
-    if (e.target.closest('[data-b="next"]')) { pop(e.target); idx++; loadChallenge(idx) }
+    if (e.target.closest('[data-b="next"]')) { pop(e.target); if (idx < CH.length - 1) { idx++; loadChallenge(idx) } }
     else if (e.target.closest('[data-b="again"]')) { pop(e.target); startChallenge() }
   })
 

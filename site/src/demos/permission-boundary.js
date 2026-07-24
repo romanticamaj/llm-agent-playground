@@ -191,7 +191,7 @@ export default function mount(el, ctx) {
   scene.querySelectorAll('.wt').forEach(b => { b.onclick = () => { if (!sandbox) return; pop(b); setWall(b.dataset.w) } })
 
   function resetArena(mode, interactive) {
-    clearT(); sandbox = interactive
+    clearT(); showLayer('arena'); sandbox = interactive
     leaks = 0; blocks = 0; lk.textContent = '0'; bk.textContent = '0'
     vault.classList.remove('leak'); wall.classList.remove('bounce')
     shot.style.opacity = '0'; att.textContent = ''

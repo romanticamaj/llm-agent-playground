@@ -34,7 +34,8 @@ export default function mount(el, ctx) {
   .dvn-in code{color:#e8ebf2;background:rgba(255,255,255,.06);padding:2px 7px;border-radius:5px}
   .dvn-cbox{flex:1;position:relative;min-height:130px}
   .dvn-cbox canvas{position:absolute;inset:0;width:100%;height:100%}
-  .dvn-tag{position:absolute;top:10px;right:12px;font-size:15px;padding:3px 9px;border-radius:999px;font-weight:600;font-family:var(--font-mono)}
+  .dvn-tag{position:absolute;top:10px;right:12px;font-size:15px;padding:3px 9px;border-radius:999px;font-weight:600;font-family:var(--font-mono);opacity:0;transition:opacity .35s;pointer-events:none}
+  .dvn-tag.show{opacity:1}
   .dvn-tag.det{color:${GREEN};background:${GREEN}1f;border:1px solid ${GREEN}4d}
   .dvn-tag.non{color:${GOLD};background:${GOLD}1f;border:1px solid ${GOLD}4d}
   .dvn-out{padding:8px 16px 12px;font-size:15px;line-height:1.5;height:118px;overflow:auto}
@@ -118,6 +119,7 @@ export default function mount(el, ctx) {
   const $ = s => (compare.querySelector(s) || clf.querySelector(s))
   const cL = $('#dvn-cL'), cR = $('#dvn-cR')
   const outL = $('#dvn-outL'), outR = $('#dvn-outR'), tagR = $('#dvn-tagR')
+  const tagL = compare.querySelector('.dvn-tag.det')
   const slider = $('#dvn-temp'), tval = $('#dvn-tval'), tdesc = $('#dvn-tdesc')
 
   const timers = new Set(), rafs = new Set()
@@ -158,13 +160,14 @@ export default function mount(el, ctx) {
     if (isL) paths = Array.from({ length: 10 }, () => makePath(dim.w, dim.h, 42, 0))
     else { const sp = (dim.h / 2 - 14) * (.02 + .98 * (temperature / 2)); paths = Array.from({ length: 10 }, (_, i) => makePath(dim.w, dim.h, 100 + i * 7, sp)) }
     out.innerHTML = ''
+    ;(isL ? tagL : tagR).classList.remove('show')   // 跑之前先藏 badge，別破哏
     if (!isL) tagR.textContent = temperature <= .05 ? '幾乎收斂' : '10 條散開'
     const t0 = performance.now()
     const tick = () => {
       const p = Math.min(1, (performance.now() - t0) / 850)
       drawPaths(c, paths, isL ? GREEN : accent, p)
       if (p < 1) { const id = requestAnimationFrame(tick); rafs.add(id) }
-      else reveal(isL, out)
+      else { reveal(isL, out); (isL ? tagL : tagR).classList.add('show') }   // 跑完 10 次才亮 badge
     }
     const id = requestAnimationFrame(tick); rafs.add(id)
   }
@@ -181,7 +184,7 @@ export default function mount(el, ctx) {
       out.appendChild(row); requestAnimationFrame(() => row.classList.add('show'))
     }, i * 55)
   }
-  function clearCanvas() { [cL, cR].forEach(c => { const d = fit(c); c.getContext('2d').clearRect(0, 0, d.w, d.h) }); outL.innerHTML = ''; outR.innerHTML = '' }
+  function clearCanvas() { [cL, cR].forEach(c => { const d = fit(c); c.getContext('2d').clearRect(0, 0, d.w, d.h) }); outL.innerHTML = ''; outR.innerHTML = ''; tagL.classList.remove('show'); tagR.classList.remove('show') }
 
   slider.addEventListener('input', () => {
     temperature = parseFloat(slider.value); tval.textContent = temperature.toFixed(2); tdesc.textContent = tempDesc(temperature)

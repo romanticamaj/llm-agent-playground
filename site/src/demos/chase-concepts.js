@@ -121,6 +121,8 @@ export default function mount(el, ctx) {
   const NCOL = 8
   let colH = new Array(NCOL).fill(0)
   let caps = [], count = 0
+  // 落下工具堆的底線：早期 beat 抬高讓工具雨落在畫面中央（避免上半留白），有概念柱的 beat 貼底
+  let capBase = 100
 
   function dropCap(label) {
     const c = document.createElement('div')
@@ -128,7 +130,7 @@ export default function mount(el, ctx) {
     c.textContent = label
     const col = Math.floor(Math.random() * NCOL)
     const leftPct = (col + 0.5) / NCOL * 100 + (Math.random() * 8 - 4)
-    const bottomPx = 8 + colH[col] * 30
+    const bottomPx = capBase + colH[col] * 30
     colH[col] = Math.min(colH[col] + 1, 6)
     c.style.left = Math.max(2, Math.min(86, leftPct)) + '%'
     c.style.bottom = bottomPx + 'px'
@@ -226,7 +228,7 @@ export default function mount(el, ctx) {
   function buildBeats() {
     return [
       { narration: '每個禮拜，都有<b>新工具</b>冒出來 — 追都追不完。', focus: ['.cc-scene', '.cc-counter'], nextLabel: '追不完… →',
-        enter() { resetScene(); startRain(RAIN_TOOLS) } },
+        enter() { resetScene(); capBase = 100; startRain(RAIN_TOOLS) } },
 
       { narration: '你<b>追不完的。該追的不是工具。</b>按「放下工具」試試。', focus: ['.cc-scene', '.cc-ctrls'], nextLabel: '放下之後？ →',
         enter() {
@@ -239,7 +241,7 @@ export default function mount(el, ctx) {
 
       { narration: '沉在底下不變的，是<b>概念層</b> — Stateless、Context、Tool Use、Memory、Harness。', focus: ['.cc-scene'], nextLabel: '概念會過時嗎？ →',
         enter() {
-          resetScene()
+          resetScene(); capBase = 8
           // 先鋪一層灰工具沉底，概念柱再浮出
           RAIN_TOOLS.slice(0, 20).forEach((t, i) => T(() => dropCap(t), i * 45))
           T(() => caps.forEach(c => { c.classList.add('sunk'); c.style.bottom = (2 + Math.random() * 12) + 'px' }), 1050)
@@ -248,7 +250,7 @@ export default function mount(el, ctx) {
 
       { narration: '工具<b>年年換</b>，概念<b>十年不變</b>。快轉給你看 — 上層一直換，底層不動。', focus: ['.cc-scene'], nextLabel: '換我玩 →',
         enter() {
-          resetScene()
+          resetScene(); capBase = 8
           pillars.forEach(p => p.classList.add('up'))
           yrWrap.style.opacity = '1'
           RAIN_TOOLS.slice(0, 8).forEach((t, i) => T(() => dropCap(t), 200 + i * 70))

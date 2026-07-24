@@ -11,7 +11,7 @@ export default function mount(el, ctx) {
   style.textContent = `
   .${P}-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
   @media(max-width:820px){.${P}-cols{grid-template-columns:1fr}}
-  .${P}-chat{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;display:flex;flex-direction:column;min-height:300px}
+  .${P}-chat{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;display:flex;flex-direction:column;min-height:230px}
   .${P}-chat h3{margin:0;padding:12px 14px;font-size:16px;border-bottom:1px solid rgba(255,255,255,.08);
     display:flex;align-items:center;gap:8px;color:#e8ebf2}
   .${P}-tag{font-family:var(--font-mono);font-size:12.5px;padding:2px 9px;border-radius:20px;font-weight:600;letter-spacing:.08em}
@@ -37,10 +37,10 @@ export default function mount(el, ctx) {
     border-radius:10px;padding:8px 12px;display:inline-block;margin-bottom:12px}
   .${P}-advctrls{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
   .${P}-advctrls .demo-btn.on{background:${accent};color:#120a00;border-color:${accent}}
-  .${P}-stage2{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:16px;min-height:170px}
+  .${P}-stage2{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:16px;min-height:148px}
   .${P}-vecwrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
   .${P}-frag{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 12px;font-size:15.5px;background:rgba(255,255,255,.03);color:#d3d7e2}
-  .${P}-canvas{display:block;width:100%;height:150px}
+  .${P}-canvas{display:block;width:100%;height:clamp(110px,15vh,150px)}
   .${P}-answer{margin-top:12px;font-size:15px;min-height:24px}
   .${P}-answer .ok{color:${GREEN};font-weight:600}.${P}-answer .bad{color:${RED};font-weight:600}
   .${P}-answer b{color:${accent}}

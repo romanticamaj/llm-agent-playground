@@ -9,8 +9,10 @@ export default function mount(el, ctx) {
   const resize = () => {
     dpr = devicePixelRatio || 1
     const r = el.getBoundingClientRect()
-    w = canvas.width = Math.max(2, r.width * dpr)
-    h = canvas.height = Math.max(2, r.height * dpr)
+    const cw = Math.max(2, Math.floor(r.width * dpr) || 2)
+    const ch = Math.max(2, Math.floor(r.height * dpr) || 2)
+    canvas.width = cw; canvas.height = ch
+    w = cw; h = ch
   }
   resize()
   const ro = new ResizeObserver(resize)
@@ -19,6 +21,7 @@ export default function mount(el, ctx) {
   const start = performance.now()
   const ang = [-Math.PI / 2, 0, Math.PI / 2, Math.PI]
   const loop = now => {
+    if (!isFinite(w) || !isFinite(h) || w <= 0 || h <= 0) { raf = requestAnimationFrame(loop); return }
     const t = (now - start) / 1000
     g.clearRect(0, 0, w, h)
     const cx = w / 2, cy = h / 2, rx = w * 0.3, ry = h * 0.3
@@ -40,7 +43,7 @@ export default function mount(el, ctx) {
     }
     // 訊號點 + 尾光
     g.globalAlpha = 1
-    const grd = g.createRadialGradient(sig[0], sig[1], 0, sig[0], sig[1], 10 * dpr)
+    const grd = g.createRadialGradient(sig[0], sig[1], 0, sig[0], sig[1], Math.max(0.1, 10 * dpr))
     grd.addColorStop(0, A); grd.addColorStop(1, A + '00')
     g.fillStyle = grd; g.beginPath(); g.arc(sig[0], sig[1], 10 * dpr, 0, 7); g.fill()
     g.fillStyle = A; g.beginPath(); g.arc(sig[0], sig[1], 3 * dpr, 0, 7); g.fill()

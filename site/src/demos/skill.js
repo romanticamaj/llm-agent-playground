@@ -23,7 +23,7 @@ export default function mount(el, ctx) {
   const style = document.createElement('style')
   style.id = 'sk-css'
   style.textContent = `
-  .sk-stage{display:flex;gap:22px;align-items:stretch;flex-wrap:wrap;min-height:100%}
+  .sk-stage{display:flex;flex-direction:row;gap:22px;align-items:stretch;flex-wrap:wrap;min-height:0}
   .sk-col{flex:1;min-width:290px;display:flex;flex-direction:column;gap:11px}
   .sk-mid{flex:none;width:300px;display:flex;flex-direction:column;justify-content:center}
   .sk-htitle{font-size:15px;letter-spacing:.09em;text-transform:uppercase;color:#7d8496;display:flex;align-items:center;gap:8px}

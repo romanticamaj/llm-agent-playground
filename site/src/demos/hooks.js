@@ -23,42 +23,43 @@ export default function mount(el, ctx) {
   const style = document.createElement('style')
   style.id = 'hk-css'
   style.textContent = `
+  .hk-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:12px;min-height:44px}
   .hk-rule{display:inline-flex;align-items:center;gap:8px;font-size:16px;color:#dfe3ec;background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 16px;margin-bottom:18px}
+    border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 16px}
   .hk-rule b{color:${accent}}
-  .hk-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
-  .hk-col{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:16px;min-height:250px;position:relative}
-  .hk-col h3{margin:0 0 3px;font-size:17px}
-  .hk-col .sub{font-size:15px;color:#7b8296;margin-bottom:12px}
-  .hk-tag{font-size:15px;color:#8b93a7;display:inline-flex;align-items:center;gap:7px;margin-bottom:10px}
+  .hk-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px}
+  .hk-col{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0c0f16;padding:13px 16px;min-height:0;position:relative}
+  .hk-col h3{margin:0 0 2px;font-size:17px}
+  .hk-col .sub{font-size:15px;color:#7b8296;margin-bottom:8px}
+  .hk-tag{font-size:15px;color:#8b93a7;display:inline-flex;align-items:center;gap:7px;margin-bottom:8px}
   .hk-tag.gate{color:${accent}}
-  .hk-log{font-size:15px;line-height:1.55;min-height:120px}
+  .hk-log{font-size:15px;line-height:1.5;min-height:96px;max-height:132px;overflow:auto}
   .hk-log .row{padding:3px 0;opacity:0;transform:translateX(-6px);transition:.3s;display:flex;align-items:center;gap:6px}
   .hk-log .row.show{opacity:1;transform:none}
   .hk-bubble{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);color:#ffd5d5;border-radius:10px;padding:6px 10px;display:inline-flex;gap:6px;align-items:center;font-size:15.5px}
   .hk-ok{color:${GREEN}} .hk-bad{color:${RED}} .hk-dim{color:#8b93a7} .hk-gate{color:${accent};font-weight:600}
-  .hk-tok{margin-top:12px;font-size:15px;color:#8b93a7}
+  .hk-tok{margin-top:8px;font-size:15px;color:#8b93a7}
   .hk-tok b{font-family:var(--font-mono,monospace);font-size:18px;color:#e8ebf2}
-  .hk-chart{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.02);margin-bottom:18px}
-  .hk-chart .lab{font-size:15px;color:#8b93a7;margin-bottom:12px;letter-spacing:.06em}
-  .hk-crow{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:15.5px}
+  .hk-chart{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:9px 16px;background:rgba(255,255,255,.02);margin-bottom:10px}
+  .hk-chart .lab{font-size:15px;color:#8b93a7;margin-bottom:7px;letter-spacing:.06em}
+  .hk-crow{display:flex;align-items:center;gap:10px;margin:5px 0;font-size:15.5px}
   .hk-crow .name{width:78px;flex:none}
   .hk-cbar{flex:1;height:14px;border-radius:8px;background:rgba(255,255,255,.06);overflow:hidden}
   .hk-cbar>i{display:block;height:100%;border-radius:8px;width:0;transition:width .6s cubic-bezier(.16,1,.3,1)}
   .hk-crow .n{width:64px;text-align:right;font-family:var(--font-mono,monospace)}
-  .hk-stack .head{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:16px;font-weight:700}
+  .hk-stack .head{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:16px;font-weight:700}
   .hk-stack .head .dim{font-size:15px;color:#8b93a7;font-weight:400}
   .hk-layers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .hk-layer{border:1px dashed rgba(255,255,255,.18);border-radius:12px;padding:14px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}
+  .hk-layer{border:1px dashed rgba(255,255,255,.18);border-radius:12px;padding:10px 12px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}
   .hk-layer:hover{border-color:${accent}}
   .hk-layer.on{border-style:solid;border-color:${accent};background:rgba(56,225,198,.08)}
   .hk-layer .lt{font-weight:700;font-size:15px;margin-bottom:2px}
-  .hk-layer .ld{font-size:15px;color:#8b93a7;margin-bottom:10px}
-  .hk-meter{font-size:14px;color:#9aa0b0;display:flex;justify-content:space-between;margin:3px 0}
-  .hk-mbar{height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:6px}
+  .hk-layer .ld{font-size:15px;color:#8b93a7;margin-bottom:6px}
+  .hk-meter{font-size:14px;color:#9aa0b0;display:flex;justify-content:space-between;margin:1px 0}
+  .hk-mbar{height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:4px}
   .hk-mbar>i{display:block;height:100%;border-radius:6px}
-  .hk-hint{font-size:15.5px;color:#aeb4c4;margin-top:12px;min-height:20px;line-height:1.5}
-  .hk-ctrls{display:none;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  .hk-hint{font-size:15.5px;color:#aeb4c4;margin-top:8px;min-height:18px;line-height:1.45}
+  .hk-ctrls{display:none;gap:10px;flex-wrap:wrap;align-items:center;margin:0}
   .hk-ctrls.show{display:flex}
   .hk-runs{font-size:15.5px;color:#8b93a7}
   @media(max-width:820px){.hk-cols{grid-template-columns:1fr}.hk-layers{grid-template-columns:1fr}}
@@ -70,7 +71,15 @@ export default function mount(el, ctx) {
   document.head.appendChild(style)
 
   stage.body.innerHTML = `
-    <div class="hk-rule ds-unit">${ico(I.ruler, 16)} 規則：<b>先寫測試，再寫實作</b></div>
+    <div class="hk-top">
+      <div class="hk-rule ds-unit">${ico(I.ruler, 16)} 規則：<b>先寫測試，再寫實作</b></div>
+      <div class="hk-ctrls ds-unit">
+        <button class="demo-btn primary" data-act="run">派任務</button>
+        <button class="demo-btn" data-act="x10">連派 10 次</button>
+        <button class="demo-btn" data-act="reset">重來</button>
+        <span class="hk-runs">已派任務 <b data-runs>0</b> 次</span>
+      </div>
+    </div>
     <div class="hk-cols">
       <div class="hk-col ds-unit" data-side="prompt">
         <h3>Prompt 派 <span class="hk-dim" style="font-size:15px">說服 · 修辭</span></h3>
@@ -100,12 +109,6 @@ export default function mount(el, ctx) {
         <div class="hk-layer" data-layer="L3"><div class="lt">L3 · Model</div><div class="ld">權重塑造模型</div>${meter('強度', 100, GREEN)}${meter('成本', 100, RED)}${meter('靈活度', 8, RED)}</div>
       </div>
       <div class="hk-hint" data-hint></div>
-    </div>
-    <div class="hk-ctrls ds-unit">
-      <button class="demo-btn primary" data-act="run">派任務</button>
-      <button class="demo-btn" data-act="x10">連派 10 次</button>
-      <button class="demo-btn" data-act="reset">重來</button>
-      <span class="hk-runs">已派任務 <b data-runs>0</b> 次</span>
     </div>`
 
   const $ = s => stage.body.querySelector(s)

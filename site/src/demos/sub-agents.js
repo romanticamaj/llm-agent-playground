@@ -20,7 +20,7 @@ export default function mount(el, ctx) {
   style.id = 'sa-css'
   style.textContent = `
     .sa-ico{vertical-align:-.18em;flex:none}
-    .sa-stage{display:grid;grid-template-columns:1fr 88px 1fr;gap:0;min-height:320px}
+    .sa-stage{display:grid;grid-template-columns:1fr 88px 1fr;gap:0;min-height:320px;overflow:hidden}
     .sa-col{background:#101319;border:1px solid #232838;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:0}
     .sa-col h3{margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
     .sa-col h3 .dot{width:9px;height:9px;border-radius:50%;background:#555;transition:background .3s}
@@ -36,7 +36,7 @@ export default function mount(el, ctx) {
     .sa-empty{color:#5a6070;font-size:15px;text-align:center;margin:auto;padding:20px;line-height:1.7}
     .sa-empty .sa-ico{color:${accent}}
     .sa-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-    .sa-packet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#12151d;border:1px solid ${accent};border-radius:8px;padding:6px 8px;font-size:15px;color:#c3c8d8;opacity:0;pointer-events:none;white-space:nowrap;max-width:180px;text-align:center;line-height:1.35}
+    .sa-packet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#12151d;border:1px solid ${accent};border-radius:8px;padding:6px 8px;font-size:15px;color:#c3c8d8;opacity:0;pointer-events:none;width:max-content;max-width:180px;white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.35}
     .sa-sub{border-style:dashed;border-color:#2c3550;opacity:.6}
     .sa-sub.alive{opacity:1;border-style:solid;border-color:${accent}}
     .sa-badge{font-size:15px;padding:2px 8px;border-radius:10px;background:#1c2130;color:#9aa0b0;font-weight:400}
@@ -112,7 +112,7 @@ export default function mount(el, ctx) {
     state.pollution = Math.min(100, state.pollution + 11); renderMain()
   }
   function flyPacket(text, anim, done) {
-    packet.textContent = text; packet.style.animation = 'none'; packet.offsetHeight
+    packet.innerHTML = text; packet.style.animation = 'none'; packet.offsetHeight
     packet.style.animation = anim + ' 1.2s ease forwards'; later(done, 1250)
   }
 

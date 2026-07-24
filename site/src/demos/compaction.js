@@ -326,6 +326,9 @@ export default function mount(el, ctx) {
   // sandbox 的一趟：可由「重來一趟」重複啟動
   function startSandboxRun() {
     resetScene()
+    // visual hard reset：進場先同步清空計分徽章與車斗，避免上一趟的「3/3」與舊貨殘影才重播
+    clearBed(); newBed.innerHTML = ''
+    scoreEl.classList.remove('full', 'hurt'); updateScore()
     scoreEl.classList.remove('cp-hidden')
     warehouse.classList.remove('cp-hidden'); enterFly(warehouse, { y: 40, dur: 600 })
     addNormals(6, 120)

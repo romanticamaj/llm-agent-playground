@@ -245,7 +245,8 @@ export default function mount(el, ctx) {
     }, 120 + i * 70))
   }
   btn('litm').onclick = () => { pop(btn('litm')); runLitm() }
-  btn('litmreset').onclick = () => buildTrack()
+  // sandbox 的「重來」＝完整場景重置：車斗清空、容量歸零、警示/摘要磚清掉，litm 一併重置
+  btn('litmreset').onclick = () => { pop(btn('litmreset')); resetBed(); note.textContent = '提示：一直按「繼續聊天」把車斗塞滿，看會發生什麼事。'; buildTrack() }
 
   const beats = [
     { narration: 'Context window 不是記憶體，是一台<b>貨車一趟能載的貨</b> — 車斗一次就這麼大，這趟要用的全得塞進去。', focus: ['.cw-scene'], nextLabel: '穩定的貨先上車 →',
