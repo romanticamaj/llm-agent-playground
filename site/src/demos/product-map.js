@@ -205,7 +205,7 @@ export default function mount(el, ctx) {
       { narration: '最保守的兩個：網頁版<b>碰不到你的電腦</b>、Cowork 能寫回檔案但<b>工具受限</b>。', focus: ['.pm-card[data-id="web"]', '.pm-card[data-id="cowork"]'], nextLabel: '那開放的呢？ →',
         enter() { finishAllInstant() } },
 
-      { narration: '最開放的兩個：Claude Code <b>全工具跑完整流程</b>；龍蝦跑完還<b>記進常駐記憶</b>。', focus: ['.pm-card[data-id="code"]', '.pm-card[data-id="claw"]'], nextLabel: '換我派任務 →',
+      { narration: '最開放的兩個：Claude Code <b>全工具跑完整流程</b>；OpenClaw 龍蝦跑完還<b>記進常駐記憶</b>。', focus: ['.pm-card[data-id="code"]', '.pm-card[data-id="claw"]'], nextLabel: '換我派任務 →',
         enter() { finishAllInstant() } },
 
       { narration: '差別不在腦子 — 在<b>身體多大、能碰你多少東西</b>。換你派任務，點開每張卡的工具／權限／記憶。', sandbox: true,

@@ -1,6 +1,6 @@
 ---
 id: project-prefix
-title: GPTs、Gem、Project — 只是接龍的開頭
+title: ChatGPT 專案、Gemini Gem、Claude Projects — 只是接龍的開頭
 subtitle: Project = Fixed Prefix
 chapter: 3
 chapterTitle: 從聊天到 Agent

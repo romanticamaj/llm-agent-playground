@@ -5,22 +5,29 @@ import { createStage, pop, shake, enterFly, countUp, confettiBurst } from './_st
 const EASE = 'cubic-bezier(.16,1,.3,1)'
 const GRAY = '#565d70'
 const CONCEPTS = ['Stateless', 'Context', 'Tool Use', 'Memory', 'Harness']
-const RAIN_TOOLS = ['Cursor', 'Codex', 'Devin', 'LangChain', 'AutoGen', 'n8n', 'CrewAI',
-  'Dify', 'Copilot', 'Cline', 'Windsurf', 'Bolt', 'v0', 'Replit', 'Aider', 'Continue',
-  'LlamaIndex', 'Flowise', 'Zapier', 'Make', 'Haystack', 'Perplexity']
+// sandbox 的 10 顆常見工具，前面 beats 的工具雨也用這批當開頭
+const TOOLS10 = ['Claude Code', 'Cursor', 'ChatGPT', 'Codex', 'Gemini CLI',
+  'GitHub Copilot', 'LangChain', 'n8n', 'OpenClaw', 'Manus']
+const RAIN_TOOLS = [...TOOLS10, 'Devin', 'AutoGen', 'CrewAI', 'Dify', 'Cline',
+  'Windsurf', 'Bolt', 'v0', 'Replit', 'Aider', 'Continue', 'LlamaIndex',
+  'Flowise', 'Zapier', 'Make', 'Perplexity']
 // 兩批「未來工具名」給快轉用
 const FUTURE_TOOLS = [
   ['Nexus', 'Forge', 'Atlas', 'Quill', 'Vex', 'Orbit', 'Prism', 'Loom'],
   ['Zenith', 'Pulse', 'Drift', 'Ember', 'Nova', 'Relay', 'Sift', 'Cobalt'],
 ]
-// sandbox：工具 → 對應概念索引
+// sandbox：工具 → 對應概念索引（概念柱：0 Stateless｜1 Context｜2 Tool Use｜3 Memory｜4 Harness）+ 一句概念組成
 const MAP = [
-  { name: 'Cursor', to: [1, 2] },
-  { name: 'ChatGPT', to: [0, 1] },
-  { name: 'LangChain', to: [2, 3] },
-  { name: 'Devin', to: [3, 4] },
-  { name: 'AutoGen', to: [2, 4] },
-  { name: 'n8n', to: [2, 4] },
+  { name: 'Claude Code', to: [1, 2, 4], desc: '把整個 repo 當上下文、直接改檔跑指令，還跑在官方 harness 上。' },
+  { name: 'Cursor', to: [1, 2], desc: '讀你的專案當上下文，能直接改檔案、跑編輯動作。' },
+  { name: 'ChatGPT', to: [0, 1], desc: '本質是無狀態的接龍，靠你貼進去的上下文來回答。' },
+  { name: 'Codex', to: [2, 4], desc: '會實際執行工具與指令，跑在一套代理 harness 裡。' },
+  { name: 'Gemini CLI', to: [2, 1], desc: '在終端機讀專案上下文，並實際呼叫工具動手做。' },
+  { name: 'GitHub Copilot', to: [1], desc: '主要靠當下檔案的上下文補全，工具與記憶都很薄。' },
+  { name: 'LangChain', to: [4, 3], desc: '一套把記憶與流程串起來的 harness 框架。' },
+  { name: 'n8n', to: [2, 4], desc: '用節點式 harness 把各種工具串成自動化流程。' },
+  { name: 'OpenClaw', to: [3, 4, 2], desc: '有長期記憶、跑在自己的 harness 上、還會實際操作工具。' },
+  { name: 'Manus', to: [2, 4], desc: '自主代理 harness，會自己規劃並實際呼叫工具完成任務。' },
 ]
 
 export default function mount(el, ctx) {
@@ -67,6 +74,14 @@ export default function mount(el, ctx) {
     border:1.5px solid ${accent}55;border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .2s ${EASE}}
   .cc-tool:hover{transform:translateY(-2px);border-color:${accent}}
   .cc-tool.on{background:var(--accent);color:#08090a;border-color:var(--accent);font-weight:600}
+  .cc-sandbox{position:absolute;top:16px;left:0;right:0;padding:0 18px;z-index:12;
+    display:flex;flex-direction:column;align-items:center;gap:11px}
+  .cc-toolrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .cc-sandbox .cc-tool{font-size:14px;padding:7px 14px}
+  .cc-desc{font-family:var(--font-tc);font-size:14.5px;color:var(--text-dim);text-align:center;
+    max-width:min(660px,94%);line-height:1.55;min-height:22px}
+  .cc-desc b{color:${accent};font-family:var(--font-mono);font-size:14px}
+  .cc-desc .hint{opacity:.72}
   `
   el.appendChild(style)
 
@@ -179,24 +194,33 @@ export default function mount(el, ctx) {
     ctrls.querySelectorAll('.cc-btn').forEach(b => b.classList.add('hide'))
   }
 
+  const HINT = '<span class="hint">點任一工具，看它踩在哪幾根概念柱上。</span>'
   function buildSandbox() {
     resetScene()
-    // 上方一排可點工具
+    // 上方可點工具（10 顆，wrap 排列）＋ 一句概念組成說明
+    const panel = document.createElement('div')
+    panel.className = 'cc-sandbox'
     const row = document.createElement('div')
-    row.style.cssText = 'position:absolute;top:20px;left:0;right:0;display:flex;flex-wrap:wrap;gap:9px;justify-content:center;padding:0 18px;z-index:12'
+    row.className = 'cc-toolrow'
     row.innerHTML = MAP.map((m, i) => `<button class="cc-tool" data-t="${i}">${m.name}</button>`).join('')
-    rain.appendChild(row)
-    pillars.forEach((p, i) => T(() => p.classList.add('up'), i * 90))
+    const desc = document.createElement('div')
+    desc.className = 'cc-desc'
+    desc.innerHTML = HINT
+    panel.append(row, desc)
+    rain.appendChild(panel)
+    pillars.forEach((p, i) => T(() => p.classList.add('up'), i * 80))
     row.querySelectorAll('.cc-tool').forEach(b => {
-      enterFly(b, { y: -18, dur: 460, delay: +b.dataset.t * 60 })
+      enterFly(b, { y: -16, dur: 440, delay: +b.dataset.t * 45 })
       b.onclick = () => {
         row.querySelectorAll('.cc-tool').forEach(x => x.classList.remove('on'))
         b.classList.add('on'); pop(b)
-        drawLinks(b, MAP[+b.dataset.t].to)
+        const m = MAP[+b.dataset.t]
+        drawLinks(b, m.to)
+        desc.innerHTML = `<b>${m.name}</b> ${m.desc}`
       }
     })
     btn('reset').classList.remove('hide')
-    btn('reset').onclick = () => { pop(btn('reset')); row.querySelectorAll('.cc-tool').forEach(x => x.classList.remove('on')); clearLines(); pillars.forEach(p => p.classList.remove('cool', 'hot')) }
+    btn('reset').onclick = () => { pop(btn('reset')); row.querySelectorAll('.cc-tool').forEach(x => x.classList.remove('on')); clearLines(); pillars.forEach(p => p.classList.remove('cool', 'hot')); desc.innerHTML = HINT }
   }
 
   function buildBeats() {

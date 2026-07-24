@@ -77,7 +77,8 @@ export default function mount(el, ctx) {
       <div class="pb-trash">${TRASH}</div></div>
     <div class="pb-layer" data-l="loop">
       <div class="pb-week">第 <b class="wk">1</b> 週</div>
-      <div class="pb-card"><span class="tag">又從頭磨</span><span class="txt"></span></div></div>
+      <div class="pb-card"><span class="tag">又從頭磨</span><span class="txt"></span></div>
+      <div class="pb-trash">${TRASH}</div></div>
     <div class="pb-layer" data-l="builder">
       <div class="pb-builder">
         <div class="pb-form">${FIELDS.map(f => `<div class="pb-row"><label>${f.label}</label>
@@ -140,16 +141,22 @@ export default function mount(el, ctx) {
     })
   }
 
-  // B2：每週從頭再磨 → 丟掉 → 再來
+  // B2：每週從頭再磨 → 丟進垃圾桶 → 再來（垃圾桶每輪都在）
   function runLoop() {
-    const card = layer('loop').querySelector('.pb-card'), txt = card.querySelector('.txt'), wk = layer('loop').querySelector('.wk')
+    const L = layer('loop')
+    const card = L.querySelector('.pb-card'), txt = card.querySelector('.txt'), wk = L.querySelector('.wk'), trash = L.querySelector('.pb-trash')
     let week = 1
     const cycle = () => {
       wk.textContent = week; pop(wk)
+      // 每輪把卡片還原到起點：清掉 fly 的位移/縮放與透明度
       card.classList.remove('fly'); card.style.opacity = '1'
+      card.style.removeProperty('--tx'); card.style.removeProperty('--ty')
       typeInto(txt, buildPrompt({ platform: 'Instagram', topic: '活動宣傳', tone: '親切', length: '中等', audience: '學生' }), 9, () => {
         T(() => {
-          card.style.setProperty('--tx', '120px'); card.style.setProperty('--ty', '90px'); card.classList.add('fly')
+          const cr = card.getBoundingClientRect(), tr = trash.getBoundingClientRect()
+          card.style.setProperty('--tx', (tr.left - cr.left) + 'px')
+          card.style.setProperty('--ty', (tr.top - cr.top + 30) + 'px')
+          card.classList.add('fly'); shake(trash)
           week++
           if (week <= 4) T(cycle, 700)
         }, 550)

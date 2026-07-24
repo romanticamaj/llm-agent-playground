@@ -246,8 +246,9 @@ export default function mount(el, ctx) {
           let g = 0
           const grow = () => {
             g++; if (g > 2) return
+            // 平台長高，flex 版面自然把上方小人一起頂上去 —
+            // 不要再額外 translateY，否則小人會被抬兩倍、脫離平台頂端。
             oPlat.style.height = (44 + g * 66) + 'px'
-            oFig.style.transform = `translateY(-${g * 66}px)`
             gens.forEach((x, i) => x.classList.toggle('on', i === g))
             pop(oFig)
           }

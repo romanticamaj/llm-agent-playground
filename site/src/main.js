@@ -223,6 +223,7 @@ const io = new IntersectionObserver(entries => {
       document.documentElement.style.setProperty('--accent', accent)
       setBgAccent(accent)
       updateHud(e.target)
+      syncTrackHighlight(e.target)
     }
   }
 }, { threshold: 0.45 })
@@ -357,34 +358,26 @@ function setPresentation(on) {
 document.getElementById('btn-pres').addEventListener('click', () => setPresentation(!presentation))
 
 function gotoSection(delta) {
-  let next = currentIndex
-  do {
-    next += delta
-    if (next < 0 || next >= sections.length) return
-  } while (sections[next].classList.contains('track-hidden'))
+  const next = Math.min(sections.length - 1, Math.max(0, currentIndex + delta))
   sections[next].scrollIntoView({ behavior: 'smooth' })
 }
 
-/* ============ 路線切換器（三帶過濾） ============ */
+/* ============ 路線切換器（平滑捲動導航到各帶起點） ============ */
 const trackSwitch = document.getElementById('track-switch')
-function setTrack(key) {
-  trackSwitch.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.track === key))
-  sections.forEach(sec => {
-    const belt = sec.dataset.belt
-    const show = key === 'all' || belt === 'all' || belt === key
-    sec.classList.toggle('track-hidden', !show)
-    sec._dot.classList.toggle('track-hidden', !show)
-  })
-  const cur = sections[currentIndex]
-  if (cur && cur.classList.contains('track-hidden')) {
-    const first = sections.find(s => !s.classList.contains('track-hidden') && s.dataset.id) || sections[0]
-    first.scrollIntoView({ behavior: 'smooth' })
-  }
-}
+const BELT_ANCHOR = { all: '#top', core: '#ch1', adv: '#ch4', vision: '#ch9' }
 trackSwitch.addEventListener('click', e => {
   const b = e.target.closest('button[data-track]')
-  if (b) setTrack(b.dataset.track)
+  if (!b) return
+  document.querySelector(BELT_ANCHOR[b.dataset.track])?.scrollIntoView({ behavior: 'smooth' })
 })
+// 目前所在帶自動高亮（跟著捲動）
+function syncTrackHighlight(sec) {
+  const belt = sec.dataset.belt === 'all'
+    ? (sec.classList.contains('hero') ? 'all' : 'vision')
+    : sec.dataset.belt
+  trackSwitch.querySelectorAll('button').forEach(b =>
+    b.classList.toggle('on', b.dataset.track === (sec.classList.contains('hero') ? 'all' : belt)))
+}
 
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea, [contenteditable]')) return

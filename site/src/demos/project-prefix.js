@@ -58,7 +58,7 @@ export default function mount(el, ctx) {
   assembly.innerHTML = `
     <div class="pp-seg mem ds-unit"><div class="lbl">記憶</div><div class="txt">${MEMORY}</div></div>
     <span class="pp-plus">+</span>
-    <div class="pp-seg pre ds-unit"><div class="lbl">PROJECT 開頭</div><div class="txt" id="pp-prefix"></div></div>
+    <div class="pp-seg pre ds-unit"><div class="lbl">Claude Projects 開頭</div><div class="txt" id="pp-prefix"></div></div>
     <span class="pp-plus">+</span>
     <div class="pp-seg inp ds-unit"><div class="lbl">你這次的輸入</div><div class="txt">${INPUT}</div></div>`
 
@@ -142,13 +142,13 @@ export default function mount(el, ctx) {
       { narration: '第一塊是<b>記憶</b>、第三塊是<b>你這次的輸入</b> — 這兩塊我們先固定不動。', focus: ['.mem', '.inp'], nextLabel: '那中間呢？ →',
         enter() { resetScene(); pop(assembly.querySelector('.mem')); T(() => pop(assembly.querySelector('.inp')), 180) } },
 
-      { narration: '中間這塊 <b>Project 起始點</b>，就是被鎖在接龍最前面的一段固定開頭。', focus: ['.pre', '.pp-flow'], nextLabel: '換掉它會怎樣？ →',
+      { narration: '中間這塊 <b>Claude Projects 起始點</b>，就是被鎖在接龍最前面的一段固定開頭。', focus: ['.pre', '.pp-flow'], nextLabel: '換掉它會怎樣？ →',
         enter() { resetScene(); pop(assembly.querySelector('.pre')); T(() => pop(llmPill), 300) } },
 
       { narration: '把開頭換成<b>嚴謹顧問</b> — 同一句輸入，開頭一換，輸出的風格整個變了。', focus: ['.pp-tabs', '.pp-out'], nextLabel: '換我切切看 →',
         enter() { resetScene(); T(() => setPreset('consultant', true), 500) } },
 
-      { narration: '換你切 — 三個開頭任你換。<b>GPTs、Gem、Project 只是行銷名字</b>，換的是開頭，不是換了新的大腦。', sandbox: true,
+      { narration: '換你切 — 三個開頭任你換。<b>ChatGPT 專案、Gemini Gem、Claude Projects 只是行銷名字</b> — 它就是把一段話接在接龍的最前面。', sandbox: true,
         enter() { startSandboxRun() } },
     ]
   }

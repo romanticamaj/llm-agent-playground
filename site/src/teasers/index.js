@@ -30,6 +30,17 @@ const custom = {
   'eight-levels': () => import('./eight-levels.js'),
   'vampire-gremlin': () => import('./vampire-gremlin.js'),
   'taste': () => import('./taste.js'),
+  'memory-map': () => import('./memory-map.js'),
+  'self-improving-agent': () => import('./self-improving-agent.js'),
+  'agent-vs-workflow': () => import('./agent-vs-workflow.js'),
+  'hooks': () => import('./hooks.js'),
+  'harness': () => import('./harness.js'),
+  'sub-agents': () => import('./sub-agents.js'),
+  'agent-communication': () => import('./agent-communication.js'),
+  'long-running-agent': () => import('./long-running-agent.js'),
+  'first-pass-acceptance': () => import('./first-pass-acceptance.js'),
+  'relocating-rigor': () => import('./relocating-rigor.js'),
+  'agentic-engineering': () => import('./agentic-engineering.js'),
 }
 
 export async function loadTeaser(id) {
