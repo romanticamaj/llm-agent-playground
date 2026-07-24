@@ -28,7 +28,6 @@ export const demoRegistry = {
   'relocating-rigor': () => import('./relocating-rigor.js'),
   'agentic-engineering': () => import('./agentic-engineering.js'),
   'chase-concepts': () => import('./chase-concepts.js'),
-  'intuition-compression': () => import('./intuition-compression.js'),
   'prompt-builder': () => import('./prompt-builder.js'),
   'mcp': () => import('./mcp.js'),
   'stop-writing-harness': () => import('./stop-writing-harness.js'),

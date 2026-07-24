@@ -20,7 +20,6 @@ const custom = {
   'output-format': () => import('./output-format.js'),
   'tool-verification': () => import('./tool-verification.js'),
   'chase-concepts': () => import('./chase-concepts.js'),
-  'intuition-compression': () => import('./intuition-compression.js'),
   'prompt-builder': () => import('./prompt-builder.js'),
   'mcp': () => import('./mcp.js'),
   'stop-writing-harness': () => import('./stop-writing-harness.js'),

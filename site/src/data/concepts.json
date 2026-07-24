@@ -358,43 +358,7 @@
   },
   {
     "num": "10",
-    "file": "10-intuition-compression.md",
-    "id": "intuition-compression",
-    "title": "直覺是經驗的壓縮",
-    "subtitle": "Intuition = Compression",
-    "chapter": 2,
-    "chapterTitle": "LLM 的本質",
-    "sources": [
-      {
-        "title": "為什麼直覺有時候超準？— 直覺是經驗的壓縮",
-        "url": "https://www.garyhsieh.com/blog/2026-04-28-pattern",
-        "date": "2026-04-28"
-      }
-    ],
-    "classroom": false,
-    "oneLiner": "你的直覺，跟 AI 預測下一個字，其實是同一件事 — 都是把海量經驗壓縮成 pattern，再高速判斷。",
-    "script": "先問一個玄一點的問題：為什麼有時候直覺超準？老司機聽引擎聲就知道車怪怪的；工程師看一眼就猜到大概哪一行出事。這聽起來很像玄學，但其實醫學上解釋得通。\n\n大腦每一秒都在做一件事：預測。它一直在猜「接下來會怎樣」。你過去看過、聽過、踩過的雷，全部被默默壓縮成一堆 pattern 存在腦裡。遇到新狀況，它先用 0.1 秒掃一次「這像不像我以前看過的東西」。像的話，警鈴就響 — 你還說不出原因，胃就先痛了。大腦是先讀到 pattern，才慢慢知道怎麼解釋。\n\n講到這裡，你有沒有覺得很熟悉？這就是我們第一章講的 next-token prediction。LLM 也是把海量文字壓縮成 pattern 存進參數，然後看著前面那串字，高速預測「下一個最可能是什麼」。人腦的直覺跟 LLM 的接龍，是同一個機制的兩個版本 — 都是「經驗的壓縮 + 高速判斷」。\n\n理解這個鏡像關係，有兩個很實用的好處。\n\n第一，你會更懂 AI 為什麼有時候「一本正經地胡說八道」。因為直覺（跟接龍）本來就是快、但不保證對。所以直覺響了，先別當答案，當「警報」。工程上我的做法是跑一次 RCA：到底哪個 pattern 觸發的？把模糊的感受翻成具體假設，再找證據驗。直覺負責發現，理性負責定義跟整理。對 AI 也一樣 — 它給你的第一個判斷是高速直覺，你要做的是驗證，不是照單全收。\n\n第二，這套直覺是可以養的、而且會跨領域。工程做久了、AI 用久了，我發現這套 pattern 開始幫我看世界 — 看到一家公司在做什麼，腦裡會先找一下「這個在 AI 上的 pattern」。壓縮夠多經驗，直覺就會變成你的超能力。",
-    "keyPoints": [
-      "大腦每秒都在「預測下一步」，靠的是把過去經驗壓縮成 pattern",
-      "這跟 LLM 的 next-token prediction 是同一個機制的鏡像",
-      "直覺跟接龍都是「快、但不保證對」— 要當警報，不是當答案",
-      "直覺負責發現，理性負責定義與驗證（跑一次 RCA 把模糊翻成假設）",
-      "Pattern 可以靠大量經驗餵養、而且會跨領域遷移 — 對人如此，對模型也如此"
-    ],
-    "demoIdea": "分割畫面：左邊「人腦」，右邊「LLM」。上方同時餵進一連串經驗／文字（一顆顆資料點飛入），兩邊各自把它們壓縮成一團發光的 pattern 雲。接著丟一個新情境進來（例如「引擎聲怪怪的」／「今天天氣真」），兩邊同時亮起一條「最可能的下一步」判斷，並顯示信心度百分比。使用者可以把某一種經驗（例如「踩過的雷」）數量調大，看兩邊的判斷都變得更準、更快 — 體會「壓縮越多，直覺越強」在人跟模型上是同一條曲線。",
-    "questions": [
-      "你自己有沒有一個「說不出原因，但就是覺得不對」的專業直覺？它是哪些經驗壓縮出來的？",
-      "如果直覺和 AI 的接龍都是「高速但不保證對」，那你對待它們的第二步（驗證）應該有什麼不同？",
-      "「把模糊感受翻成具體假設再驗證」這個動作，套用在你評估 AI 的輸出上，具體會怎麼做？"
-    ],
-    "quotes": [
-      "直覺 = 發現，理性 = 定義、整理。",
-      "直覺是過去所有經驗被默默壓縮後的「高速判斷」。"
-    ]
-  },
-  {
-    "num": "11",
-    "file": "11-agent-anatomy.md",
+    "file": "10-agent-anatomy.md",
     "id": "agent-anatomy",
     "title": "Agent 是怎麼做出來的？",
     "subtitle": "Anatomy of an Agent",
@@ -430,8 +394,8 @@
     ]
   },
   {
-    "num": "12",
-    "file": "12-tool-use.md",
+    "num": "11",
+    "file": "11-tool-use.md",
     "id": "tool-use",
     "title": "Agent 的手跟腳",
     "subtitle": "Tool Use",
@@ -469,8 +433,8 @@
     ]
   },
   {
-    "num": "13",
-    "file": "13-new-signals.md",
+    "num": "12",
+    "file": "12-new-signals.md",
     "id": "new-signals",
     "title": "方向歪了？拉新訊號進來",
     "subtitle": "New Signals / Dynamic Decomposition",
@@ -517,8 +481,8 @@
     ]
   },
   {
-    "num": "14",
-    "file": "14-skill.md",
+    "num": "13",
+    "file": "13-skill.md",
     "id": "skill",
     "title": "把成功的流程，變成可重複的工具",
     "subtitle": "Skills",
@@ -553,8 +517,8 @@
     ]
   },
   {
-    "num": "15",
-    "file": "15-prompt-builder.md",
+    "num": "14",
+    "file": "14-prompt-builder.md",
     "id": "prompt-builder",
     "title": "一次性 prompt 是 leverage，Builder 是複利",
     "subtitle": "The Prompt Builder",
@@ -595,8 +559,8 @@
     ]
   },
   {
-    "num": "16",
-    "file": "16-project-prefix.md",
+    "num": "15",
+    "file": "15-project-prefix.md",
     "id": "project-prefix",
     "title": "ChatGPT 專案、Gemini Gem、Claude Projects — 只是接龍的開頭",
     "subtitle": "Project = Fixed Prefix",
@@ -631,8 +595,8 @@
     ]
   },
   {
-    "num": "17",
-    "file": "17-mcp.md",
+    "num": "16",
+    "file": "16-mcp.md",
     "id": "mcp",
     "title": "MCP — 工具的 USB 接口",
     "subtitle": "Model Context Protocol",
@@ -667,8 +631,8 @@
     ]
   },
   {
-    "num": "18",
-    "file": "18-product-map.md",
+    "num": "17",
+    "file": "17-product-map.md",
     "id": "product-map",
     "title": "同一顆大腦，不同的身體",
     "subtitle": "The Product Map",
@@ -704,8 +668,8 @@
     ]
   },
   {
-    "num": "19",
-    "file": "19-output-format.md",
+    "num": "18",
+    "file": "18-output-format.md",
     "id": "output-format",
     "title": "請你輸出 HTML 格式讓我看",
     "subtitle": "Output Formats",
@@ -734,8 +698,8 @@
     ]
   },
   {
-    "num": "20",
-    "file": "20-tool-verification.md",
+    "num": "19",
+    "file": "19-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -770,8 +734,8 @@
     ]
   },
   {
-    "num": "21",
-    "file": "21-memory-map.md",
+    "num": "20",
+    "file": "20-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -813,8 +777,8 @@
     ]
   },
   {
-    "num": "22",
-    "file": "22-self-improving-agent.md",
+    "num": "21",
+    "file": "21-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -857,8 +821,8 @@
     ]
   },
   {
-    "num": "23",
-    "file": "23-agent-vs-workflow.md",
+    "num": "22",
+    "file": "22-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -894,8 +858,8 @@
     ]
   },
   {
-    "num": "24",
-    "file": "24-hooks.md",
+    "num": "23",
+    "file": "23-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -931,8 +895,8 @@
     ]
   },
   {
-    "num": "25",
-    "file": "25-harness.md",
+    "num": "24",
+    "file": "24-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -974,8 +938,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-stop-writing-harness.md",
+    "num": "25",
+    "file": "25-stop-writing-harness.md",
     "id": "stop-writing-harness",
     "title": "停止手寫 Harness",
     "subtitle": "Harness Depreciates",
@@ -1011,8 +975,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-sub-agents.md",
+    "num": "26",
+    "file": "26-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1048,8 +1012,8 @@
     ]
   },
   {
-    "num": "28",
-    "file": "28-agent-communication.md",
+    "num": "27",
+    "file": "27-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1085,8 +1049,8 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-long-running-agent.md",
+    "num": "28",
+    "file": "28-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1144,8 +1108,8 @@
     ]
   },
   {
-    "num": "30",
-    "file": "30-first-pass-acceptance.md",
+    "num": "29",
+    "file": "29-first-pass-acceptance.md",
     "id": "first-pass-acceptance",
     "title": "第一次就對",
     "subtitle": "First-pass Acceptance",
@@ -1181,8 +1145,8 @@
     ]
   },
   {
-    "num": "31",
-    "file": "31-relocating-rigor.md",
+    "num": "30",
+    "file": "30-relocating-rigor.md",
     "id": "relocating-rigor",
     "title": "嚴謹搬家",
     "subtitle": "Relocating Rigor",
@@ -1226,8 +1190,8 @@
     ]
   },
   {
-    "num": "32",
-    "file": "32-agentic-engineering.md",
+    "num": "31",
+    "file": "31-agentic-engineering.md",
     "id": "agentic-engineering",
     "title": "三條反轉與不能外包的邊界",
     "subtitle": "Agentic Engineering",
@@ -1263,8 +1227,8 @@
     ]
   },
   {
-    "num": "33",
-    "file": "33-permission-boundary.md",
+    "num": "32",
+    "file": "32-permission-boundary.md",
     "id": "permission-boundary",
     "title": "約定不是牆",
     "subtitle": "Boundaries Are Not Walls",
@@ -1305,8 +1269,8 @@
     ]
   },
   {
-    "num": "34",
-    "file": "34-agent-eval.md",
+    "num": "33",
+    "file": "33-agent-eval.md",
     "id": "agent-eval",
     "title": "每次亂講，都變成一條 regression",
     "subtitle": "Agent Evals",
@@ -1343,8 +1307,8 @@
     ]
   },
   {
-    "num": "35",
-    "file": "35-verification-friction.md",
+    "num": "34",
+    "file": "34-verification-friction.md",
     "id": "verification-friction",
     "title": "迭代速度 ≈ 1 / 驗證摩擦",
     "subtitle": "Verification Friction",
@@ -1391,8 +1355,8 @@
     ]
   },
   {
-    "num": "36",
-    "file": "36-eight-levels.md",
+    "num": "35",
+    "file": "35-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1427,8 +1391,8 @@
     ]
   },
   {
-    "num": "37",
-    "file": "37-vampire-gremlin.md",
+    "num": "36",
+    "file": "36-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1465,8 +1429,8 @@
     ]
   },
   {
-    "num": "38",
-    "file": "38-taste.md",
+    "num": "37",
+    "file": "37-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",
