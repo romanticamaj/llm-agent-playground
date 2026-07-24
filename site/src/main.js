@@ -5,13 +5,22 @@ import { demoRegistry } from './demos/index.js'
 import { loadTeaser } from './teasers/index.js'
 
 const CHAPTERS = {
-  1: { en: 'THE NATURE OF LLMS', accent: '#8ea9e8', route: '入門 · 授課主線' },
-  2: { en: 'FROM CHAT TO AGENT', accent: '#72c2ae', route: '入門 · 授課主線' },
-  3: { en: 'MEMORY', accent: '#d9a866', route: '進階 · 工程師路線' },
-  4: { en: 'AGENT ENGINEERING', accent: '#a794d4', route: '進階 · 工程師路線' },
-  5: { en: 'MULTI-AGENT & LONG-RUNNING', accent: '#cf8b96', route: '進階 · 工程師路線' },
-  6: { en: 'WORKING WITH AI', accent: '#b8c48a', route: '進階 · 工程師路線' },
+  1: { en: 'WHY CONCEPTS', accent: '#9db1e8', route: '入門 · 授課主線', belt: 'core' },
+  2: { en: 'THE NATURE OF LLMS', accent: '#8ea9e8', route: '入門 · 授課主線', belt: 'core' },
+  3: { en: 'FROM CHAT TO AGENT', accent: '#72c2ae', route: '入門 · 授課主線', belt: 'core' },
+  4: { en: 'MEMORY', accent: '#d9a866', route: '進階 · 工程師路線', belt: 'adv' },
+  5: { en: 'AGENT ENGINEERING', accent: '#a794d4', route: '進階 · 工程師路線', belt: 'adv' },
+  6: { en: 'MULTI-AGENT & LONG-RUNNING', accent: '#cf8b96', route: '進階 · 工程師路線', belt: 'adv' },
+  7: { en: 'WORKING WITH AI', accent: '#b8c48a', route: '進階 · 工程師路線', belt: 'adv' },
+  8: { en: 'SAFETY & EVALS', accent: '#d08770', route: '進階 · 工程師路線', belt: 'adv' },
+  9: { en: 'THE HORIZON', accent: '#dbc27e', route: '視野 · 工作型態與品味', belt: 'vision' },
 }
+const BELTS = [
+  { key: 'all', label: '全部' },
+  { key: 'core', label: '入門' },
+  { key: 'adv', label: '進階' },
+  { key: 'vision', label: '視野' },
+]
 
 const app = document.getElementById('app')
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -23,6 +32,7 @@ let html = `
 <header class="topbar">
   <a class="wordmark" href="#top">GARY'S <em>AI</em> LAB</a>
   <div class="topbar-right">
+    <div class="track-switch" id="track-switch">${BELTS.map(b => `<button data-track="${b.key}" class="${b.key === 'all' ? 'on' : ''}">${b.label}</button>`).join('')}</div>
     <a class="btn-ghost gh-link" href="https://github.com/romanticamaj/llm-agent-playground" target="_blank" rel="noopener" aria-label="GitHub repo" title="GitHub — llm-agent-playground">
       <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
     </a>
@@ -37,10 +47,10 @@ let html = `
 <div class="cursor-ring" id="cursor-ring"></div>
 <div class="cursor-dot" id="cursor-dot"></div>
 
-<section class="section hero" id="top" data-chapter="1">
+<section class="section hero" id="top" data-chapter="1" data-belt="all">
   <div class="kicker reveal">////// Interactive AI Concepts</div>
   <h1 class="reveal d1">AI 概念<br>實驗室</h1>
-  <p class="sub reveal d2">用 27 個概念，從 LLM 的本質一路走到 Agent 工程。<br>每一個概念，都可以親手玩。</p>
+  <p class="sub reveal d2">用 ${concepts.length} 個概念，從 LLM 的本質一路走到 Agent 工程。<br>每一個概念，都可以親手玩。</p>
   <p class="credit reveal d3">SOURCE // <a href="https://www.garyhsieh.com/blog" target="_blank" rel="noopener">garyhsieh.com</a> · PRESS <b>P</b> FOR STAGE MODE</p>
   <div class="marquee reveal d3"><div class="track" id="marquee-track"></div></div>
   <div class="scroll-hint">SCROLL</div>
@@ -53,7 +63,7 @@ for (const c of concepts) {
     lastChapter = c.chapter
     const ch = CHAPTERS[c.chapter]
     html += `
-<section class="section chapter-divider" id="ch${c.chapter}" data-chapter="${c.chapter}" data-chapter-start>
+<section class="section chapter-divider" id="ch${c.chapter}" data-chapter="${c.chapter}" data-belt="${ch.belt}" data-chapter-start>
   <div class="ch-route reveal">${esc(ch.route)}</div>
   <div class="ch-num reveal">0${c.chapter}</div>
   <div class="ch-title reveal d1">${esc(c.chapterTitle)}</div>
@@ -64,7 +74,7 @@ for (const c of concepts) {
     ? `<a class="btn-secondary" href="${c.sources[0].url}" target="_blank" rel="noopener">原文 ↗</a>`
     : ''
   html += `
-<section class="section concept" id="${c.id}" data-chapter="${c.chapter}" data-id="${c.id}">
+<section class="section concept" id="${c.id}" data-chapter="${c.chapter}" data-belt="${CHAPTERS[c.chapter].belt}" data-id="${c.id}">
   <div class="concept-inner">
     <div class="concept-text">
       <div class="meta reveal"><span class="num">${c.num}</span><span class="subtitle">${esc(c.subtitle)}</span></div>
@@ -85,9 +95,9 @@ for (const c of concepts) {
 }
 
 html += `
-<section class="section outro" data-chapter="5">
+<section class="section outro" data-chapter="9" data-belt="all">
   <h2 class="reveal">概念是入口，<br>原文是完整的旅程。</h2>
-  <p class="reveal d1">這 27 個概念都來自 Gary 的第一手實作心得與授課現場。每一篇原文都有更多細節、來源與工程脈絡。</p>
+  <p class="reveal d1">這 ${concepts.length} 個概念都來自 Gary 的第一手實作心得與授課現場。每一篇原文都有更多細節、來源與工程脈絡。</p>
   <div class="actions reveal d2"><a class="btn-primary" style="text-decoration:none" href="https://www.garyhsieh.com/blog" target="_blank" rel="noopener">去讀原文 ↗</a></div>
 </section>
 
@@ -347,9 +357,34 @@ function setPresentation(on) {
 document.getElementById('btn-pres').addEventListener('click', () => setPresentation(!presentation))
 
 function gotoSection(delta) {
-  const next = Math.min(sections.length - 1, Math.max(0, currentIndex + delta))
+  let next = currentIndex
+  do {
+    next += delta
+    if (next < 0 || next >= sections.length) return
+  } while (sections[next].classList.contains('track-hidden'))
   sections[next].scrollIntoView({ behavior: 'smooth' })
 }
+
+/* ============ 路線切換器（三帶過濾） ============ */
+const trackSwitch = document.getElementById('track-switch')
+function setTrack(key) {
+  trackSwitch.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.track === key))
+  sections.forEach(sec => {
+    const belt = sec.dataset.belt
+    const show = key === 'all' || belt === 'all' || belt === key
+    sec.classList.toggle('track-hidden', !show)
+    sec._dot.classList.toggle('track-hidden', !show)
+  })
+  const cur = sections[currentIndex]
+  if (cur && cur.classList.contains('track-hidden')) {
+    const first = sections.find(s => !s.classList.contains('track-hidden') && s.dataset.id) || sections[0]
+    first.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+trackSwitch.addEventListener('click', e => {
+  const b = e.target.closest('button[data-track]')
+  if (b) setTrack(b.dataset.track)
+})
 
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea, [contenteditable]')) return

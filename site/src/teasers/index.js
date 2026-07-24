@@ -19,6 +19,17 @@ const custom = {
   'product-map': () => import('./product-map.js'),
   'output-format': () => import('./output-format.js'),
   'tool-verification': () => import('./tool-verification.js'),
+  'chase-concepts': () => import('./chase-concepts.js'),
+  'intuition-compression': () => import('./intuition-compression.js'),
+  'prompt-builder': () => import('./prompt-builder.js'),
+  'mcp': () => import('./mcp.js'),
+  'stop-writing-harness': () => import('./stop-writing-harness.js'),
+  'permission-boundary': () => import('./permission-boundary.js'),
+  'agent-eval': () => import('./agent-eval.js'),
+  'verification-friction': () => import('./verification-friction.js'),
+  'eight-levels': () => import('./eight-levels.js'),
+  'vampire-gremlin': () => import('./vampire-gremlin.js'),
+  'taste': () => import('./taste.js'),
 }
 
 export async function loadTeaser(id) {

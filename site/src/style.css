@@ -692,3 +692,31 @@ body:has(.demo-overlay.open) .pres-hud { opacity: 0 !important; pointer-events: 
 }
 .gh-link:hover { color: var(--text); }
 .gh-link svg { display: block; }
+
+/* ---------- 路線切換器（三帶） ---------- */
+.track-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(244, 244, 237, 0.03);
+  backdrop-filter: blur(12px);
+}
+.track-switch button {
+  font-family: var(--font-tc);
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.track-switch button:hover { color: var(--text); }
+.track-switch button.on { background: var(--text); color: #08090a; font-weight: 700; }
+.section.track-hidden { display: none; }
+.rail .dot.track-hidden { display: none; }
+@media (max-width: 900px) { .track-switch { display: none; } }
