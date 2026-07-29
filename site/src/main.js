@@ -309,6 +309,7 @@ let overlayOpen = false
 async function openDemo(id) {
   const c = byId[id]
   if (!c) return
+  notes.classList.remove('open')
   document.getElementById('demo-num').textContent = c.num
   document.getElementById('demo-name').textContent = `${c.title} — ${c.subtitle}`
   overlay.classList.add('open')
@@ -345,9 +346,9 @@ document.getElementById('demo-close').addEventListener('click', closeDemo)
 
 app.addEventListener('click', e => {
   const demoBtn = e.target.closest('[data-demo]')
-  if (demoBtn) return openDemo(demoBtn.dataset.demo)
+  if (demoBtn) { demoBtn.blur(); return openDemo(demoBtn.dataset.demo) }
   const notesBtn = e.target.closest('[data-notes]')
-  if (notesBtn) return openNotes(notesBtn.dataset.notes)
+  if (notesBtn) { notesBtn.blur(); return openNotes(notesBtn.dataset.notes) }
 })
 
 /* ============ presentation mode ============ */
@@ -469,6 +470,7 @@ document.addEventListener('keydown', e => {
       if (presentation) { e.preventDefault(); gotoSection(-1) }
       break
     case 'Enter': {
+      e.preventDefault()
       const sec = sections[currentIndex]
       if (sec?.dataset.id) openDemo(sec.dataset.id)
       break
