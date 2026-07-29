@@ -38,21 +38,21 @@ npm run dev   # 打開 http://localhost:5173
 | 06 | 選大腦 | Choosing Your Model | 課堂實錄 + [跟 AI 說「幫我記住這個」…](https://www.garyhsieh.com/blog/2026-04-07-ai)、[Agentic Programming 起手式](https://www.garyhsieh.com/blog/2026-07-20-agentic-programming-setup) |
 | 07 | 貨車滿了，怎麼辦？ | Compaction & Fresh Context | 課堂實錄 + [Session Handoff 看 Long-running Agent](https://www.garyhsieh.com/blog/2026-04-06-session-handoff-long-running) |
 | 08 | 編輯鈕是時光機 | Context Pollution & Rewind | [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
-| 09 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
+| 09 | 請你輸出 HTML 格式讓我看 | Output Formats | 課堂實錄 |
+| 10 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
 
 ### Chapter 3 — 從聊天到 Agent　`🟢 入門・授課主線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 10 | Agent 是怎麼做出來的？ | Anatomy of an Agent | [Agent 是怎麼做出來的？](https://www.garyhsieh.com/blog/2026-04-30-agent) |
-| 11 | Agent 的手跟腳 | Tool Use | [Agent 的手跟腳 / Tools](https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm) |
-| 12 | 方向歪了？拉新訊號進來 | New Signals / Dynamic Decomposition | [拉「新訊號」進來](https://www.garyhsieh.com/blog/2026-04-13-ai)、[救援 prompt](https://www.garyhsieh.com/blog/2026-05-02-ai)、[先用 Web Search 驗證](https://www.garyhsieh.com/blog/2026-04-15-web-search-ai) |
-| 13 | 把成功的流程，變成可重複的工具 | Skills | 課堂實錄 + [Software Engineering w/ Claude 2026](https://www.garyhsieh.com/blog/2026-05-11-software-engineering-claude) |
-| 14 | 一次性 prompt 是 leverage，Builder 是複利 | The Prompt Builder | [每個人都應該有一個 Prompt Builder](https://www.garyhsieh.com/blog/2026-06-23-prompt-builder)、[Higher-Order Prompting](https://www.garyhsieh.com/blog/2026-06-23-higher-order-prompting) |
-| 15 | GPTs、Gem、Project — 只是接龍的開頭 | Project = Fixed Prefix | 課堂實錄 + [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
-| 16 | MCP — 工具的 USB 接口 | Model Context Protocol | [資訊落差超級大的事情（AI 整理 Gmail）](https://www.garyhsieh.com/blog/2026-05-24-ai-gmail-chatgpt) |
-| 17 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
-| 18 | 請你輸出 HTML 格式讓我看 | Output Formats | 課堂實錄 |
+| 11 | Agent 是怎麼做出來的？ | Anatomy of an Agent | [Agent 是怎麼做出來的？](https://www.garyhsieh.com/blog/2026-04-30-agent) |
+| 12 | Agent 的手跟腳 | Tool Use | [Agent 的手跟腳 / Tools](https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm) |
+| 13 | 方向歪了？拉新訊號進來 | New Signals / Dynamic Decomposition | [拉「新訊號」進來](https://www.garyhsieh.com/blog/2026-04-13-ai)、[救援 prompt](https://www.garyhsieh.com/blog/2026-05-02-ai)、[先用 Web Search 驗證](https://www.garyhsieh.com/blog/2026-04-15-web-search-ai) |
+| 14 | 把成功的流程，變成可重複的工具 | Skills | 課堂實錄 + [Software Engineering w/ Claude 2026](https://www.garyhsieh.com/blog/2026-05-11-software-engineering-claude) |
+| 15 | 一次性 prompt 是 leverage，Builder 是複利 | The Prompt Builder | [每個人都應該有一個 Prompt Builder](https://www.garyhsieh.com/blog/2026-06-23-prompt-builder)、[Higher-Order Prompting](https://www.garyhsieh.com/blog/2026-06-23-higher-order-prompting) |
+| 16 | GPTs、Gem、Project — 只是接龍的開頭 | Project = Fixed Prefix | 課堂實錄 + [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
+| 17 | MCP — 工具的 USB 接口 | Model Context Protocol | [資訊落差超級大的事情（AI 整理 Gmail）](https://www.garyhsieh.com/blog/2026-05-24-ai-gmail-chatgpt) |
+| 18 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
 | 19 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
 
 ### Chapter 4 — Memory：讓 AI 記得　`🟡 進階・工程師路線`

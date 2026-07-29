@@ -2,8 +2,8 @@
 id: output-format
 title: 目的地決定格式 — 請你輸出 HTML 讓我看
 subtitle: Output Formats
-chapter: 3
-chapterTitle: 從聊天到 Agent
+chapter: 2
+chapterTitle: LLM 的本質
 classroom: true
 ---
 

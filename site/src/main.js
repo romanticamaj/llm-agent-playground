@@ -32,6 +32,7 @@ let html = `
 <header class="topbar">
   <a class="wordmark" href="#top">GARY'S <em>AI</em> LAB</a>
   <div class="topbar-right">
+    <button class="btn-ghost" id="btn-index">目錄 <kbd>K</kbd></button>
     <div class="track-switch" id="track-switch">${BELTS.map(b => `<button data-track="${b.key}" class="${b.key === 'all' ? 'on' : ''}">${b.label}</button>`).join('')}</div>
     <a class="btn-ghost gh-link" href="https://github.com/romanticamaj/llm-agent-playground" target="_blank" rel="noopener" aria-label="GitHub repo" title="GitHub — llm-agent-playground">
       <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -104,6 +105,13 @@ html += `
 <div class="notes-panel" id="notes">
   <div class="notes-head"><div class="t" id="notes-title"></div><button class="close-x" id="notes-close">✕</button></div>
   <div class="notes-body" id="notes-body"></div>
+</div>
+
+<div class="palette" id="palette" aria-hidden="true">
+  <div class="palette-box" role="dialog" aria-label="概念目錄">
+    <div class="palette-head"><span>// INDEX · 概念目錄</span><span>ESC 關閉</span></div>
+    <div class="palette-scroll" id="palette-scroll"></div>
+  </div>
 </div>
 
 <div class="demo-overlay" id="demo-overlay">
@@ -379,16 +387,76 @@ function syncTrackHighlight(sec) {
     b.classList.toggle('on', b.dataset.track === (sec.classList.contains('hero') ? 'all' : belt)))
 }
 
+/* ============ 快速導航面板（command palette 式主題索引） ============ */
+const palette = document.getElementById('palette')
+const paletteScroll = document.getElementById('palette-scroll')
+;(function buildPalette() {
+  const groups = new Map()
+  for (const c of concepts) {
+    if (!groups.has(c.chapter)) groups.set(c.chapter, [])
+    groups.get(c.chapter).push(c)
+  }
+  let ph = ''
+  for (const [chapter, list] of [...groups.entries()].sort((a, b) => a[0] - b[0])) {
+    const ch = CHAPTERS[chapter]
+    ph += `
+<div class="pal-chapter" style="--accent:${ch.accent}">
+  <div class="pal-ch-head">
+    <span class="pal-ch-num">CH.0${chapter}</span>
+    <span class="pal-ch-title">${esc(list[0].chapterTitle)}</span>
+    <span class="pal-ch-en">${esc(ch.en)}</span>
+  </div>
+  <div class="pal-grid">
+    ${list.map(c => `<button class="pal-item" data-goto="${c.id}"><span class="pal-num">${c.num}</span><span class="pal-item-title">${esc(c.title)}</span></button>`).join('')}
+  </div>
+</div>`
+  }
+  paletteScroll.innerHTML = ph
+})()
+
+let paletteOpen = false
+function openPalette() {
+  if (overlayOpen) return
+  const curId = sections[currentIndex]?.dataset.id
+  palette.querySelectorAll('.pal-item').forEach(b => b.classList.toggle('current', !!curId && b.dataset.goto === curId))
+  palette.classList.add('open')
+  palette.setAttribute('aria-hidden', 'false')
+  paletteOpen = true
+  paletteScroll.querySelector('.pal-item.current')?.scrollIntoView({ block: 'center' })
+}
+function closePalette() {
+  palette.classList.remove('open')
+  palette.setAttribute('aria-hidden', 'true')
+  paletteOpen = false
+}
+palette.addEventListener('click', e => {
+  if (e.target === palette) return closePalette()
+  const item = e.target.closest('[data-goto]')
+  if (item) {
+    closePalette()
+    document.getElementById(item.dataset.goto)?.scrollIntoView({ behavior: 'smooth' })
+  }
+})
+document.getElementById('btn-index').addEventListener('click', openPalette)
+hudBl.addEventListener('click', openPalette)
+
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea, [contenteditable]')) return
   if (e.key === 'Escape') {
+    if (paletteOpen) return closePalette()
     if (overlayOpen) return closeDemo()
     if (notes.classList.contains('open')) return notes.classList.remove('open')
     if (presentation) return setPresentation(false)
     return
   }
+  if (paletteOpen) {
+    if (e.key === 'k' || e.key === 'K') closePalette()
+    return
+  }
   if (overlayOpen) return
   switch (e.key) {
+    case 'k': case 'K':
+      openPalette(); break
     case 'p': case 'P':
       setPresentation(!presentation); break
     case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ':
