@@ -282,9 +282,9 @@ body::after {
   font-size: clamp(100px, 24vw, 320px);
   font-weight: 300;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--accent);
-  opacity: 0.5;
+  color: color-mix(in srgb, var(--accent) 12%, transparent);
+  -webkit-text-stroke: 2px var(--accent);
+  opacity: 0.85;
 }
 .chapter-divider .ch-title {
   font-size: clamp(32px, 4.2vw, 60px);
