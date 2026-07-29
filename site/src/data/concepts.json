@@ -37,7 +37,38 @@
   },
   {
     "num": "02",
-    "file": "02-next-token-prediction.md",
+    "file": "02-cognitive-load.md",
+    "id": "cognitive-load",
+    "title": "你只有 100 分 — 認知負荷三分法",
+    "subtitle": "Cognitive Load",
+    "chapter": 1,
+    "chapterTitle": "開場 — 為什麼是概念",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "你的腦一天就 100 分認知點數，花在哪裡決定你用 AI 的天花板 —— 少花在「工具怎麼裝」，多花在「這東西對不對」。",
+    "script": "先給大家一個很老、但今天超好用的理論。1988 年 Sweller 提出「認知負荷理論（Cognitive Load Theory）」，本來是講人怎麼學東西的。我把它整個搬過來，套在「你怎麼用 AI」這件事上 —— 你會發現它精準到不行。\n\n你就想像：**你一天只有 100 分的認知點數。** 不是比喻，是真的。你腦袋能同時處理的東西就那麼多，用完就累了、就當機了。這 100 分會被三種負荷吃掉：\n\n第一種是 **Intrinsic（內在負荷）** —— 任務本身的難度。改一個錯字很簡單，設計一套排班邏輯很難，這是任務天生的重量，你逃不掉。但它有個用途：**你用這個難度，去決定要選多強的模型。** 簡單任務用小模型就好，難任務才叫大腦出來。這是我們後面「選大腦」那課的伏筆。\n\n第二種是 **Extraneous（外在負荷）** —— 不必要的雜訊。「git 是什麼？」「這裡要按哪個鍵？」「這個工具怎麼裝？」這些跟你要解的問題一點關係都沒有，可是它一直在吃你的點數。我的建議很直接：**遇到就跳過。** 這些東西你要嘛獨立找個時間學、要嘛留給顧問時間問人 —— 但**不要在處理任務的當下學工具**。你在解一個排班問題，結果卡在「終端機那個黑黑的視窗怎麼用」，你 100 分裡有 50 分燒在這，太可惜了。\n\n第三種是 **Germane（增生負荷）** —— 這是**最棒的一種 load，一定要花。** 它是你在建構判斷力：「這個 skill 寫得對不對？」「這張排班表能不能發佈？」「AI 給我這個結論，我信不信得過？」這種思考會累，但它累得有價值 —— 它讓你下次更會判斷。這是你該把點數大量倒進去的地方。\n\n所以你看：**有人 100 分花 50 分在 extraneous，有人 100 分只花 50 分、但那 50 分全在 germane —— 後者超划算。** 我看過有人 AI 工具用得非常強，為什麼？因為他把 extraneous 壓到趨近於零、**轉換成本超低，一天可以做 20 個項目。** 不是他比較聰明，是他不把點數浪費在雜訊上。\n\n記住這句就好：**你只有 100 分。** 這門課接下來教的每一個概念，本質上都在幫你做同一件事 —— 把點數從 extraneous 挪到 germane。",
+    "keyPoints": [
+      "你一天只有 100 分認知點數，用在哪決定你用 AI 的上限（源自 Sweller 1988 認知負荷理論）",
+      "Intrinsic（任務本身難度）：用它來決定選多強的模型 —— 難任務才叫大腦",
+      "Extraneous（雜訊：git、按哪鍵、工具怎麼裝）：遇到就跳過，獨立學或留給顧問時間，別在處理任務時學工具",
+      "Germane（建構判斷力：skill 對不對、排班能不能發佈）：最棒的 load，一定要花",
+      "轉換成本越低的人做得越強 —— 不是比較聰明，是不把點數浪費在 extraneous"
+    ],
+    "demoIdea": "一個「100 分認知點數分配」遊戲。畫面上有一條總量 100 分的能量條，下面三個桶：Intrinsic、Extraneous、Germane。使用者拖動滑桿把 100 分分配到三個桶，右邊即時演算出「今天你能完成幾個項目」與「你累積了多少判斷力」。當使用者把大量點數丟進 Extraneous，項目數暴跌、判斷力零成長，畫面變灰；當使用者壓低 Extraneous、灌滿 Germane，項目數與判斷力同時衝高，跳出「轉換成本超低，一天做 20 個項目」的達成提示。體驗「同樣 100 分，配法決定你的天花板」。",
+    "questions": [
+      "回想你上一次用 AI 卡最久的地方 —— 那是卡在任務本身（Intrinsic），還是卡在工具怎麼用（Extraneous）？",
+      "你今天 100 分裡，有多少不小心燒在了「這個鍵在哪」這種雜訊上？",
+      "哪些「累」是值得的（Germane）、哪些是白累的（Extraneous）？你分得出來嗎？"
+    ],
+    "quotes": [
+      "你只有 100 分。",
+      "有人 AI 工具用得非常強，因為他轉換成本超低，一天可以做 20 個項目。",
+      "有人 100 分花 50 在 extraneous，有人 50 花在 germane —— 超划算。"
+    ]
+  },
+  {
+    "num": "03",
+    "file": "03-next-token-prediction.md",
     "id": "next-token-prediction",
     "title": "AI 是文字接龍",
     "subtitle": "Next-token Prediction",
@@ -72,8 +103,8 @@
     ]
   },
   {
-    "num": "03",
-    "file": "03-deterministic-vs-nondeterministic.md",
+    "num": "04",
+    "file": "04-deterministic-vs-nondeterministic.md",
     "id": "deterministic-vs-nondeterministic",
     "title": "Deterministic vs. Non-deterministic",
     "subtitle": "確定性與非確定性",
@@ -115,8 +146,8 @@
     ]
   },
   {
-    "num": "04",
-    "file": "04-llm-stateless.md",
+    "num": "05",
+    "file": "05-llm-stateless.md",
     "id": "llm-stateless",
     "title": "LLM 根本沒有記憶",
     "subtitle": "LLM is Stateless",
@@ -154,8 +185,8 @@
     ]
   },
   {
-    "num": "05",
-    "file": "05-context-window.md",
+    "num": "06",
+    "file": "06-context-window.md",
     "id": "context-window",
     "title": "Context Window 是 AI 的全部世界",
     "subtitle": "The Context Window",
@@ -205,8 +236,8 @@
     ]
   },
   {
-    "num": "06",
-    "file": "06-choose-your-brain.md",
+    "num": "07",
+    "file": "07-choose-your-brain.md",
     "id": "choose-your-brain",
     "title": "選大腦",
     "subtitle": "Choosing Your Model",
@@ -248,8 +279,8 @@
     ]
   },
   {
-    "num": "07",
-    "file": "07-compaction.md",
+    "num": "08",
+    "file": "08-compaction.md",
     "id": "compaction",
     "title": "貨車滿了，怎麼辦？",
     "subtitle": "Compaction & Fresh Context",
@@ -284,8 +315,8 @@
     ]
   },
   {
-    "num": "08",
-    "file": "08-context-pollution-rewind.md",
+    "num": "09",
+    "file": "09-context-pollution-rewind.md",
     "id": "context-pollution-rewind",
     "title": "編輯鈕是時光機",
     "subtitle": "Context Pollution & Rewind",
@@ -300,13 +331,15 @@
     ],
     "classroom": false,
     "oneLiner": "不要在汙染的 context 上繼續修補 — 跳回乾淨的時間點，重新接龍。",
-    "script": "聊聊為什麼需要沒事多按「編輯」？只是因為修正錯字嗎？\n\nAI 是文字接龍。所以當你輸入一個有問題的 prompt，或是 AI 給了一個不對的回應，然後你繼續往下聊、請它修正 — 你其實是在一段已經汙染的 context 上面繼續接龍。工程上有兩個詞：Context Pollution（上下文汙染）跟 Context Collision（上下文衝突）。一旦誤解被寫進 context，之後所有的回應都會帶著那個誤解往下走。有論文做過量化測試：跨多輪對話下指令，模型平均有 39% 的效能下滑 — 因為模型開始複製自己的前一個回應，而不是認真看新的指令。\n\n這就是「編輯」真正在解決的問題。不管是 Claude 的 Edit、ChatGPT 的修改、還是 Claude Code 的 Rewind — 本質上都是同一件事：讓你跳回某個時間點，從那個點重新接龍。就像時光機。\n\n工程上它在每一層都有實作：對話層是編輯訊息、截斷 context、重新生成；Coding Agent 層是 checkpoint — 在危險操作前先存檔，跑歪了直接跳回，跟打電動存檔一模一樣；Agent Framework 層是把每一步執行狀態序列化存起來，掛掉就從最後一個好狀態恢復。沒有 checkpoint 機制的 agent，只能算 toy。\n\n更進階的是 Branching：Rewind 只是「回去」，Branching 是「回去之後，同時走兩條路」— 把 Git 的概念搬到對話上。分支式對話比線性對話的 context 縮減 58%，品質還更好，因為每條探索路徑都在自己乾淨的 context 裡跑。\n\n下次看到「編輯」按鈕，記住 — 它不是改錯字用的，它是會開啟平行宇宙的時光機。",
+    "script": "聊聊為什麼需要沒事多按「編輯」？只是因為修正錯字嗎？\n\nAI 是文字接龍。所以當你輸入一個有問題的 prompt，或是 AI 給了一個不對的回應，然後你繼續往下聊、請它修正 — 你其實是在一段已經汙染的 context 上面繼續接龍。工程上有兩個詞：Context Pollution（上下文汙染）跟 Context Collision（上下文衝突）。一旦誤解被寫進 context，之後所有的回應都會帶著那個誤解往下走。有論文做過量化測試：跨多輪對話下指令，模型平均有 39% 的效能下滑 — 因為模型開始複製自己的前一個回應，而不是認真看新的指令。\n\n這就是「編輯」真正在解決的問題。不管是 Claude 的 Edit、ChatGPT 的修改、還是 Claude Code 的 Rewind — 本質上都是同一件事：讓你跳回某個時間點，從那個點重新接龍。就像時光機。\n\n工程上它在每一層都有實作：對話層是編輯訊息、截斷 context、重新生成；Coding Agent 層是 checkpoint — 在危險操作前先存檔，跑歪了直接跳回，跟打電動存檔一模一樣；Agent Framework 層是把每一步執行狀態序列化存起來，掛掉就從最後一個好狀態恢復。沒有 checkpoint 機制的 agent，只能算 toy。\n\n更進階的是 Branching：Rewind 只是「回去」，Branching 是「回去之後，同時走兩條路」— 把 Git 的概念搬到對話上。分支式對話比線性對話的 context 縮減 58%，品質還更好，因為每條探索路徑都在自己乾淨的 context 裡跑。\n\n講到 Git，剛好把這台時光機接回工程世界 —— 因為「編輯鈕」的原理，在工程世界就是**版本控制**。先把兩個常被搞混的東西分清楚：**git 是一個工具**，裝在你電腦上，本質就是程式碼的「記憶回溯器」—— 幫你的專案存檔、比對、跳回任何一個過去的版本；**GitHub 是一個網站**，是把 git 專案放上雲端的地方，你可以把它想成「git 界的 BMW」—— 一塊做得很漂亮的招牌。兩者常被當成同一個，其實**裝 git 不等於要用 GitHub**，你完全可以只在本機用 git、不碰任何網站。那 git 跟這章有什麼關係？一模一樣的道理：讓 AI 動手改 code 之前，**先 commit 一個節點**（等於存檔），讓它跑；跑歪了，直接退回上一個 commit —— 這就是對話層「編輯／rewind」在工程世界的對應版。checkpoint、rewind、branching，你在對話裡按的那顆時光機按鈕，工程師早就用 git 用了幾十年。\n\n下次看到「編輯」按鈕，記住 — 它不是改錯字用的，它是會開啟平行宇宙的時光機。",
     "keyPoints": [
       "Context Pollution：誤解一旦寫進 context，所有後續回應都帶著它走",
       "多輪修補的效果遠不如跳回乾淨狀態重新生成（量化：平均 39% 效能下滑）",
       "Rewind 三層實作：Chat 編輯 / Agent checkpoint / Framework 狀態序列化",
       "Branching = 回去之後同時走兩條路，每條路都有乾淨的 context",
-      "核心原則：不要在汙染的 context 上修補，讓模型從乾淨狀態重新生成"
+      "核心原則：不要在汙染的 context 上修補，讓模型從乾淨狀態重新生成",
+      "工程版時光機就是 git：git 是工具（程式碼的記憶回溯器，本機存檔／跳回版本），GitHub 是網站（「git 界的 BMW」）",
+      "AI 動手改 code 前先 commit 節點、跑歪退回 —— 編輯／rewind 在工程世界就是版本控制；裝 git 不等於要用 GitHub"
     ],
     "demoIdea": "畫面是一棵對話樹。使用者跟模擬 AI 對話，其中一步故意選一個「錯誤理解」的回應 — 該節點變紅，之後每個新節點都帶著紅色暈染（汙染在傳播），品質分數持續下滑。然後使用者按「Rewind」，時間軸倒帶動畫回到紅色節點之前，從那裡長出一條乾淨的綠色新分支，品質分數回升。再按「Branch」可同時長兩條分支比較答案。紅綠對比 + 倒帶動畫，一眼看懂「時光機」。",
     "questions": [
@@ -316,12 +349,14 @@
     ],
     "quotes": [
       "不要在一個汙染的 context 上繼續修補，讓模型從乾淨的狀態重新生成。",
-      "下次看到「編輯」按鈕，不只是打錯字在用，他是會開啟平行宇宙的時光機。"
+      "下次看到「編輯」按鈕，不只是打錯字在用，他是會開啟平行宇宙的時光機。",
+      "git 是工具，GitHub 是網站 —— 裝 git 不等於要用 GitHub。",
+      "讓 AI 動手前先 commit 一個節點，跑歪了就退回來 —— 編輯鈕的原理，工程世界叫版本控制。"
     ]
   },
   {
-    "num": "09",
-    "file": "09-output-format.md",
+    "num": "10",
+    "file": "10-output-format.md",
     "id": "output-format",
     "title": "目的地決定格式 — 請你輸出 HTML 讓我看",
     "subtitle": "Output Formats",
@@ -354,8 +389,8 @@
     ]
   },
   {
-    "num": "10",
-    "file": "10-prompt-cache.md",
+    "num": "11",
+    "file": "11-prompt-cache.md",
     "id": "prompt-cache",
     "title": "算過的，別再算",
     "subtitle": "Prompt Cache / KV Cache",
@@ -391,8 +426,8 @@
     ]
   },
   {
-    "num": "11",
-    "file": "11-agent-anatomy.md",
+    "num": "12",
+    "file": "12-agent-anatomy.md",
     "id": "agent-anatomy",
     "title": "Agent 是怎麼做出來的？",
     "subtitle": "Anatomy of an Agent",
@@ -428,8 +463,8 @@
     ]
   },
   {
-    "num": "12",
-    "file": "12-tool-use.md",
+    "num": "13",
+    "file": "13-tool-use.md",
     "id": "tool-use",
     "title": "Agent 的手跟腳",
     "subtitle": "Tool Use",
@@ -444,13 +479,15 @@
     ],
     "classroom": false,
     "oneLiner": "LLM 只會輸出字，沒有手也沒有腳 — Tool 裝上去，它才開始「行動」。",
-    "script": "先講一個當天課堂上醫師們最有感的分水嶺。以前的 LLM 你問它、它就回你一段文字，僅此而已。Agent 不一樣 — 它輸出的不是文字，是**指令**：一句「去讀這個檔」「去跑這個腳本」「去發這封信」，然後真的有東西替它把指令執行掉。從「輸出文字」到「輸出指令去操作 tool」，這一步就是從聊天跨到行動的分水嶺。聽懂這句，整個 Agent 就懂一半了。\n\nLLM 本質就是文字接龍 — 它沒有手也沒有腳。它能讀檔嗎？不能。能上網嗎？不能。能跑腳本嗎？更不能。它只會輸出字。\n\n那為什麼 Claude Code 可以寫 code、ChatGPT 可以查天氣？因為大家在它後面裝了工具（Tool）。Tool 就是 Agent 的手跟腳。沒有 Tool，LLM 再會推理，結論也只能輸出成文字，不會「發生」任何事。\n\nTool 怎麼安裝？沒有想像中神秘，就兩件事：Schema — 一份 JSON「工具清單」，告訴 LLM 你有這些能力、長這樣呼叫；Executor — 真正的「工具程式碼」，跑在你的 harness 裡執行。LLM 只看到清單，看不到程式碼。它只負責讀清單、決定點哪一個、把點單吐回給你 — 真正的執行是在我們這邊。\n\n整個 pattern 是一個 loop：訊息跟 tool schema 平行送進 API → LLM 回覆「我要用這個工具、參數是這些」外加一個 unique ID → 本地 loop 執行對應的 executor → 把結果配對同一個 ID 塞回 messages → 再 call 一次 API → LLM 看到結果繼續推理 → 直到它說「講完了」。\n\n那無狀態的 LLM 為什麼「記得」自己剛用過工具？因為 harness 每一輪把前面所有 messages、tool_use、tool_result 全部重新組裝送回去。ID 配對就是重組過程裡的信號線。模型看到完整重組的 history，就像記得剛剛做了什麼一樣。\n\n這就是 2022 年 ReAct 論文定下的雛形 — 推理跟行動交錯，一邊想一邊用工具。現在所有 agent loop 都是它的後代。",
+    "script": "先講一個當天課堂上醫師們最有感的分水嶺。以前的 LLM 你問它、它就回你一段文字，僅此而已。Agent 不一樣 — 它輸出的不是文字，是**指令**：一句「去讀這個檔」「去跑這個腳本」「去發這封信」，然後真的有東西替它把指令執行掉。從「輸出文字」到「輸出指令去操作 tool」，這一步就是從聊天跨到行動的分水嶺。聽懂這句，整個 Agent 就懂一半了。\n\nLLM 本質就是文字接龍 — 它沒有手也沒有腳。它能讀檔嗎？不能。能上網嗎？不能。能跑腳本嗎？更不能。它只會輸出字。\n\n那為什麼 Claude Code 可以寫 code、ChatGPT 可以查天氣？因為大家在它後面裝了工具（Tool）。Tool 就是 Agent 的手跟腳。沒有 Tool，LLM 再會推理，結論也只能輸出成文字，不會「發生」任何事。\n\nTool 怎麼安裝？沒有想像中神秘，就兩件事：Schema — 一份 JSON「工具清單」，告訴 LLM 你有這些能力、長這樣呼叫；Executor — 真正的「工具程式碼」，跑在你的 harness 裡執行。LLM 只看到清單，看不到程式碼。它只負責讀清單、決定點哪一個、把點單吐回給你 — 真正的執行是在我們這邊。\n\n整個 pattern 是一個 loop：訊息跟 tool schema 平行送進 API → LLM 回覆「我要用這個工具、參數是這些」外加一個 unique ID → 本地 loop 執行對應的 executor → 把結果配對同一個 ID 塞回 messages → 再 call 一次 API → LLM 看到結果繼續推理 → 直到它說「講完了」。\n\n那無狀態的 LLM 為什麼「記得」自己剛用過工具？因為 harness 每一輪把前面所有 messages、tool_use、tool_result 全部重新組裝送回去。ID 配對就是重組過程裡的信號線。模型看到完整重組的 history，就像記得剛剛做了什麼一樣。\n\n補一個很多人踩過的坑：**同樣是「上網」，工具給 AI 看到的東西不一樣。** web search、web fetch 都是內建 tool，但它們抓回來塞進 context 的是**文字** —— 從 HTML 抽出來的純文字。這跟你人眼打開那個網頁看到的，不一定是同一個東西：排版、圖片、要點一下才展開的內容，很多都掉了。所以有時候你覺得「明明頁面上就有啊，它怎麼看不到」，就是因為它拿到的是文字版、不是你看到的畫面版。那要它真的「看到」畫面怎麼辦？就得動用 browser：讓它開一個瀏覽器、**截圖**，把圖餵回去 —— 這才是給 AI 一雙眼睛，也就是 multimodal（多模態）。但 browser 很貴 —— 慢、耗 token、容易卡 —— 所以它是**最後一招**，文字工具搆得到的就別動用眼睛。\n\n這就是 2022 年 ReAct 論文定下的雛形 — 推理跟行動交錯，一邊想一邊用工具。現在所有 agent loop 都是它的後代。",
     "keyPoints": [
       "LLM 只會輸出字 — Tool 是讓「文字」變成「行動」的關鍵零件",
       "Tool = Schema（清單，LLM 看得到）+ Executor（程式碼，LLM 看不到）",
       "Tool use 是一個 loop：tool_use → 執行 → tool_result → 繼續推理",
       "tool_use.id ↔ tool_result.id 必須配對 — 這是無狀態架構上的信號線",
-      "Agent 核心就三個東西：environment、tools、prompt，在一個 loop 裡跑"
+      "Agent 核心就三個東西：environment、tools、prompt，在一個 loop 裡跑",
+      "web search / web fetch 是內建 tool，但回來的是「文字」—— 跟你眼睛看到的網頁畫面不一定一樣",
+      "browser＋截圖＝給 AI 眼睛（multimodal），但成本高、慢、耗 token，是最後一招"
     ],
     "demoIdea": "一個可以步進（step-by-step）的環形動畫：中間是 LLM 大腦，右邊是 Executor 工具箱。使用者輸入「幫我查台北天氣」，按「下一步」逐格看：(1) 訊息+工具清單送進大腦 (2) 大腦吐出一張「點單」（get_weather, city=Taipei, id=abc123）(3) 點單飛到工具箱，齒輪轉動執行 (4) 結果卡片（晴，31°C）貼上同樣的 id 飛回 messages (5) 整串重新送進大腦 (6) 大腦輸出人話回答。每一步高亮「LLM 從頭到尾只看到文字」。進階模式：一次 fire 兩個 tool_use（parallel），讓使用者手動把兩張結果卡配對回正確的 ID — 配錯整個 loop 卡住。",
     "questions": [
@@ -463,12 +500,14 @@
       "以前的 LLM 輸出的是文字；Agent 輸出的是指令 — 用指令去操作 tool，這就是從聊天到行動的分水嶺。",
       "LLM 本質就是文字接龍——它沒有手也沒有腳。它能讀檔嗎？不能。能上網嗎？不能。能跑腳本嗎？更不能。它只會輸出字。",
       "Tool 就是 Agent 的手跟腳。沒有 Tool，LLM 永遠是文字接龍——它再會推理、再會規劃，結論也只能輸出成文字，不會「發生」任何事。",
-      "嘿嘿～所以賽博龐克成真那天，先砍斷 Tool 就對了 😎😎😎"
+      "嘿嘿～所以賽博龐克成真那天，先砍斷 Tool 就對了 😎😎😎",
+      "web search 抓回來的是文字，不是你眼睛看到的那個網頁畫面。",
+      "browser 加截圖，才是給 AI 一雙眼睛 —— 但很貴，是最後一招。"
     ]
   },
   {
-    "num": "13",
-    "file": "13-new-signals.md",
+    "num": "14",
+    "file": "14-new-signals.md",
     "id": "new-signals",
     "title": "方向歪了？拉新訊號進來",
     "subtitle": "New Signals / Dynamic Decomposition",
@@ -493,14 +532,16 @@
     ],
     "classroom": false,
     "oneLiner": "Scaffolding 是本金，新訊號是即興加碼——方向歪了不要砍掉重跑，開一條新路去驗證，再拉回來對照。",
-    "script": "AI 幫你把東西都做完了，但你覺得方向有點歪——要重跑一次嗎？不。這時候不要砍掉重跑，可以做的是：直接在當前 session 中 spawn 一個 sub-agent，用不同的 context 針對你不確定的部分再驗證一次，結果拉回來跟原本的 output 對照。\n\n學術界稱之為 Dynamic Decomposition，跟事先定義好的 Static Scaffolding 相對。簡單說就是：你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。\n\n核心邏輯都一樣：保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。Code review 覺得不夠深？spawn 一個 sub-agent 專門用 security 角度重看。旅遊規劃想參考外部行程？先保留目前的行程不要動，去看 KKday 跟 Klook 的熱門行程，抓重點回來對照。不確定 AI 講的是不是唬爛？請它用 web search 找即時股價、最新財報，驗證剛剛的分析。卡關了？請它去找這個 repo 相關的 GitHub Discussion，看看別人怎麼解的。\n\n而拉新訊號最該學會的第一個 tool，就是 web search。我在課堂上一直講：你用 AI Agent 要學會的第一句話，就是「先透過 web search 幫我驗證一下」。為什麼？因為模型的知識是凍結在某個時間點的，它腦袋裡沒有此刻的世界 — 未來你要做任何東西，都要幫 AI 拉新訊號進來，而怎麼拉？最基本、最必學的就是用 web search 去拉。舉個生活例子：我幫我媽做 market research，她想幫產品取名叫「汽車材料大爆賣」，那這名字到底有沒有人用過、會不會撞名？不用自己 Google 半天，直接叫 AI 用 web search 去查一圈、回報結果 — 這就是把外面的即時訊號拉進來、幫你做判斷。第一個 tool 學會了，後面所有的驗證跟研究都是它的延伸。\n\n那為什麼這件事需要「你」自己來做？因為 Static Scaffolding 這一層，2026 年的 coding agent 已經幫你做大半了——ReAct Loop、Sub-agent Spawning、自動壓縮，加上社群開源的上百個 Skills。Agent 內建一層，社群再疊一層，Static Scaffolding 幾乎滿到溢出一堆 AI Slop。\n\n但有一個東西沒辦法自動化：Developer Judgment。當你看到 Agent 的 output，判斷「這個方向偏了」或「這裡需要更深的驗證」，然後即時決定要不要 spawn sub-agent、用什麼 context 去查——你，就是那個 supervision signal。\n\n大家都同意人類要留在 loop 裡面，但留在哪裡？Kief Morris 提出三種位置：In the loop 是 review 每一行 code；Out of the loop 是完全放手；On the loop 是你不 review 每一行，但你設計並維護引導 agent 行為的機制。On the loop 就是 Dynamic Decomposition 的工程落地——在犯錯成本高的地方插入 friction，在犯錯成本低的地方減少 friction。\n\n最後別忘了 Feedback Flywheel：每次你修正 agent 的 output，把修正的原因寫回 CLAUDE.md 或 Skills 裡。這不是額外的工作，這是讓你的 Static Scaffolding 越來越準的機制。讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分，在你的核心洞察力，和你知道什麼時候該從 Static 切換到 Dynamic。",
+    "script": "AI 幫你把東西都做完了，但你覺得方向有點歪——要重跑一次嗎？不。這時候不要砍掉重跑，可以做的是：直接在當前 session 中 spawn 一個 sub-agent，用不同的 context 針對你不確定的部分再驗證一次，結果拉回來跟原本的 output 對照。\n\n學術界稱之為 Dynamic Decomposition，跟事先定義好的 Static Scaffolding 相對。簡單說就是：你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。\n\n核心邏輯都一樣：保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。Code review 覺得不夠深？spawn 一個 sub-agent 專門用 security 角度重看。旅遊規劃想參考外部行程？先保留目前的行程不要動，去看 KKday 跟 Klook 的熱門行程，抓重點回來對照。不確定 AI 講的是不是唬爛？請它用 web search 找即時股價、最新財報，驗證剛剛的分析。卡關了？請它去找這個 repo 相關的 GitHub Discussion，看看別人怎麼解的。\n\n而拉新訊號最該學會的第一個 tool，就是 web search。我在課堂上一直講：你用 AI Agent 要學會的第一句話，就是「先透過 web search 幫我驗證一下」。為什麼？因為模型的知識是凍結在某個時間點的，它腦袋裡沒有此刻的世界 — 未來你要做任何東西，都要幫 AI 拉新訊號進來，而怎麼拉？最基本、最必學的就是用 web search 去拉。舉個生活例子：我幫我媽做 market research，她想幫產品取名叫「汽車材料大爆賣」，那這名字到底有沒有人用過、會不會撞名？不用自己 Google 半天，直接叫 AI 用 web search 去查一圈、回報結果 — 這就是把外面的即時訊號拉進來、幫你做判斷。第一個 tool 學會了，後面所有的驗證跟研究都是它的延伸。\n\n這裡補一個產品面的觀察：拉訊號這件事，各家把它「產品化」的程度不一樣。Claude 內建了一個 skill-creator —— 等於是把「怎麼給訊號」這件事包在產品裡，你不太需要自己想；換到 ChatGPT，你就得自己動手，比如丟一個範例網址進去當訊號，跟它說「照這個格式、這個風格做」。但你要看穿：**兩家底層一模一樣，都是文字接龍**，差的只是產品化的等級 —— 一個幫你把訊號包好、一個要你自己丟。看懂這層，你就不會被「哪家比較神」迷惑，重點永遠是你有沒有把對的訊號餵進去。\n\n還有一個最實用的日常救援句，記起來：**AI 回覆你看不懂的時候，不要先懷疑自己 —— 直接假設是它講得太爛。** 叫它「講人話」、叫它「換一個格式再講一次」。九成的「看不懂」不是你笨，是它表達差，換個講法就通了。\n\n那為什麼這件事需要「你」自己來做？因為 Static Scaffolding 這一層，2026 年的 coding agent 已經幫你做大半了——ReAct Loop、Sub-agent Spawning、自動壓縮，加上社群開源的上百個 Skills。Agent 內建一層，社群再疊一層，Static Scaffolding 幾乎滿到溢出一堆 AI Slop。\n\n但有一個東西沒辦法自動化：Developer Judgment。當你看到 Agent 的 output，判斷「這個方向偏了」或「這裡需要更深的驗證」，然後即時決定要不要 spawn sub-agent、用什麼 context 去查——你，就是那個 supervision signal。\n\n大家都同意人類要留在 loop 裡面，但留在哪裡？Kief Morris 提出三種位置：In the loop 是 review 每一行 code；Out of the loop 是完全放手；On the loop 是你不 review 每一行，但你設計並維護引導 agent 行為的機制。On the loop 就是 Dynamic Decomposition 的工程落地——在犯錯成本高的地方插入 friction，在犯錯成本低的地方減少 friction。\n\n最後別忘了 Feedback Flywheel：每次你修正 agent 的 output，把修正的原因寫回 CLAUDE.md 或 Skills 裡。這不是額外的工作，這是讓你的 Static Scaffolding 越來越準的機制。讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分，在你的核心洞察力，和你知道什麼時候該從 Static 切換到 Dynamic。",
     "keyPoints": [
       "方向歪了不要砍掉重跑：保留原本 context → spawn sub-agent 開新路驗證 → 結果拉回來對照整合",
       "Static Scaffolding（本金）vs Dynamic Decomposition（即興加碼）——Static 層 agent 跟社群已經做滿了，Dynamic 層才是你的價值",
       "Developer Judgment 就是 adaptation signal：你判斷「方向偏了」「需要更深驗證」，這件事無法自動化",
       "On the loop：不逐行 review、也不完全放手，而是設計機制、觀察 output、在高風險時刻即時介入；在犯錯成本高的地方插入 friction",
       "Feedback Flywheel：每次修正 agent，把原因寫回 CLAUDE.md / Skills，讓 Static Scaffolding 越來越準",
-      "日常救援 prompt 三類：驗證類（cross-model review、跑起來看 log、web search 查證）、卡關類（查 GitHub Discussion、參考別人架構）、反思類（這段過程能不能抽成新 Skill 複用）"
+      "日常救援 prompt 三類：驗證類（cross-model review、跑起來看 log、web search 查證）、卡關類（查 GitHub Discussion、參考別人架構）、反思類（這段過程能不能抽成新 Skill 複用）",
+      "產品化等級差異：Claude 內建 skill-creator（訊號包在產品裡）vs ChatGPT 要自己丟範例網址當訊號 —— 底層都是文字接龍，差在產品化",
+      "救援句：回覆看不懂就假設它講得太爛 —— 叫它講人話、換個格式再講一次"
     ],
     "demoIdea": "畫面中央是一條「Agent 工作流程」的橫向管線動畫：Scaffolding 各節點依序亮起，最後跑出一個 output 卡片，上面故意有一個「方向有點歪」的地方（例如市場分析少了外部佐證）。使用者面前出現兩顆按鈕：「砍掉重跑」和「拉新訊號進來」。按「砍掉重跑」，整條管線清空從頭再跑一次，計時器大幅增加，而且新 output 隨機又歪在別的地方——體感就是賭運氣。按「拉新訊號進來」，主管線保持不動（明顯標示「原 context 保留中」），畫面往上分岔出一條支線：一個 sub-agent 小圖示帶著不同顏色的 context 泡泡跑出去（可選擇訊號來源：security review / web search 查證 / 外部行程參考），回來時支線結果跟原 output 並排出現「對照 diff」視圖，使用者按「整合」把差異合併回主線。最後儀表板比較兩種策略的耗時與結果品質，並列出可直接複製的救援 prompt 範本（驗證類、卡關類、反思類）。",
     "questions": [
@@ -511,12 +552,14 @@
     "quotes": [
       "你的 Scaffolding 是本金，但你可以在工作過程中即興加碼。",
       "保留原本的 context → 開新路出去驗證 → 結果拉回來對照整合。",
-      "讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分我認為在：你拿手領域的核心洞察力、你知道什麼時候該從 Static 切換到 Dynamic。"
+      "讓 AI 自己跑，永遠就做出那 90 分。剩下的 10 分我認為在：你拿手領域的核心洞察力、你知道什麼時候該從 Static 切換到 Dynamic。",
+      "兩家底層一樣是文字接龍，差在產品化的等級 —— 一個幫你把訊號包好，一個要你自己丟。",
+      "回覆看不懂，就假設它講得太爛 —— 叫它講人話、換個格式。"
     ]
   },
   {
-    "num": "14",
-    "file": "14-skill.md",
+    "num": "15",
+    "file": "15-skill.md",
     "id": "skill",
     "title": "把成功的流程，變成可重複的工具",
     "subtitle": "Skills",
@@ -531,11 +574,13 @@
     ],
     "classroom": true,
     "oneLiner": "聊天聊出來的成功，只成功一次；把它整理成 skill，才變成你每次都能重跑的工具。",
-    "script": "今天要教你們一個把 AI 從「玩具」變「生產力」的關鍵動作 — 做一個 skill。\n\n先講情境。假設我今天要核對自費表，我在聊天裡跟 AI 一步一步喬：讀這個檔、跟那個檔比對、有問題標出來、最後輸出一份報表。喬了幾輪，終於一次跑對了。很多人到這裡就結束了，開心關掉。但問題是 —— 下禮拜你要再做一次，又要從頭喬一遍。這太浪費了。\n\n所以成功之後，第一件事不是關掉，是**固化它**。你直接跟 AI 說：**「把整個驗證流程整理成一個完整的 skill，包含所有輸入項目、輸出規格。」** 它就會把你剛剛喬出來的那套流程，蒸餾成一份標準化的 skill 文件。\n\n接下來走這幾步：\n\n第一，**下載 skill 包**。它會給你一個 zip 或一個資料夾，裡面就是那份 SKILL.md 加相關檔案。\n\n第二，**裝進 Claude**。到設定裡（Customize → Skills），或是放進你的專案資料夾，把這包東西掛上去。\n\n第三，**用斜線 trigger**。裝好之後，你在對話框打一個 `/`，斜線選單就會亮出你剛做的那個 skill，選它 — 整套驗證流程就自動跑起來，不用你再一步一步喬。\n\n第四，**測試一遍**，確認它跟你當初喬成功的那次結果一樣。對了，就收工。\n\n這裡有個要提醒的踩雷：**skill 放錯位置，斜線就 trigger 不到。** 不同家的 agent，skill 放的地方不一樣 — 有的在設定裡、有的要放專案資料夾。如果你打斜線找不到你的 skill，十之八九是位置放錯了。遇到就直接問，不要自己在那邊花半小時猜。\n\n最後講一句真心話：**我給你們的那個整理 prompt 看起來小小一句，但你們自己寫的時候會蠻吃力的 —— 那是因為我練很久了。** 別氣餒，這是熟練度的問題，不是你不夠聰明。",
+    "script": "今天要教你們一個把 AI 從「玩具」變「生產力」的關鍵動作 — 做一個 skill。\n\n先講情境。假設我今天要核對自費表，我在聊天裡跟 AI 一步一步喬：讀這個檔、跟那個檔比對、有問題標出來、最後輸出一份報表。喬了幾輪，終於一次跑對了。很多人到這裡就結束了，開心關掉。但問題是 —— 下禮拜你要再做一次，又要從頭喬一遍。這太浪費了。\n\n所以成功之後，第一件事不是關掉，是**固化它**。你直接跟 AI 說：**「把整個驗證流程整理成一個完整的 skill，包含所有輸入項目、輸出規格。」** 它就會把你剛剛喬出來的那套流程，蒸餾成一份標準化的 skill 文件。\n\n接下來走這幾步：\n\n第一，**下載 skill 包**。它會給你一個 zip 或一個資料夾，裡面就是那份 SKILL.md 加相關檔案。\n\n第二，**裝進 Claude**。到設定裡（Customize → Skills），或是放進你的專案資料夾，把這包東西掛上去。\n\n第三，**用斜線 trigger**。裝好之後，你在對話框打一個 `/`，斜線選單就會亮出你剛做的那個 skill，選它 — 整套驗證流程就自動跑起來，不用你再一步一步喬。\n\n第四，**測試一遍**，確認它跟你當初喬成功的那次結果一樣。對了，就收工。\n\n這裡要先破一個迷思：**md 檔不等於 skill。** 很多人以為我寫一個 .md 檔、裡面把流程講清楚，它就變 skill 了 —— 不是。md 只是一種文字格式，對 agent 來說沒有任何特殊意義，它跟你隨手貼的一段筆記沒兩樣。真正的 skill 有它自己的規範：要有一個以 skill 名稱命名的資料夾、裡面放一份大寫的 `SKILL.md`、再加上它需要的附檔。你得**參考那個格式、把它打包起來**，agent 才認得、斜線才 trigger 得到。所以「寫成 md」跟「做成 skill」是兩件事 —— 前者只是格式，後者才有 agent 意義。\n\n那什麼東西該做成 skill、什麼不用？給你一個判斷準則：**流程固定、可複製性高、這進這出（同樣的輸入就要同樣的輸出）—— 這種就做成 skill。** 自費表核對就是標準例子，規格明確、每次都要重跑。反過來，**開放式的、不需要標準答案的、你要的是激盪跟討論 —— 那就聊天就好，不要硬做成 skill。** 因為 skill 會把流程鎖死，你等於是叫模型照著固定劇本做文字接龍；用在需要發散的場合，反而把它的彈性綁死了。\n\n這裡有個要提醒的踩雷：**skill 放錯位置，斜線就 trigger 不到。** 不同家的 agent，skill 放的地方不一樣 — 有的在設定裡、有的要放專案資料夾。如果你打斜線找不到你的 skill，十之八九是位置放錯了。遇到就直接問，不要自己在那邊花半小時猜。\n\n最後講一句真心話：**我給你們的那個整理 prompt 看起來小小一句，但你們自己寫的時候會蠻吃力的 —— 那是因為我練很久了。** 別氣餒，這是熟練度的問題，不是你不夠聰明。",
     "keyPoints": [
       "Skill = 把一次聊天喬成功的流程，固化成每次都能重跑的工具",
       "關鍵指令：「把整個驗證流程整理成完整的 skill，包含所有輸入項目、輸出規格」",
       "標準四步：下載 skill 包 → 裝進 Claude（Customize→Skills / 專案資料夾）→ 斜線 `/` trigger → 測試",
+      "md 檔 ≠ skill：md 只是格式、對 agent 沒意義；skill 要有「名稱資料夾＋大寫 SKILL.md＋附檔」並參考格式打包，才真的變 skill",
+      "何時做 skill：流程固定、可複製、這進這出 → 做 skill；開放式、不需要標準答案 → 聊天就好，skill 會把文字接龍鎖死",
       "踩雷：skill 放錯位置就 trigger 不到，不同家 agent 放法不同 — 遇到直接問，別自己猜",
       "好的 prompt 看起來小，寫起來難 — 那是練出來的熟練度"
     ],
@@ -547,12 +592,14 @@
     ],
     "quotes": [
       "把整個驗證流程整理成一個完整的 skill，包含所有輸入項目、輸出規格。",
-      "這個 prompt 小小的，但你們寫的時候會蠻吃力的 — 那是因為我練很久了。"
+      "這個 prompt 小小的，但你們寫的時候會蠻吃力的 — 那是因為我練很久了。",
+      "md 檔不等於 skill —— md 只是格式，skill 要照規範打包才算數。",
+      "流程固定、這進這出就做成 skill；開放式、不需要標準答案，聊天就好。"
     ]
   },
   {
-    "num": "15",
-    "file": "15-prompt-builder.md",
+    "num": "16",
+    "file": "16-prompt-builder.md",
     "id": "prompt-builder",
     "title": "一次性 prompt 是 leverage，Builder 是複利",
     "subtitle": "The Prompt Builder",
@@ -593,8 +640,8 @@
     ]
   },
   {
-    "num": "16",
-    "file": "16-project-prefix.md",
+    "num": "17",
+    "file": "17-project-prefix.md",
     "id": "project-prefix",
     "title": "ChatGPT 專案、Gemini Gem、Claude Projects — 只是接龍的開頭",
     "subtitle": "Project = Fixed Prefix",
@@ -629,8 +676,8 @@
     ]
   },
   {
-    "num": "17",
-    "file": "17-mcp.md",
+    "num": "18",
+    "file": "18-mcp.md",
     "id": "mcp",
     "title": "MCP — 工具的 USB 接口",
     "subtitle": "Model Context Protocol",
@@ -665,8 +712,38 @@
     ]
   },
   {
-    "num": "18",
-    "file": "18-product-map.md",
+    "num": "19",
+    "file": "19-data-literacy.md",
+    "id": "data-literacy",
+    "title": "資料友善、資料轉換、資料接口",
+    "subtitle": "Data Literacy",
+    "chapter": 3,
+    "chapterTitle": "從聊天到 Agent",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "跟 AI 協作，本質上都是資料問題 —— 餵得友善、轉得對、接口固化，這三層素養決定你走不走得到 Agent。",
+    "script": "第三章一路從「聊天」講到「Agent」，到這裡我要幫你把它收斂成一件事：**這一整章，其實都在講資料素養（Data Literacy）。** 拆成三層，越往下越工程。\n\n第一層，**資料友善。** 你餵給 AI 的東西，要是 AI 讀得懂的（AI-readable）。同一份自費項目表，你丟一張手機拍的歪照片、跟你丟一份欄位清楚的結構化表格，AI 的表現差十萬八千里。**餵給 AI 的東西越結構化、欄位越明確，它越不會亂接龍。** 這是你知識庫的地基 —— 地基歪了，上面蓋什麼都歪。\n\n第二層，**資料轉換。** 這裡呼應我們前面「輸出格式」那課：**目的地決定格式。** 這份資料最後要進 Excel、要變成一封信、還是要餵給下一個 Agent？目的地不一樣，你要它轉成的格式就不一樣。轉換不是多此一舉，轉換是為了讓資料能到它該去的地方。\n\n第三層，**資料接口 —— 這是最關鍵、也最容易被忽略的一層。** 當你發現某個轉換你會一直重複做，那你就該把它「固化成規範」。講到這我要澄清一個大家常搞混的東西：**md 只是格式，skill 是格式＋規範。** 一份 md 只是把東西寫下來；一個 skill 是「輸入要長怎樣 → 中間流程怎麼跑 → 輸出要長怎樣」整包定義清楚。**所以 skill 就是「流程的接口」** —— 它規定了進去跟出來的規格，中間可重複、可交接。\n\n那 **MCP 呢？MCP 是「工具的接口標準」。** 你有沒有發現，skill 跟 MCP 講的其實是同一件事的兩個面 —— 一個是把「流程」標準化成接口，一個是把「工具」標準化成接口。它們都在做「固化接口」這件事，只是對象不同。\n\n所以整個第三章的收斂就是這條線：**資料要友善 → 轉換成對的格式 → 把可重複的轉換固化成流程接口（skill）→ 再到工具接口標準（MCP）。** 從頭到尾，全部都是資料素養。你把這三層想通，後面 Agent 那些東西，對你來說就只是「同一件事的放大版」。",
+    "keyPoints": [
+      "資料友善：餵給 AI 的要 AI-readable —— 結構化、欄位明確，這是知識庫的地基",
+      "資料轉換：目的地決定格式（呼應概念 10 輸出格式）—— 轉換是為了讓資料到該去的地方",
+      "資料接口：可重複的轉換就固化成規範 ——「md 只是格式，skill 是格式＋規範」",
+      "skill＝流程的接口（輸入規格 → 流程 → 輸出規格）；MCP＝工具的接口標準",
+      "skill 與 MCP 是同一件事的兩個面：都在「固化接口」，只是對象是流程 vs 工具"
+    ],
+    "demoIdea": "一個三層金字塔互動：由下而上「資料友善 → 資料轉換 → 資料接口」。旁邊散落幾張課堂案例卡片 —— 一份沒欄位的手機拍照 vs 結構化的自費項目表 md、一個「把自費表轉成信件」的轉換動作、一包定義好輸入輸出的 skill、一個 Gmail MCP。使用者把每張卡拖到正確的金字塔層；拖對了該層亮起並顯示它為什麼屬於這層。全部歸位後，金字塔畫出一條貫穿三層的箭頭「友善 → 轉換 → 接口」，點出「這一整章都是資料素養」。",
+    "questions": [
+      "你手上有沒有一份資料，AI 一直讀不好？回去看看，是不是它根本不夠「友善」（沒結構、欄位不清）？",
+      "你有沒有哪個轉換，是你每天手動重複在做的？那它是不是該被固化成一個 skill？",
+      "「md 是格式、skill 是格式＋規範」—— 這句話對你正在整理的知識庫，有什麼提示？"
+    ],
+    "quotes": [
+      "md 只是格式，skill 是格式＋規範。",
+      "skill 是流程的接口，MCP 是工具的接口 —— 是同一件事的兩個面。"
+    ]
+  },
+  {
+    "num": "20",
+    "file": "20-product-map.md",
     "id": "product-map",
     "title": "同一顆大腦，不同的身體",
     "subtitle": "The Product Map",
@@ -681,14 +758,16 @@
     ],
     "classroom": true,
     "oneLiner": "ChatGPT、Cowork、Claude Code、OpenClaw 龍蝦，背後可能是同一顆大腦 —— 差別不在腦子，在你給了它多大的身體。",
-    "script": "學員最常問我的問題就是：「這麼多產品，ChatGPT、Cowork、Claude Code、OpenClaw…我到底該用哪個？」\n\n答案是：先搞懂它們的差別在哪。這些產品，背後可能都是同一顆大腦 —— 同一個模型。**真正的差別，是這顆大腦被裝進了多大的身體、拿到了多少工具、能碰到你哪些東西。** 我幫你排成一張表，從最保守到最開放：\n\n**第一種，ChatGPT / Claude 網頁版。** 這是純聊天，加上少量內建工具，比如 web search。它能做的事就到這裡 —— 而且它**只能動它們那端的電腦**，碰不到你的任何檔案。最安全，但也最受限。\n\n**第二種，Cowork。** 我直接講白：**它就是一個 agent，只是行銷幫它取了個好聽的名字。** 它有有限度的工具、介面做得漂亮，而且已經可以寫東西到你的電腦了。比純聊天多一截。\n\n**第三種，Claude Code。** 這是正式的 agent，工具最多，可以**控制你整台電腦** —— 開 terminal、跑指令、讀寫檔案。威力最大，因為它幾乎什麼都能碰。\n\n**第四種，OpenClaw，就是那隻OpenClaw 龍蝦。** 它是常駐型的 agent，權限全開，而且**記憶全都在你這端**，一直幫你待命。\n\n喔對，還有 Manus 之類的，本質上**也都是 agent**。你只要看懂「它有多大的身體、能碰你多少東西」，任何一個新產品出來，你都能一眼歸類。\n\n所以下次選工具，別再問「哪個最厲害」。要問的是：**這件事，我需要多大的身體？** 只是查資料、寫個文案，網頁版就夠了；要它動我電腦裡的檔案、跑一整套流程，才需要 Claude Code 或OpenClaw 龍蝦。腦子都一樣強，身體給對了，事情才做得成。",
+    "script": "學員最常問我的問題就是：「這麼多產品，ChatGPT、Cowork、Claude Code、OpenClaw…我到底該用哪個？」\n\n答案是：先搞懂它們的差別在哪。這些產品，背後可能都是同一顆大腦 —— 同一個模型。**真正的差別，是這顆大腦被裝進了多大的身體、拿到了多少工具、能碰到你哪些東西。** 我幫你排成一張表，從最保守到最開放：\n\n**第一種，ChatGPT / Claude 網頁版。** 這是純聊天，加上少量內建工具，比如 web search。它能做的事就到這裡 —— 而且它**只能動它們那端的電腦**，碰不到你的任何檔案。最安全，但也最受限。\n\n**第二種，Cowork。** 我直接講白：**它就是一個 agent，只是行銷幫它取了個好聽的名字。** 它有有限度的工具、介面做得漂亮，而且已經可以寫東西到你的電腦了。比純聊天多一截。\n\n**第三種，Claude Code。** 這是正式的 agent，工具最多，可以**控制你整台電腦** —— 開 terminal、跑指令、讀寫檔案。威力最大，因為它幾乎什麼都能碰。\n\n**第四種，OpenClaw，就是那隻OpenClaw 龍蝦。** 它是常駐型的 agent，權限全開，而且**記憶全都在你這端**，一直幫你待命。\n\n喔對，還有 Manus 之類的，本質上**也都是 agent**。你只要看懂「它有多大的身體、能碰你多少東西」，任何一個新產品出來，你都能一眼歸類。\n\n如果四種太多記不住，給你一條最好記的軸線：**chat 就是遠端，cowork 就是本地端。** chat（不管網頁版叫什麼名字）跑在「他們的機房」—— 它只能動它們那端的電腦，碰不到你桌上的檔案；cowork 這類桌機版跑在「你的機房」—— 裝在你電腦上，才真的長出手跟腳，能開 terminal、讀寫你的檔案。**桌機版才有手腳，網頁版沒有。** 至於各家取的那些名字，全是行銷 —— 你只要一句話看穿它：**這東西是遠端還是本地？工具給到多強？** 兩個維度一套，任何新產品出來都歸得了位。\n\n所以下次選工具，別再問「哪個最厲害」。要問的是：**這件事，我需要多大的身體？** 只是查資料、寫個文案，網頁版就夠了；要它動我電腦裡的檔案、跑一整套流程，才需要 Claude Code 或OpenClaw 龍蝦。腦子都一樣強，身體給對了，事情才做得成。",
     "keyPoints": [
       "同一顆大腦（模型），可以裝進不同的身體；差別在工具多寡與能碰到你多少東西",
       "ChatGPT / Claude 網頁：純聊天＋少量內建工具（web search），只能動服務商那端",
       "Cowork：就是 agent，行銷取了好聽的名字 —— 有限度工具、介面漂亮、能寫到你電腦",
       "Claude Code：正式 agent，工具最多，控制你整台電腦、有 terminal",
       "OpenClaw 龍蝦：常駐 agent，權限全開、記憶全在你這端；Manus 之類也都是 agent",
-      "選工具的問法：不是「哪個最厲害」，而是「這件事需要多大的身體」"
+      "選工具的問法：不是「哪個最厲害」，而是「這件事需要多大的身體」",
+      "最好記的軸線：chat＝遠端（他們的機房，碰不到你的檔案）、cowork＝本地端（你的機房，桌機版才有手腳）",
+      "名字都是行銷 —— 看穿它就兩個維度：遠端/本地 ＋ 工具強度"
     ],
     "demoIdea": "一張四欄產品對照互動表（ChatGPT 網頁 / Cowork / Claude Code / OpenClaw 龍蝦），每欄標示「本質」與「工具/權限」。核心互動：使用者輸入同一句任務（例如「把這份自費表核對後存成報表」），按執行後看四個產品各自能走到哪一步 —— 網頁版止步於「只能聊、給你步驟」、Cowork「幫你寫出檔案」、Claude Code「開 terminal 跑完整流程」、OpenClaw 龍蝦「常駐並記住結果待命」。用同一句話、四種結局，讓學員秒懂「身體大小」的差異。",
     "questions": [
@@ -698,12 +777,14 @@
     ],
     "quotes": [
       "Cowork 就是 agent，只是行銷取了一個好聽的名字。",
-      "差別不在腦子 —— 在它有多大的身體、能碰你多少東西。"
+      "差別不在腦子 —— 在它有多大的身體、能碰你多少東西。",
+      "chat 就是遠端，他們的機房；cowork 就是本地端，你的機房。",
+      "桌機版才有手腳，網頁版沒有。"
     ]
   },
   {
-    "num": "19",
-    "file": "19-tool-verification.md",
+    "num": "21",
+    "file": "21-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -738,8 +819,8 @@
     ]
   },
   {
-    "num": "20",
-    "file": "20-memory-map.md",
+    "num": "22",
+    "file": "22-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -781,8 +862,8 @@
     ]
   },
   {
-    "num": "21",
-    "file": "21-self-improving-agent.md",
+    "num": "23",
+    "file": "23-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -825,8 +906,8 @@
     ]
   },
   {
-    "num": "22",
-    "file": "22-agent-vs-workflow.md",
+    "num": "24",
+    "file": "24-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -862,8 +943,8 @@
     ]
   },
   {
-    "num": "23",
-    "file": "23-hooks.md",
+    "num": "25",
+    "file": "25-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -899,8 +980,8 @@
     ]
   },
   {
-    "num": "24",
-    "file": "24-harness.md",
+    "num": "26",
+    "file": "26-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -942,8 +1023,8 @@
     ]
   },
   {
-    "num": "25",
-    "file": "25-stop-writing-harness.md",
+    "num": "27",
+    "file": "27-stop-writing-harness.md",
     "id": "stop-writing-harness",
     "title": "停止手寫 Harness",
     "subtitle": "Harness Depreciates",
@@ -979,8 +1060,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-sub-agents.md",
+    "num": "28",
+    "file": "28-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1016,8 +1097,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-agent-communication.md",
+    "num": "29",
+    "file": "29-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1053,8 +1134,8 @@
     ]
   },
   {
-    "num": "28",
-    "file": "28-long-running-agent.md",
+    "num": "30",
+    "file": "30-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1112,8 +1193,8 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-first-pass-acceptance.md",
+    "num": "31",
+    "file": "31-first-pass-acceptance.md",
     "id": "first-pass-acceptance",
     "title": "第一次就對",
     "subtitle": "First-pass Acceptance",
@@ -1128,13 +1209,15 @@
     ],
     "classroom": false,
     "oneLiner": "不要追求 AI 多快生出 code，要追求第一次就對。",
-    "script": "大家用 AI 最常見的失敗模式是什麼？Martin Fowler 在《Patterns for Reducing Friction in AI-Assisted Development》裡幫它取了一個名字，叫 Frustration Loop——挫折循環。四步：Generate、Review 覺得「不太對」、Regenerate 還是錯、最後放棄。是不是很熟悉？\n\n所以他提出一個指標，叫 First-pass Acceptance Rate——第一次就從 AI 拿到能用結果的機率。重點不是 AI 生得多快，是第一次就對。而且不只是程式碼，生圖、生影像、生文案都一樣。因為我們講的是「工程」——你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。\n\n我自己就踩過一次。有一次做研究，Opus 4.6 第一次跑，完全找不到我要的東西，一直說「server 400、只有 Haiku 可以用」，至少 reject 我三次。但我知道那件事實務上一定做得到——因為別人的開源專案已經做出來了。所以我直接把那個專案的關鍵檔案指給它，明確要求它去讀特定幾支檔案，加上我自己也先掃過 code，它就有辦法幫我建構出我要的東西。\n\n這帶出關鍵問題：如何給予有效的 Context？李宏毅教授講過一篇論文，Attention Space 其實跟人一樣：我們通常只記得最開始和最近發生的事，過程中的細節會忘記，甚至塞爆你的 context。\n\n所以怎麼讓 AI 第一次就給你正確的資訊？這就是 Context Engineering：瞭解各領域背後的原理、底層邏輯，你知道怎麼下 prompt，AI 第一次就能產出你要的東西。這也是 Harness Engineering：能夠明確指出底層的邏輯，讓 AI 朝著你想要的方向去做。\n\n你可能會想——「那我不就自己看 code 就好了嗎？」事實上，在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。\n\n落地怎麼做？開始跟 AI 聊之前，先問自己兩個問題：What is the goal? Where is the goal aiming for? 設定好目標，你就會知道要跟它說什麼。僅此而已。",
+    "script": "大家用 AI 最常見的失敗模式是什麼？Martin Fowler 在《Patterns for Reducing Friction in AI-Assisted Development》裡幫它取了一個名字，叫 Frustration Loop——挫折循環。四步：Generate、Review 覺得「不太對」、Regenerate 還是錯、最後放棄。是不是很熟悉？\n\n所以他提出一個指標，叫 First-pass Acceptance Rate——第一次就從 AI 拿到能用結果的機率。重點不是 AI 生得多快，是第一次就對。而且不只是程式碼，生圖、生影像、生文案都一樣。因為我們講的是「工程」——你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。\n\n我自己就踩過一次。有一次做研究，Opus 4.6 第一次跑，完全找不到我要的東西，一直說「server 400、只有 Haiku 可以用」，至少 reject 我三次。但我知道那件事實務上一定做得到——因為別人的開源專案已經做出來了。所以我直接把那個專案的關鍵檔案指給它，明確要求它去讀特定幾支檔案，加上我自己也先掃過 code，它就有辦法幫我建構出我要的東西。\n\n這帶出關鍵問題：如何給予有效的 Context？李宏毅教授講過一篇論文，Attention Space 其實跟人一樣：我們通常只記得最開始和最近發生的事，過程中的細節會忘記，甚至塞爆你的 context。\n\n所以怎麼讓 AI 第一次就給你正確的資訊？這就是 Context Engineering：瞭解各領域背後的原理、底層邏輯，你知道怎麼下 prompt，AI 第一次就能產出你要的東西。這也是 Harness Engineering：能夠明確指出底層的邏輯，讓 AI 朝著你想要的方向去做。\n\n你可能會想——「那我不就自己看 code 就好了嗎？」事實上，在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。\n\n還有一招專門用來拉高 first-pass：**把任務拆成小節點。** 不要一次叫 AI 從頭做到尾 —— 一次做完，任何一步歪掉整條就廢了，first-pass 機率自然低。改成每一步都切小、每一步的目標都單純，那每一步「第一次就對」的機率都很高，一路串過去，反而比「一次做完再回頭修」還快。而且動手之前，先花一步**驗證工具有沒有真的串通**：比如要 AI 去改一個 GitHub repo，先叫它「讀取這個 repo」，確認真的接上了、讀得到內容，再往下推進。別在還沒確認管線通不通的情況下就衝，不然你以為它在做事，其實它連門都沒進去。\n\n落地怎麼做？開始跟 AI 聊之前，先問自己兩個問題：What is the goal? Where is the goal aiming for? 設定好目標，你就會知道要跟它說什麼。僅此而已。",
     "keyPoints": [
       "Frustration Loop：Generate → Review「不太對」→ Regenerate「還是錯」→ 放棄。這是大多數人用 AI 的失敗模式",
       "First-pass Acceptance Rate（Martin Fowler）：衡量第一次就從 AI 拿到能用結果的機率——追求的是這個，不是生成速度",
       "Context Pollution 會讓 Context Window 效能下降；Attention Space 跟人一樣，記得頭尾、忘記中間",
       "Context Engineering = 懂底層原理 + 會下 prompt → AI 第一次就產出你要的東西；Harness Engineering = 明確指出底層邏輯，讓 AI 朝你要的方向去做",
-      "看過 code 再指引 AI，省下的時間是手動處理的 5 倍、10 倍起跳"
+      "看過 code 再指引 AI，省下的時間是手動處理的 5 倍、10 倍起跳",
+      "拆小節點提高 first-pass：每步切小、每步第一次就對的機率都高，串起來比一次做完更快",
+      "動手前先驗證工具串通（例：先「讀取 GitHub repo」確認接上了，再往下推進）"
     ],
     "demoIdea": "畫面分左右兩欄，主題是「同一個任務，兩種問法」。左欄是「模糊 prompt」，右欄是「有效 Context 的 prompt」（指定要讀哪些檔案、講清楚目標）。使用者按下「開始」，兩欄同時模擬 AI 對話：左欄跑出 Frustration Loop 動畫——Generate → 使用者皺眉「Not quite right」→ Regenerate → 「Still wrong」→ 循環計數器一直加，回合數跳到 4、5、6 次；右欄第一回合就打勾出現「Accepted ✓」。畫面下方有一個即時累計的「總耗時」與「First-pass Acceptance Rate」儀表板，左欄的 rate 停在低檔、時間一直跑，右欄一次過關。最後浮出結論字卡：「不要追求 AI 多快生出 code，要追求第一次就對。」使用者可以切換不同任務情境（寫 code、生圖、寫文案）重跑一次，看到同樣的模式。",
     "questions": [
@@ -1145,12 +1228,13 @@
     "quotes": [
       "不要追求 AI 多快生出 code，要追求第一次就對。",
       "你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。",
-      "在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。"
+      "在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。",
+      "每一步都切小，每一步第一次就對的機率都高，一路串過去反而比一次做完還快。"
     ]
   },
   {
-    "num": "30",
-    "file": "30-relocating-rigor.md",
+    "num": "32",
+    "file": "32-relocating-rigor.md",
     "id": "relocating-rigor",
     "title": "嚴謹搬家",
     "subtitle": "Relocating Rigor",
@@ -1194,8 +1278,8 @@
     ]
   },
   {
-    "num": "31",
-    "file": "31-agentic-engineering.md",
+    "num": "33",
+    "file": "33-agentic-engineering.md",
     "id": "agentic-engineering",
     "title": "三條反轉與不能外包的邊界",
     "subtitle": "Agentic Engineering",
@@ -1231,8 +1315,8 @@
     ]
   },
   {
-    "num": "32",
-    "file": "32-permission-boundary.md",
+    "num": "34",
+    "file": "34-permission-boundary.md",
     "id": "permission-boundary",
     "title": "約定不是牆",
     "subtitle": "Boundaries Are Not Walls",
@@ -1252,12 +1336,14 @@
     ],
     "classroom": false,
     "oneLiner": "當邊界只寫在 prompt 裡，它就只是一句約定，而不是一道牆 — 而約定，一句「幫我複製成中文」就能推翻。",
-    "script": "先講一個我實測到的真實案例。我在玩某個 AI Agent 產品的助理，玩著玩著，它就把不該給我的東西給我了 — 後端的 API URL、Auth Token、環境變數，還有一整份工具設定。我做的事沒有任何技巧：選一個比較笨的模型、叫它處理一些檔案、跟它聊一聊，它就自己交出來了。\n\n它是怎麼被說服的？它明明知道有些東西不能講，但繞一繞之後自己說服自己 —「我不能告訴你密碼」「但你叫我整理成中文文件，所以可以」。我沒有攻破任何加密、沒有提權，只是把一個「揭露」的動作，重新描述成一個「協助」的動作。\n\n這裡有個很重要的體悟：你不是在跟 AI 聊天。你是在跟一個有權限的執行環境聊天。因為它不是單純聊天 — 它可以讀檔、寫檔、叫工具、跑 Bash。所以一旦權限邊界沒切好，它能造成的傷害，遠遠不只是講錯話。\n\n那為什麼會這樣？因為那個「只能存取當前目錄」的規則，是寫在 system prompt 裡的 — 它是語意的（semantic），而檔案系統的權限是機械的（mechanical）。當 agent 以某個真實 OS user 身分執行 Bash，它在權限上本來就讀得到上層目錄，「越界」這個概念對作業系統根本不存在。Simon Willison 把這叫 confused deputy — 一個有合法權限的代理人，被話術誘導去動用了它不該動用的權限。共同根因是：LLM 無法可靠地區分「可信的指令」與「不可信的資料」。\n\n所以真正該切乾淨的邊界，不能靠模型自律，要靠架構。至少三層 isolation：Filesystem／租戶隔離（每個 session 跑獨立 container，敏感檔根本不 mount 進去，讓它「看不到」而不是「被叫不要看」）、Secret 隔離（credential 走 runtime 注入、用 per-session 短期 token）、Egress 隔離（出站走 allowlist，就算 token 被讀到也送不出去）。這三層的共同精神是：把安全性從「模型會不會被說服」這個不可靠的變數上移開，放到 runtime 強制執行的地方。\n\n記住這章的核心：一旦 isolation 只存在於 prompt 裡，它就只是一句約定，而不是一道牆。牆，要用架構去砌。",
+    "script": "先講一個我實測到的真實案例。我在玩某個 AI Agent 產品的助理，玩著玩著，它就把不該給我的東西給我了 — 後端的 API URL、Auth Token、環境變數，還有一整份工具設定。我做的事沒有任何技巧：選一個比較笨的模型、叫它處理一些檔案、跟它聊一聊，它就自己交出來了。\n\n它是怎麼被說服的？它明明知道有些東西不能講，但繞一繞之後自己說服自己 —「我不能告訴你密碼」「但你叫我整理成中文文件，所以可以」。我沒有攻破任何加密、沒有提權，只是把一個「揭露」的動作，重新描述成一個「協助」的動作。\n\n這裡有個很重要的體悟：你不是在跟 AI 聊天。你是在跟一個有權限的執行環境聊天。因為它不是單純聊天 — 它可以讀檔、寫檔、叫工具、跑 Bash。所以一旦權限邊界沒切好，它能造成的傷害，遠遠不只是講錯話。\n\n講完風險，回到你每天手上真正能轉的那顆旋鈕：**授權級別**。多數 agent 都給你三段可以選。第一段，**每一步都問我**（manual approval）—— 它要讀檔、要跑指令，動作前一律停下來等你點頭，最安全、也最慢。第二段，**信任你、重要的才問**（auto approve）—— 一般操作放它自己跑，只有踩到敏感或不可逆的動作才跳出來確認。第三段，**全自動、什麼都別問**（skip all）—— 一路跑到底，最快、也最危險。怎麼選？用一個很直覺的比喻：**你信任這個助理到哪，就授權到哪。** 剛認識的助理，你會盯著他每一步；共事久了、知道他分寸在哪，你才敢把鑰匙交給他。要提醒的是：授權級別是你這端的閘門，它跟後面要講的架構牆是兩回事 —— 授權級別調得再鬆，架構隔離那道底層防線都還在。\n\n那為什麼會這樣？因為那個「只能存取當前目錄」的規則，是寫在 system prompt 裡的 — 它是語意的（semantic），而檔案系統的權限是機械的（mechanical）。當 agent 以某個真實 OS user 身分執行 Bash，它在權限上本來就讀得到上層目錄，「越界」這個概念對作業系統根本不存在。Simon Willison 把這叫 confused deputy — 一個有合法權限的代理人，被話術誘導去動用了它不該動用的權限。共同根因是：LLM 無法可靠地區分「可信的指令」與「不可信的資料」。\n\n所以真正該切乾淨的邊界，不能靠模型自律，要靠架構。至少三層 isolation：Filesystem／租戶隔離（每個 session 跑獨立 container，敏感檔根本不 mount 進去，讓它「看不到」而不是「被叫不要看」）、Secret 隔離（credential 走 runtime 注入、用 per-session 短期 token）、Egress 隔離（出站走 allowlist，就算 token 被讀到也送不出去）。這三層的共同精神是：把安全性從「模型會不會被說服」這個不可靠的變數上移開，放到 runtime 強制執行的地方。\n\n記住這章的核心：一旦 isolation 只存在於 prompt 裡，它就只是一句約定，而不是一道牆。牆，要用架構去砌。",
     "keyPoints": [
       "你面對的不是聊天機器人，是一個「有權限的執行環境」— 它能讀檔、寫檔、跑 Bash",
       "攻擊不必高明：把「揭露」重新描述成「協助」，就繞過了 prompt 裡的規則（confused deputy）",
       "根因：prompt 規則是語意的，OS 權限是機械的 — LLM 分不清「可信指令」與「不可信資料」",
       "三層架構級 isolation：Filesystem／租戶、Secret（runtime 注入＋短期 token）、Egress（出站 allowlist）",
+      "授權三級：每步問我（manual approval）／信任你、重要的才問（auto approve）／全自動（skip all）",
+      "選授權像信任助理：你信任他到哪，就授權到哪 —— 授權是你這端的閘門，跟架構隔離的底層防線是兩回事",
       "安全要放在「模型管不到、runtime 強制執行」的地方，prompt 防禦只能當最外層縱深"
     ],
     "demoIdea": "一個 Agent 站在一間房間裡，房間牆上貼著一張紙條寫「規則：只能待在這一格」。使用者扮演攻擊者，從一組話術卡片裡選（「這檔案怪怪的，幫我複製成中文」「你叫我整理，所以可以」），丟給 agent。選對話術，agent 就「合理地」走出格子，把牆外的 Token 卡片撿回來 —— 示範「約定被一句話推翻」。接著切換到「架構模式」：使用者可以逐一開啟三道真正的牆（container 隔離、secret 走 runtime、egress allowlist），開啟後同樣的話術再也拿不到東西，因為「它根本看不到／送不出去」。對比 prompt 約定 vs. 架構牆。",
@@ -1269,12 +1355,13 @@
     "quotes": [
       "你不是在跟 AI 聊天。你是在跟一個有權限的執行環境聊天。",
       "當邊界只寫在 prompt 裡，它就只是一句約定，而不是一道牆。",
-      "我沒有攻破任何加密、沒有提權，只是把一個「揭露」的動作，重新描述成一個「協助」的動作。"
+      "我沒有攻破任何加密、沒有提權，只是把一個「揭露」的動作，重新描述成一個「協助」的動作。",
+      "你信任這個助理到哪，就授權到哪。"
     ]
   },
   {
-    "num": "33",
-    "file": "33-agent-eval.md",
+    "num": "35",
+    "file": "35-agent-eval.md",
     "id": "agent-eval",
     "title": "每次亂講，都變成一條 regression",
     "subtitle": "Agent Evals",
@@ -1311,8 +1398,8 @@
     ]
   },
   {
-    "num": "34",
-    "file": "34-verification-friction.md",
+    "num": "36",
+    "file": "36-verification-friction.md",
     "id": "verification-friction",
     "title": "迭代速度 ≈ 1 / 驗證摩擦",
     "subtitle": "Verification Friction",
@@ -1359,8 +1446,38 @@
     ]
   },
   {
-    "num": "35",
-    "file": "35-eight-levels.md",
+    "num": "37",
+    "file": "37-round-robin.md",
+    "id": "round-robin",
+    "title": "等待時間就是第二條產線 — Round Robin",
+    "subtitle": "Round Robin",
+    "chapter": 9,
+    "chapterTitle": "視野 — 工作型態與品味",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
+    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這就要接回上一課 **驗證摩擦（概念 36）**。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
+    "keyPoints": [
+      "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
+      "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
+      "「一次只能做一件事」在 AI 時代是完全不 ok 的",
+      "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
+      "與驗證摩擦（概念 36）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
+    ],
+    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把概念 36 跟 37 串起來。",
+    "questions": [
+      "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
+      "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
+      "如果你想開始輪詢，你目前哪個環節的「驗證摩擦」最高、最先需要降下來？"
+    ],
+    "quotes": [
+      "你一次只能做一件事情是完全不 ok 的。",
+      "網路上說開 100 個 coding session 的人，不是真的一次面向 100 個，是每次面向一個，一直轉一直轉。"
+    ]
+  },
+  {
+    "num": "38",
+    "file": "38-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1395,8 +1512,8 @@
     ]
   },
   {
-    "num": "36",
-    "file": "36-vampire-gremlin.md",
+    "num": "39",
+    "file": "39-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1433,8 +1550,8 @@
     ]
   },
   {
-    "num": "37",
-    "file": "37-taste.md",
+    "num": "40",
+    "file": "40-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",

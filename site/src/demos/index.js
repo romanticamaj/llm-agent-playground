@@ -37,4 +37,7 @@ export const demoRegistry = {
   'eight-levels': () => import('./eight-levels.js'),
   'vampire-gremlin': () => import('./vampire-gremlin.js'),
   'taste': () => import('./taste.js'),
+  'cognitive-load': () => import('./cognitive-load.js'),
+  'data-literacy': () => import('./data-literacy.js'),
+  'round-robin': () => import('./round-robin.js'),
 }

@@ -40,6 +40,9 @@ const custom = {
   'first-pass-acceptance': () => import('./first-pass-acceptance.js'),
   'relocating-rigor': () => import('./relocating-rigor.js'),
   'agentic-engineering': () => import('./agentic-engineering.js'),
+  'cognitive-load': () => import('./cognitive-load.js'),
+  'data-literacy': () => import('./data-literacy.js'),
+  'round-robin': () => import('./round-robin.js'),
 }
 
 export async function loadTeaser(id) {
