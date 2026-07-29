@@ -457,6 +457,19 @@ document.addEventListener('keydown', e => {
     if (e.key === 'k' || e.key === 'K') closePalette()
     return
   }
+  if (notes.classList.contains('open')) {
+    const step = 120
+    switch (e.key) {
+      case 'ArrowDown': e.preventDefault(); notesBody.scrollBy({ top: step, behavior: 'smooth' }); break
+      case 'ArrowUp': e.preventDefault(); notesBody.scrollBy({ top: -step, behavior: 'smooth' }); break
+      case 'PageDown': case ' ': e.preventDefault(); notesBody.scrollBy({ top: notesBody.clientHeight * 0.85, behavior: 'smooth' }); break
+      case 'PageUp': e.preventDefault(); notesBody.scrollBy({ top: -notesBody.clientHeight * 0.85, behavior: 'smooth' }); break
+      case 'Home': e.preventDefault(); notesBody.scrollTo({ top: 0, behavior: 'smooth' }); break
+      case 'End': e.preventDefault(); notesBody.scrollTo({ top: notesBody.scrollHeight, behavior: 'smooth' }); break
+      case 'n': case 'N': notes.classList.remove('open'); break
+    }
+    return
+  }
   if (overlayOpen) return
   switch (e.key) {
     case 'k': case 'K':

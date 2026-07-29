@@ -2,8 +2,8 @@
 id: prompt-cache
 title: 算過的，別再算
 subtitle: Prompt Cache / KV Cache
-chapter: 2
-chapterTitle: LLM 的本質
+chapter: 5
+chapterTitle: Agent 工程
 source:
   - title: "為什麼會有 prompt cache？"
     url: https://www.garyhsieh.com/blog/2026-06-03-prompt-cache

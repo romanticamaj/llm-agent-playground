@@ -40,37 +40,37 @@ npm run dev   # 打開 http://localhost:5173
 | 08 | 貨車滿了，怎麼辦？ | Compaction & Fresh Context | 課堂實錄 + [Session Handoff 看 Long-running Agent](https://www.garyhsieh.com/blog/2026-04-06-session-handoff-long-running) |
 | 09 | 編輯鈕是時光機 | Context Pollution & Rewind | [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
 | 10 | 請你輸出 HTML 格式讓我看 | Output Formats | 課堂實錄 |
-| 11 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
 
 ### Chapter 3 — 從聊天到 Agent　`🟢 入門・授課主線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 12 | Agent 是怎麼做出來的？ | Anatomy of an Agent | [Agent 是怎麼做出來的？](https://www.garyhsieh.com/blog/2026-04-30-agent) |
-| 13 | Agent 的手跟腳 | Tool Use | [Agent 的手跟腳 / Tools](https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm) |
-| 14 | 方向歪了？拉新訊號進來 | New Signals / Dynamic Decomposition | [拉「新訊號」進來](https://www.garyhsieh.com/blog/2026-04-13-ai)、[救援 prompt](https://www.garyhsieh.com/blog/2026-05-02-ai)、[先用 Web Search 驗證](https://www.garyhsieh.com/blog/2026-04-15-web-search-ai) |
-| 15 | 把成功的流程，變成可重複的工具 | Skills | 課堂實錄 + [Software Engineering w/ Claude 2026](https://www.garyhsieh.com/blog/2026-05-11-software-engineering-claude) |
-| 16 | 一次性 prompt 是 leverage，Builder 是複利 | The Prompt Builder | [每個人都應該有一個 Prompt Builder](https://www.garyhsieh.com/blog/2026-06-23-prompt-builder)、[Higher-Order Prompting](https://www.garyhsieh.com/blog/2026-06-23-higher-order-prompting) |
-| 17 | GPTs、Gem、Project — 只是接龍的開頭 | Project = Fixed Prefix | 課堂實錄 + [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
-| 18 | MCP — 工具的 USB 接口 | Model Context Protocol | [資訊落差超級大的事情（AI 整理 Gmail）](https://www.garyhsieh.com/blog/2026-05-24-ai-gmail-chatgpt) |
-| 19 | 資料友善、資料轉換、資料接口 | Data Literacy | 課堂實錄 |
-| 20 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
-| 21 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
+| 11 | Agent 是怎麼做出來的？ | Anatomy of an Agent | [Agent 是怎麼做出來的？](https://www.garyhsieh.com/blog/2026-04-30-agent) |
+| 12 | Agent 的手跟腳 | Tool Use | [Agent 的手跟腳 / Tools](https://www.garyhsieh.com/blog/2026-05-18-agent-tools-llm) |
+| 13 | 方向歪了？拉新訊號進來 | New Signals / Dynamic Decomposition | [拉「新訊號」進來](https://www.garyhsieh.com/blog/2026-04-13-ai)、[救援 prompt](https://www.garyhsieh.com/blog/2026-05-02-ai)、[先用 Web Search 驗證](https://www.garyhsieh.com/blog/2026-04-15-web-search-ai) |
+| 14 | 把成功的流程，變成可重複的工具 | Skills | 課堂實錄 + [Software Engineering w/ Claude 2026](https://www.garyhsieh.com/blog/2026-05-11-software-engineering-claude) |
+| 15 | 一次性 prompt 是 leverage，Builder 是複利 | The Prompt Builder | [每個人都應該有一個 Prompt Builder](https://www.garyhsieh.com/blog/2026-06-23-prompt-builder)、[Higher-Order Prompting](https://www.garyhsieh.com/blog/2026-06-23-higher-order-prompting) |
+| 16 | GPTs、Gem、Project — 只是接龍的開頭 | Project = Fixed Prefix | 課堂實錄 + [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
+| 17 | MCP — 工具的 USB 接口 | Model Context Protocol | [資訊落差超級大的事情（AI 整理 Gmail）](https://www.garyhsieh.com/blog/2026-05-24-ai-gmail-chatgpt) |
+| 18 | 資料友善、資料轉換、資料接口 | Data Literacy | 課堂實錄 |
+| 19 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
+| 20 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
 
 ### Chapter 4 — Memory：讓 AI 記得　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 22 | 記憶不在 AI 裡，在外面 | From Stateless to Stateful | [AI 從 Stateless 到 Stateful](https://www.garyhsieh.com/blog/2026-05-27-ai-stateless-stateful)、[AI Memory 工具實測](https://www.garyhsieh.com/blog/2026-05-30-ai-memory-llm) |
-| 23 | 自我學習，就是超有紀律的記憶管理 | The Self-Improving Agent | [AI Agent 是怎麼自我學習的？](https://www.garyhsieh.com/blog/2026-05-13-ai-agent)、[讓 coding agent 不停下來的招](https://www.garyhsieh.com/blog/2026-06-11-long-running-rules) |
+| 21 | 記憶不在 AI 裡，在外面 | From Stateless to Stateful | [AI 從 Stateless 到 Stateful](https://www.garyhsieh.com/blog/2026-05-27-ai-stateless-stateful)、[AI Memory 工具實測](https://www.garyhsieh.com/blog/2026-05-30-ai-memory-llm) |
+| 22 | 自我學習，就是超有紀律的記憶管理 | The Self-Improving Agent | [AI Agent 是怎麼自我學習的？](https://www.garyhsieh.com/blog/2026-05-13-ai-agent)、[讓 coding agent 不停下來的招](https://www.garyhsieh.com/blog/2026-06-11-long-running-rules) |
 
 ### Chapter 5 — Agent 工程　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 24 | Agent 還是 Workflow？ | Agent vs. Workflow | [我們要的是 AI Agent 還是一個 Workflow？](https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow) |
-| 25 | 說服是修辭，約束是工程 | Hooks & Anti-Rationalization | [為什麼會有 Hook 存在？](https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent) |
-| 26 | 從「會動」到「可控」 | The Agent Harness | [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code)、[到底什麼是 Harness？](https://www.garyhsieh.com/blog/2026-06-19-what-is-harness) |
+| 23 | Agent 還是 Workflow？ | Agent vs. Workflow | [我們要的是 AI Agent 還是一個 Workflow？](https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow) |
+| 24 | 說服是修辭，約束是工程 | Hooks & Anti-Rationalization | [為什麼會有 Hook 存在？](https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent) |
+| 25 | 從「會動」到「可控」 | The Agent Harness | [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code)、[到底什麼是 Harness？](https://www.garyhsieh.com/blog/2026-06-19-what-is-harness) |
+| 26 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
 | 27 | 停止手寫 Harness | Harness Depreciates | [停止手寫 harness](https://www.garyhsieh.com/blog/2026-07-19-stop-writing-harness) |
 
 ### Chapter 6 — Multi-Agent 與長時間運行　`🟡 進階・工程師路線`
