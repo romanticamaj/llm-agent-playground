@@ -27,7 +27,7 @@ AI 什麼都不記得——是外面那一層，每次都把記憶重新塞回�
 
 重點來了：無論你用 Mem0、Letta、Zep，做的本質動作就一個——把外部資訊 inject 進 context window。差別只在三件事：呈現形式、消化時機、誰主動。
 
-呈現形式最經典的分岔是 vector vs Knowledge Graph。Vector 只能告訴你「A 和 B 語意相似」，沒辦法告訴你「A 怎麼跟 B 相關」。問「賈伯斯的接班人是哪裡人？」——vector 能找到「賈伯斯」「庫克」「Apple」這些相關詞，但拼不出答案；Knowledge Graph 可以直接走「賈伯斯 → 接班人 → 庫克 → 出生於 → Alabama」這條路徑。
+記憶的呈現形式，最經典的分岔是 vector vs Knowledge Graph。Vector 只能告訴你「A 和 B 語意相似」，沒辦法告訴你「A 怎麼跟 B 相關」。問「賈伯斯的接班人是哪裡人？」——vector 能找到「賈伯斯」「庫克」「Apple」這些相關詞，但拼不出答案；Knowledge Graph 可以直接走「賈伯斯 → 接班人 → 庫克 → 出生於 → Alabama」這條路徑。
 
 消化的部分要記住一組對比：Compaction 是為了不脹——排掉吃不下的；Consolidation 是為了變聰明——吸收成養分。
 

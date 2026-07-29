@@ -285,6 +285,9 @@ body::after {
   color: color-mix(in srgb, var(--accent) 12%, transparent);
   -webkit-text-stroke: 2px var(--accent);
   opacity: 0.85;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 .chapter-divider .ch-title {
   font-size: clamp(32px, 4.2vw, 60px);

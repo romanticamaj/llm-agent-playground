@@ -69,7 +69,7 @@ export default function mount(el, ctx) {
   const adv = document.createElement('div')
   adv.className = `${P}-adv ds-unit`
   adv.innerHTML = `
-    <h3>呈現形式的分水嶺：Vector vs Knowledge Graph</h3>
+    <h3>記憶的呈現形式：Vector vs Knowledge Graph</h3>
     <div class="sub">同一個問題，兩種 representation 差在哪。</div>
     <div class="${P}-q">賈伯斯的接班人是哪裡人？</div>
     <div class="${P}-advctrls">
@@ -243,7 +243,7 @@ export default function mount(el, ctx) {
       focus: ['[data-msgs="B"]'], nextLabel: 'Vector vs KG →',
       enter() { resetScene(); introduced = true; enableMem(); doAsk() } },
 
-    { narration: '呈現形式的分水嶺：Vector 只知道「語意相似」，<b>Knowledge Graph</b> 才能走「賈伯斯→接班人→庫克→出生於→Alabama」的關係路徑。',
+    { narration: '記憶的呈現形式分水嶺：Vector 只知道「語意相似」，<b>Knowledge Graph</b> 才能走「賈伯斯→接班人→庫克→出生於→Alabama」的關係路徑。',
       focus: [`.${P}-adv`], nextLabel: '換你玩 →',
       enter() { resetScene(); after(300, () => switchMode('kg')) } },
 
