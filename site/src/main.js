@@ -102,9 +102,11 @@ html += `
   <div class="actions reveal d2"><a class="btn-primary" style="text-decoration:none" href="https://www.garyhsieh.com/blog" target="_blank" rel="noopener">去讀原文 ↗</a></div>
 </section>
 
-<div class="notes-panel" id="notes">
-  <div class="notes-head"><div class="t" id="notes-title"></div><button class="close-x" id="notes-close">✕</button></div>
-  <div class="notes-body" id="notes-body"></div>
+<div class="notes-panel" id="notes" aria-hidden="true">
+  <div class="notes-box" role="dialog" aria-label="課堂筆記">
+    <div class="notes-head"><div class="t" id="notes-title"></div><button class="close-x" id="notes-close">✕</button></div>
+    <div class="notes-body" id="notes-body"></div>
+  </div>
 </div>
 
 <div class="palette" id="palette" aria-hidden="true">
@@ -296,6 +298,7 @@ function openNotes(id) {
   notesBody.scrollTop = 0
 }
 document.getElementById('notes-close').addEventListener('click', () => notes.classList.remove('open'))
+notes.addEventListener('click', e => { if (e.target === notes) notes.classList.remove('open') })
 
 /* ============ demo overlay ============ */
 const overlay = document.getElementById('demo-overlay')
