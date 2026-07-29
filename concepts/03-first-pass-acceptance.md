@@ -2,8 +2,8 @@
 id: first-pass-acceptance
 title: 第一次就對
 subtitle: First-pass Acceptance
-chapter: 7
-chapterTitle: 與 AI 協作的方法
+chapter: 1
+chapterTitle: 開場 — 為什麼是概念
 source:
   - title: "不要追求 AI 多快生出 code，要追求第一次就對"
     url: https://www.garyhsieh.com/blog/2026-03-26-ai-code

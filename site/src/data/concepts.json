@@ -68,7 +68,77 @@
   },
   {
     "num": "03",
-    "file": "03-next-token-prediction.md",
+    "file": "03-first-pass-acceptance.md",
+    "id": "first-pass-acceptance",
+    "title": "第一次就對",
+    "subtitle": "First-pass Acceptance",
+    "chapter": 1,
+    "chapterTitle": "開場 — 為什麼是概念",
+    "sources": [
+      {
+        "title": "不要追求 AI 多快生出 code，要追求第一次就對",
+        "url": "https://www.garyhsieh.com/blog/2026-03-26-ai-code",
+        "date": "2026-03-26"
+      }
+    ],
+    "classroom": false,
+    "oneLiner": "不要追求 AI 多快生出 code，要追求第一次就對。",
+    "script": "大家用 AI 最常見的失敗模式是什麼？Martin Fowler 在《Patterns for Reducing Friction in AI-Assisted Development》裡幫它取了一個名字，叫 Frustration Loop——挫折循環。四步：Generate、Review 覺得「不太對」、Regenerate 還是錯、最後放棄。是不是很熟悉？\n\n所以他提出一個指標，叫 First-pass Acceptance Rate——第一次就從 AI 拿到能用結果的機率。重點不是 AI 生得多快，是第一次就對。而且不只是程式碼，生圖、生影像、生文案都一樣。因為我們講的是「工程」——你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。\n\n我自己就踩過一次。有一次做研究，Opus 4.6 第一次跑，完全找不到我要的東西，一直說「server 400、只有 Haiku 可以用」，至少 reject 我三次。但我知道那件事實務上一定做得到——因為別人的開源專案已經做出來了。所以我直接把那個專案的關鍵檔案指給它，明確要求它去讀特定幾支檔案，加上我自己也先掃過 code，它就有辦法幫我建構出我要的東西。\n\n這帶出關鍵問題：如何給予有效的 Context？李宏毅教授講過一篇論文，Attention Space 其實跟人一樣：我們通常只記得最開始和最近發生的事，過程中的細節會忘記，甚至塞爆你的 context。\n\n所以怎麼讓 AI 第一次就給你正確的資訊？這就是 Context Engineering：瞭解各領域背後的原理、底層邏輯，你知道怎麼下 prompt，AI 第一次就能產出你要的東西。這也是 Harness Engineering：能夠明確指出底層的邏輯，讓 AI 朝著你想要的方向去做。\n\n你可能會想——「那我不就自己看 code 就好了嗎？」事實上，在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。\n\n還有一招專門用來拉高 first-pass：**把任務拆成小節點。** 不要一次叫 AI 從頭做到尾 —— 一次做完，任何一步歪掉整條就廢了，first-pass 機率自然低。改成每一步都切小、每一步的目標都單純，那每一步「第一次就對」的機率都很高，一路串過去，反而比「一次做完再回頭修」還快。而且動手之前，先花一步**驗證工具有沒有真的串通**：比如要 AI 去改一個 GitHub repo，先叫它「讀取這個 repo」，確認真的接上了、讀得到內容，再往下推進。別在還沒確認管線通不通的情況下就衝，不然你以為它在做事，其實它連門都沒進去。\n\n落地怎麼做？開始跟 AI 聊之前，先問自己兩個問題：What is the goal? Where is the goal aiming for? 設定好目標，你就會知道要跟它說什麼。僅此而已。",
+    "keyPoints": [
+      "Frustration Loop：Generate → Review「不太對」→ Regenerate「還是錯」→ 放棄。這是大多數人用 AI 的失敗模式",
+      "First-pass Acceptance Rate（Martin Fowler）：衡量第一次就從 AI 拿到能用結果的機率——追求的是這個，不是生成速度",
+      "Context Pollution 會讓 Context Window 效能下降；Attention Space 跟人一樣，記得頭尾、忘記中間",
+      "Context Engineering = 懂底層原理 + 會下 prompt → AI 第一次就產出你要的東西；Harness Engineering = 明確指出底層邏輯，讓 AI 朝你要的方向去做",
+      "看過 code 再指引 AI，省下的時間是手動處理的 5 倍、10 倍起跳",
+      "拆小節點提高 first-pass：每步切小、每步第一次就對的機率都高，串起來比一次做完更快",
+      "動手前先驗證工具串通（例：先「讀取 GitHub repo」確認接上了，再往下推進）"
+    ],
+    "demoIdea": "畫面分左右兩欄，主題是「同一個任務，兩種問法」。左欄是「模糊 prompt」，右欄是「有效 Context 的 prompt」（指定要讀哪些檔案、講清楚目標）。使用者按下「開始」，兩欄同時模擬 AI 對話：左欄跑出 Frustration Loop 動畫——Generate → 使用者皺眉「Not quite right」→ Regenerate → 「Still wrong」→ 循環計數器一直加，回合數跳到 4、5、6 次；右欄第一回合就打勾出現「Accepted ✓」。畫面下方有一個即時累計的「總耗時」與「First-pass Acceptance Rate」儀表板，左欄的 rate 停在低檔、時間一直跑，右欄一次過關。最後浮出結論字卡：「不要追求 AI 多快生出 code，要追求第一次就對。」使用者可以切換不同任務情境（寫 code、生圖、寫文案）重跑一次，看到同樣的模式。",
+    "questions": [
+      "回想你上次跟 AI 來回超過三輪的經驗——問題出在 AI 不夠聰明，還是你沒給它有效的 Context？",
+      "「What is the goal? Where is the goal aiming for?」——你手上正在做的任務，能不能用一句話講清楚目標？",
+      "如果你已經知道答案了，為什麼還要讓 AI 做？（提示：省下的時間是 5 倍、10 倍起跳）"
+    ],
+    "quotes": [
+      "不要追求 AI 多快生出 code，要追求第一次就對。",
+      "你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。",
+      "在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。",
+      "每一步都切小，每一步第一次就對的機率都高，一路串過去反而比一次做完還快。"
+    ]
+  },
+  {
+    "num": "04",
+    "file": "04-round-robin.md",
+    "id": "round-robin",
+    "title": "等待時間就是第二條產線 — Round Robin",
+    "subtitle": "Round Robin",
+    "chapter": 1,
+    "chapterTitle": "開場 — 為什麼是概念",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
+    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 36）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
+    "keyPoints": [
+      "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
+      "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
+      "「一次只能做一件事」在 AI 時代是完全不 ok 的",
+      "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
+      "與後面的驗證摩擦（概念 36）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
+    ],
+    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 36）串起來。",
+    "questions": [
+      "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
+      "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
+      "如果你想開始輪詢，你目前哪個環節的「驗證摩擦」最高、最先需要降下來？"
+    ],
+    "quotes": [
+      "你一次只能做一件事情是完全不 ok 的。",
+      "網路上說開 100 個 coding session 的人，不是真的一次面向 100 個，是每次面向一個，一直轉一直轉。"
+    ]
+  },
+  {
+    "num": "05",
+    "file": "05-next-token-prediction.md",
     "id": "next-token-prediction",
     "title": "AI 是文字接龍",
     "subtitle": "Next-token Prediction",
@@ -103,8 +173,8 @@
     ]
   },
   {
-    "num": "04",
-    "file": "04-deterministic-vs-nondeterministic.md",
+    "num": "06",
+    "file": "06-deterministic-vs-nondeterministic.md",
     "id": "deterministic-vs-nondeterministic",
     "title": "Deterministic vs. Non-deterministic",
     "subtitle": "確定性與非確定性",
@@ -146,8 +216,8 @@
     ]
   },
   {
-    "num": "05",
-    "file": "05-llm-stateless.md",
+    "num": "07",
+    "file": "07-llm-stateless.md",
     "id": "llm-stateless",
     "title": "LLM 根本沒有記憶",
     "subtitle": "LLM is Stateless",
@@ -185,8 +255,8 @@
     ]
   },
   {
-    "num": "06",
-    "file": "06-context-window.md",
+    "num": "08",
+    "file": "08-context-window.md",
     "id": "context-window",
     "title": "Context Window 是 AI 的全部世界",
     "subtitle": "The Context Window",
@@ -236,8 +306,8 @@
     ]
   },
   {
-    "num": "07",
-    "file": "07-choose-your-brain.md",
+    "num": "09",
+    "file": "09-choose-your-brain.md",
     "id": "choose-your-brain",
     "title": "選大腦",
     "subtitle": "Choosing Your Model",
@@ -279,8 +349,8 @@
     ]
   },
   {
-    "num": "08",
-    "file": "08-compaction.md",
+    "num": "10",
+    "file": "10-compaction.md",
     "id": "compaction",
     "title": "貨車滿了，怎麼辦？",
     "subtitle": "Compaction & Fresh Context",
@@ -315,8 +385,8 @@
     ]
   },
   {
-    "num": "09",
-    "file": "09-context-pollution-rewind.md",
+    "num": "11",
+    "file": "11-context-pollution-rewind.md",
     "id": "context-pollution-rewind",
     "title": "編輯鈕是時光機",
     "subtitle": "Context Pollution & Rewind",
@@ -355,8 +425,8 @@
     ]
   },
   {
-    "num": "10",
-    "file": "10-output-format.md",
+    "num": "12",
+    "file": "12-output-format.md",
     "id": "output-format",
     "title": "目的地決定格式 — 請你輸出 HTML 讓我看",
     "subtitle": "Output Formats",
@@ -389,8 +459,8 @@
     ]
   },
   {
-    "num": "11",
-    "file": "11-agent-anatomy.md",
+    "num": "13",
+    "file": "13-agent-anatomy.md",
     "id": "agent-anatomy",
     "title": "Agent 是怎麼做出來的？",
     "subtitle": "Anatomy of an Agent",
@@ -426,8 +496,8 @@
     ]
   },
   {
-    "num": "12",
-    "file": "12-tool-use.md",
+    "num": "14",
+    "file": "14-tool-use.md",
     "id": "tool-use",
     "title": "Agent 的手跟腳",
     "subtitle": "Tool Use",
@@ -469,8 +539,8 @@
     ]
   },
   {
-    "num": "13",
-    "file": "13-new-signals.md",
+    "num": "15",
+    "file": "15-new-signals.md",
     "id": "new-signals",
     "title": "方向歪了？拉新訊號進來",
     "subtitle": "New Signals / Dynamic Decomposition",
@@ -521,8 +591,8 @@
     ]
   },
   {
-    "num": "14",
-    "file": "14-skill.md",
+    "num": "16",
+    "file": "16-skill.md",
     "id": "skill",
     "title": "把成功的流程，變成可重複的工具",
     "subtitle": "Skills",
@@ -561,8 +631,8 @@
     ]
   },
   {
-    "num": "15",
-    "file": "15-prompt-builder.md",
+    "num": "17",
+    "file": "17-prompt-builder.md",
     "id": "prompt-builder",
     "title": "一次性 prompt 是 leverage，Builder 是複利",
     "subtitle": "The Prompt Builder",
@@ -603,8 +673,8 @@
     ]
   },
   {
-    "num": "16",
-    "file": "16-project-prefix.md",
+    "num": "18",
+    "file": "18-project-prefix.md",
     "id": "project-prefix",
     "title": "ChatGPT 專案、Gemini Gem、Claude Projects — 只是接龍的開頭",
     "subtitle": "Project = Fixed Prefix",
@@ -639,8 +709,8 @@
     ]
   },
   {
-    "num": "17",
-    "file": "17-mcp.md",
+    "num": "19",
+    "file": "19-mcp.md",
     "id": "mcp",
     "title": "MCP — 工具的 USB 接口",
     "subtitle": "Model Context Protocol",
@@ -675,8 +745,8 @@
     ]
   },
   {
-    "num": "18",
-    "file": "18-data-literacy.md",
+    "num": "20",
+    "file": "20-data-literacy.md",
     "id": "data-literacy",
     "title": "資料友善、資料轉換、資料接口",
     "subtitle": "Data Literacy",
@@ -688,7 +758,7 @@
     "script": "第三章一路從「聊天」講到「Agent」，到這裡我要幫你把它收斂成一件事：**這一整章，其實都在講資料素養（Data Literacy）。** 拆成三層，越往下越工程。\n\n第一層，**資料友善。** 你餵給 AI 的東西，要是 AI 讀得懂的（AI-readable）。同一份自費項目表，你丟一張手機拍的歪照片、跟你丟一份欄位清楚的結構化表格，AI 的表現差十萬八千里。**餵給 AI 的東西越結構化、欄位越明確，它越不會亂接龍。** 這是你知識庫的地基 —— 地基歪了，上面蓋什麼都歪。\n\n第二層，**資料轉換。** 這裡呼應我們前面「輸出格式」那課：**目的地決定格式。** 這份資料最後要進 Excel、要變成一封信、還是要餵給下一個 Agent？目的地不一樣，你要它轉成的格式就不一樣。轉換不是多此一舉，轉換是為了讓資料能到它該去的地方。\n\n第三層，**資料接口 —— 這是最關鍵、也最容易被忽略的一層。** 當你發現某個轉換你會一直重複做，那你就該把它「固化成規範」。講到這我要澄清一個大家常搞混的東西：**md 只是格式，skill 是格式＋規範。** 一份 md 只是把東西寫下來；一個 skill 是「輸入要長怎樣 → 中間流程怎麼跑 → 輸出要長怎樣」整包定義清楚。**所以 skill 就是「流程的接口」** —— 它規定了進去跟出來的規格，中間可重複、可交接。\n\n那 **MCP 呢？MCP 是「工具的接口標準」。** 你有沒有發現，skill 跟 MCP 講的其實是同一件事的兩個面 —— 一個是把「流程」標準化成接口，一個是把「工具」標準化成接口。它們都在做「固化接口」這件事，只是對象不同。\n\n所以整個第三章的收斂就是這條線：**資料要友善 → 轉換成對的格式 → 把可重複的轉換固化成流程接口（skill）→ 再到工具接口標準（MCP）。** 從頭到尾，全部都是資料素養。你把這三層想通，後面 Agent 那些東西，對你來說就只是「同一件事的放大版」。",
     "keyPoints": [
       "資料友善：餵給 AI 的要 AI-readable —— 結構化、欄位明確，這是知識庫的地基",
-      "資料轉換：目的地決定格式（呼應概念 10 輸出格式）—— 轉換是為了讓資料到該去的地方",
+      "資料轉換：目的地決定格式（呼應概念 12 輸出格式）—— 轉換是為了讓資料到該去的地方",
       "資料接口：可重複的轉換就固化成規範 ——「md 只是格式，skill 是格式＋規範」",
       "skill＝流程的接口（輸入規格 → 流程 → 輸出規格）；MCP＝工具的接口標準",
       "skill 與 MCP 是同一件事的兩個面：都在「固化接口」，只是對象是流程 vs 工具"
@@ -705,8 +775,8 @@
     ]
   },
   {
-    "num": "19",
-    "file": "19-product-map.md",
+    "num": "21",
+    "file": "21-product-map.md",
     "id": "product-map",
     "title": "同一顆大腦，不同的身體",
     "subtitle": "The Product Map",
@@ -746,8 +816,8 @@
     ]
   },
   {
-    "num": "20",
-    "file": "20-tool-verification.md",
+    "num": "22",
+    "file": "22-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -782,8 +852,8 @@
     ]
   },
   {
-    "num": "21",
-    "file": "21-memory-map.md",
+    "num": "23",
+    "file": "23-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -825,8 +895,8 @@
     ]
   },
   {
-    "num": "22",
-    "file": "22-self-improving-agent.md",
+    "num": "24",
+    "file": "24-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -869,8 +939,8 @@
     ]
   },
   {
-    "num": "23",
-    "file": "23-agent-vs-workflow.md",
+    "num": "25",
+    "file": "25-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -906,8 +976,8 @@
     ]
   },
   {
-    "num": "24",
-    "file": "24-hooks.md",
+    "num": "26",
+    "file": "26-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -943,8 +1013,8 @@
     ]
   },
   {
-    "num": "25",
-    "file": "25-harness.md",
+    "num": "27",
+    "file": "27-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -986,8 +1056,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-prompt-cache.md",
+    "num": "28",
+    "file": "28-prompt-cache.md",
     "id": "prompt-cache",
     "title": "算過的，別再算",
     "subtitle": "Prompt Cache / KV Cache",
@@ -1023,45 +1093,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-stop-writing-harness.md",
-    "id": "stop-writing-harness",
-    "title": "停止手寫 Harness",
-    "subtitle": "Harness Depreciates",
-    "chapter": 5,
-    "chapterTitle": "Agent 工程",
-    "sources": [
-      {
-        "title": "停止手寫 harness",
-        "url": "https://www.garyhsieh.com/blog/2026-07-19-stop-writing-harness",
-        "date": "2026-07-19"
-      }
-    ],
-    "classroom": false,
-    "oneLiner": "你辛苦手寫的 harness，是折舊資產，壽命大概就一個模型世代 — 下一代模型一出來，它就從「必要」變「冗餘」。",
-    "script": "先講一個很無奈的親身經歷：兩個月內，我白忙了兩次。\n\n第一次，我把一套跑過 482 個 commits 的長任務 pipeline，打包成跨 agent 的 skill — 三平台一鍵安裝、平行 worktree、整套流程全串起來，把踩過的坑全轉成一個 long-running 系統。結果三週後，新一代模型出來，原生就會拆長任務，平台也內建了 subagent 跟 workflow orchestration。我這套東西直接沒有存在理由，只能默默把 repo 刪掉。第二次更崩潰，我做了五個 skill、測試跟 evaluation 全寫好，最後用新模型跑一輪順口問了句「這東西到底該不該存在？」答案是不該 — 模型 baseline 本來就 97 分，我的 skill 幾乎沒帶來提升。\n\n從這兩次我悟出一句話：harness 是折舊資產，壽命大概就一個模型世代。\n\n為什麼？把系統拆成三層 — Model（模型本身）、Harness（外面的執行機制：agent loop、tool、workflow、orchestration）、Context（你額外塞進去的規則、知識、資料）。這兩個月不斷重演的是：內層的 model 往外長，把原本屬於 harness 跟 context 的東西一層一層吃進來。以前要寫在 prompt 裡提醒的，現在模型內建；以前要靠 skill 補的，現在是 base capability。這就是折舊 — 很多 harness 本質上只是補模型缺口的工具，模型一升級，缺口沒了，它就冗餘了。\n\n那是不是什麼都別做了？不是。關鍵在：context 不會全部消失。最後留下來的，是那些模型學不到、網路抄不到、只能從真實世界長出來的東西 — 公司的資料、客戶講不清楚的需求、產品踩過的坑、只有你知道「為什麼不能這樣做」的判斷。這就是護城河。\n\n所以我現在的紀律是：任何想做的東西，先強制 research —是不是已經有人做了？平台是不是快內建？下一代模型是不是就不需要？search 一小時，不 search 三週。Research 完一定先問一句：這東西到底該不該存在？答不出「拿掉它我還剩什麼」，就不要開始。力氣往兩端放 — 需求端比「把模糊需求翻成可執行」的轉譯能力，交付端比「成品到底有沒有價值、能不能被取代」。中間那層實作、協調、orchestration，正在被商品化。逃。",
-    "keyPoints": [
-      "Harness 是折舊資產，壽命約一個模型世代 — 模型升級就從必要變冗餘",
-      "三層結構：Model 往外長，一層層把 Harness 與 Context 吃進來",
-      "Context 不會全消失 — 真實世界長出的東西（公司資料、客戶隱性需求、踩過的坑）是護城河",
-      "開工前強制 research：有人做了嗎？平台快內建了嗎？下一代模型還需要嗎？",
-      "力氣放兩端：需求端比轉譯、交付端比成品；中間那層正在被商品化"
-    ],
-    "demoIdea": "一個三層同心圓：最內圈 Model、中圈 Harness、外圈 Context。畫面上方有一個「模型世代」滑桿，使用者往右拉（Gen 1 → Gen 2 → Gen 3），每拉一格，內圈 Model 就膨脹一圈，把中圈 Harness 的一塊塊功能（agent loop、拆任務、orchestration）逐一「吞」進去變灰。但 Context 圈裡標著「公司資料／客戶隱性需求／踩過的坑」的那幾塊不會被吞，反而發亮 — 直觀看見「harness 折舊、真實世界 context 留存」。旁邊即時顯示折舊倒數：「這塊 harness 預估壽命：1 個世代」。",
-    "questions": [
-      "你手上有沒有一套 harness／skill／workflow，其實只是在補模型現在的缺口？下一代模型補上後它還剩什麼？",
-      "「search 一小時，不 search 三週」— 你上一個專案，如果開工前先 research，會不會少走冤枉路？",
-      "哪些是你正在累積、但別人（跟模型）抄不走的 context？如果一個都想不出來，這代表什麼？"
-    ],
-    "quotes": [
-      "harness 是折舊資產，壽命大概就一個模型世代。",
-      "search 一小時，不 search 三週。",
-      "唯一比較不折舊的，剩原則。"
-    ]
-  },
-  {
-    "num": "28",
-    "file": "28-sub-agents.md",
+    "num": "29",
+    "file": "29-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1097,8 +1130,8 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-agent-communication.md",
+    "num": "30",
+    "file": "30-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1134,8 +1167,8 @@
     ]
   },
   {
-    "num": "30",
-    "file": "30-long-running-agent.md",
+    "num": "31",
+    "file": "31-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1190,46 +1223,6 @@
       "Agent 跨 session 工作就像工程師輪班，每個新來的工程師對上一班發生了什麼完全沒有記憶。如果交班紀錄寫得好，新人幾分鐘就能上手；如果什麼都沒留，就是花第一個小時重建 context，而且通常會理解錯。",
       "Dynamic Workflow 開下去，210 個 agent 開始跑，不到半小時就發現 hit limit — 這就是不熟悉工具的下場。",
       "我已經太習慣睡覺期間一定要擺一個東西下去跑了。如果沒有在跑，就會覺得整個晚上浪費掉。"
-    ]
-  },
-  {
-    "num": "31",
-    "file": "31-first-pass-acceptance.md",
-    "id": "first-pass-acceptance",
-    "title": "第一次就對",
-    "subtitle": "First-pass Acceptance",
-    "chapter": 7,
-    "chapterTitle": "與 AI 協作的方法",
-    "sources": [
-      {
-        "title": "不要追求 AI 多快生出 code，要追求第一次就對",
-        "url": "https://www.garyhsieh.com/blog/2026-03-26-ai-code",
-        "date": "2026-03-26"
-      }
-    ],
-    "classroom": false,
-    "oneLiner": "不要追求 AI 多快生出 code，要追求第一次就對。",
-    "script": "大家用 AI 最常見的失敗模式是什麼？Martin Fowler 在《Patterns for Reducing Friction in AI-Assisted Development》裡幫它取了一個名字，叫 Frustration Loop——挫折循環。四步：Generate、Review 覺得「不太對」、Regenerate 還是錯、最後放棄。是不是很熟悉？\n\n所以他提出一個指標，叫 First-pass Acceptance Rate——第一次就從 AI 拿到能用結果的機率。重點不是 AI 生得多快，是第一次就對。而且不只是程式碼，生圖、生影像、生文案都一樣。因為我們講的是「工程」——你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。\n\n我自己就踩過一次。有一次做研究，Opus 4.6 第一次跑，完全找不到我要的東西，一直說「server 400、只有 Haiku 可以用」，至少 reject 我三次。但我知道那件事實務上一定做得到——因為別人的開源專案已經做出來了。所以我直接把那個專案的關鍵檔案指給它，明確要求它去讀特定幾支檔案，加上我自己也先掃過 code，它就有辦法幫我建構出我要的東西。\n\n這帶出關鍵問題：如何給予有效的 Context？李宏毅教授講過一篇論文，Attention Space 其實跟人一樣：我們通常只記得最開始和最近發生的事，過程中的細節會忘記，甚至塞爆你的 context。\n\n所以怎麼讓 AI 第一次就給你正確的資訊？這就是 Context Engineering：瞭解各領域背後的原理、底層邏輯，你知道怎麼下 prompt，AI 第一次就能產出你要的東西。這也是 Harness Engineering：能夠明確指出底層的邏輯，讓 AI 朝著你想要的方向去做。\n\n你可能會想——「那我不就自己看 code 就好了嗎？」事實上，在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。\n\n還有一招專門用來拉高 first-pass：**把任務拆成小節點。** 不要一次叫 AI 從頭做到尾 —— 一次做完，任何一步歪掉整條就廢了，first-pass 機率自然低。改成每一步都切小、每一步的目標都單純，那每一步「第一次就對」的機率都很高，一路串過去，反而比「一次做完再回頭修」還快。而且動手之前，先花一步**驗證工具有沒有真的串通**：比如要 AI 去改一個 GitHub repo，先叫它「讀取這個 repo」，確認真的接上了、讀得到內容，再往下推進。別在還沒確認管線通不通的情況下就衝，不然你以為它在做事，其實它連門都沒進去。\n\n落地怎麼做？開始跟 AI 聊之前，先問自己兩個問題：What is the goal? Where is the goal aiming for? 設定好目標，你就會知道要跟它說什麼。僅此而已。",
-    "keyPoints": [
-      "Frustration Loop：Generate → Review「不太對」→ Regenerate「還是錯」→ 放棄。這是大多數人用 AI 的失敗模式",
-      "First-pass Acceptance Rate（Martin Fowler）：衡量第一次就從 AI 拿到能用結果的機率——追求的是這個，不是生成速度",
-      "Context Pollution 會讓 Context Window 效能下降；Attention Space 跟人一樣，記得頭尾、忘記中間",
-      "Context Engineering = 懂底層原理 + 會下 prompt → AI 第一次就產出你要的東西；Harness Engineering = 明確指出底層邏輯，讓 AI 朝你要的方向去做",
-      "看過 code 再指引 AI，省下的時間是手動處理的 5 倍、10 倍起跳",
-      "拆小節點提高 first-pass：每步切小、每步第一次就對的機率都高，串起來比一次做完更快",
-      "動手前先驗證工具串通（例：先「讀取 GitHub repo」確認接上了，再往下推進）"
-    ],
-    "demoIdea": "畫面分左右兩欄，主題是「同一個任務，兩種問法」。左欄是「模糊 prompt」，右欄是「有效 Context 的 prompt」（指定要讀哪些檔案、講清楚目標）。使用者按下「開始」，兩欄同時模擬 AI 對話：左欄跑出 Frustration Loop 動畫——Generate → 使用者皺眉「Not quite right」→ Regenerate → 「Still wrong」→ 循環計數器一直加，回合數跳到 4、5、6 次；右欄第一回合就打勾出現「Accepted ✓」。畫面下方有一個即時累計的「總耗時」與「First-pass Acceptance Rate」儀表板，左欄的 rate 停在低檔、時間一直跑，右欄一次過關。最後浮出結論字卡：「不要追求 AI 多快生出 code，要追求第一次就對。」使用者可以切換不同任務情境（寫 code、生圖、寫文案）重跑一次，看到同樣的模式。",
-    "questions": [
-      "回想你上次跟 AI 來回超過三輪的經驗——問題出在 AI 不夠聰明，還是你沒給它有效的 Context？",
-      "「What is the goal? Where is the goal aiming for?」——你手上正在做的任務，能不能用一句話講清楚目標？",
-      "如果你已經知道答案了，為什麼還要讓 AI 做？（提示：省下的時間是 5 倍、10 倍起跳）"
-    ],
-    "quotes": [
-      "不要追求 AI 多快生出 code，要追求第一次就對。",
-      "你只要把第一步做對，後面 AI 幫我們放大，會把剩下的做完、做到好。",
-      "在看了 code 並指引它之後，AI 幫你把全部邏輯串接起來省下的時間，是手動處理的 5 倍、10 倍起跳。",
-      "每一步都切小，每一步第一次就對的機率都高，一路串過去反而比一次做完還快。"
     ]
   },
   {
@@ -1447,37 +1440,7 @@
   },
   {
     "num": "37",
-    "file": "37-round-robin.md",
-    "id": "round-robin",
-    "title": "等待時間就是第二條產線 — Round Robin",
-    "subtitle": "Round Robin",
-    "chapter": 9,
-    "chapterTitle": "視野 — 工作型態與品味",
-    "sources": [],
-    "classroom": true,
-    "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
-    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這就要接回上一課 **驗證摩擦（概念 36）**。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
-    "keyPoints": [
-      "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
-      "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
-      "「一次只能做一件事」在 AI 時代是完全不 ok 的",
-      "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
-      "與驗證摩擦（概念 36）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
-    ],
-    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把概念 36 跟 37 串起來。",
-    "questions": [
-      "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
-      "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
-      "如果你想開始輪詢，你目前哪個環節的「驗證摩擦」最高、最先需要降下來？"
-    ],
-    "quotes": [
-      "你一次只能做一件事情是完全不 ok 的。",
-      "網路上說開 100 個 coding session 的人，不是真的一次面向 100 個，是每次面向一個，一直轉一直轉。"
-    ]
-  },
-  {
-    "num": "38",
-    "file": "38-eight-levels.md",
+    "file": "37-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1512,8 +1475,8 @@
     ]
   },
   {
-    "num": "39",
-    "file": "39-vampire-gremlin.md",
+    "num": "38",
+    "file": "38-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1550,8 +1513,8 @@
     ]
   },
   {
-    "num": "40",
-    "file": "40-taste.md",
+    "num": "39",
+    "file": "39-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",
