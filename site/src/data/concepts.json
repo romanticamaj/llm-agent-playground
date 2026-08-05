@@ -117,15 +117,15 @@
     "sources": [],
     "classroom": true,
     "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
-    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 36）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
+    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 38）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
     "keyPoints": [
       "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
       "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
       "「一次只能做一件事」在 AI 時代是完全不 ok 的",
       "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
-      "與後面的驗證摩擦（概念 36）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
+      "與後面的驗證摩擦（概念 38）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
     ],
-    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 36）串起來。",
+    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 38）串起來。",
     "questions": [
       "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
       "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
@@ -746,7 +746,42 @@
   },
   {
     "num": "20",
-    "file": "20-data-literacy.md",
+    "file": "20-access-spectrum.md",
+    "id": "access-spectrum",
+    "title": "拿多大的鑰匙，扛多大的風險",
+    "subtitle": "Connector → MCP → API Key",
+    "chapter": 3,
+    "chapterTitle": "從聊天到 Agent",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "同一件事有三種接法 — 不是越底層越厲害，是你需要多大的鑰匙、扛不扛得起。",
+    "script": "先講一個診所真的遇到的需求。他們想讓 AI 每週自動把 Gmail 裡的發票附件抓下來、打包成一包。聽起來很單純吧？結果一路查下去，才發現這件小事會逼你穿過三層完全不同的接法。\n\n第一層是 **connector（連接器）**。這是服務商幫你封裝好的東西 — 你到設定裡點一下、跳出授權頁、按同意，就能用了。Gmail connector 能讀信、能加 label、能寫信、能回信，日常需求其實很夠用。但我們去翻它的能力清單，就是**沒有下載附件**這一項。\n\n一開始會覺得「幹嘛鎖成這樣」，但你想一下就知道很合理 —— connector 要是全開，一般 user 弄出事誰負責？Claude 要負責嗎？Gmail 要負責嗎？沒有人要幫你負責，那就是你的風險要自管。所以服務商乾脆先幫你鎖起來。**connector 的本質，是別人幫你把風險封裝掉，代價是能力被鎖死。**\n\nconnector 做不到，就往下掉一層 — **MCP**。這裡要講清楚一件很多人搞混的事：**MCP 就是 connector 底下實作的協定**；反過來說，**connector 就是有服務商幫你封裝好的 MCP**。它們不是兩個對立的東西，是同一條路的不同深度。官方 connector 做得不好、或缺你要的能力，你可以自己接第三方的 MCP server，甚至自己架一個 — 在本機 launch，拿到一個 127.0.0.1 開頭的網址，資料連外網都不用走。\n\n代價是什麼？難度中等，而且**授權要你自己過**。我們課堂上就當場踩到 — 接 Notion 的時候授權卡在 callback 壞掉，怎麼點都回不來。這件事本身就是一課：**工具會壞，不要太相信別人寫的 code。** 你往下掉一層，就多接手一層別人不再幫你扛的東西。\n\n再往下，最底層，是 **API key**。拿到 API key，你就等於天神了 —— 那把鑰匙能開你 Gmail 的一切。但你要自己去 Google Cloud Console 開專案、啟用 API、建 OAuth 憑證，流程繁瑣到會勸退很多人。有人會問：那我把權限縮小一點，只給讀不給寫呢？可以啊，但你都用到 API key 了只能讀不能寫，好像也說不過去。\n\n所以整條光譜長這樣：**Connector → MCP → API key**。它們其實都是 API，只是 package 過的 API — 差別只在誰幫你封裝、你拿到多大的權限、你扛多少風險。\n\n判斷法則很簡單，而且方向是**由上往下**，不是由下往上：**能用 connector 解決，就不要往下掉**。connector 真的做不到（像我們那個下載附件打包），才掉到 MCP；MCP 還是搞不定，才動 API key。每往下一層，能力變大、設定變繁瑣、風險從服務商身上移到你身上。\n\n最後補一句：技術上你當然可以直接從 API key 開始 — **你夠強可以啊，不是每個人都可以。** 對大多數人、大多數任務，這時候就很適合退回 connector，因為 connector 都幫你封起來了。",
+    "keyPoints": [
+      "三層是同一條光譜，不是三種技術：connector 是服務商封裝好的 MCP，MCP 底下還是 API — 它們都是 package 過的 API",
+      "Connector：點開授權就能用，代價是能力被鎖死（Gmail connector 能讀信、加 label、寫信、回信，就是不能下載附件）— 鎖起來很合理，因為出事沒人幫你負責",
+      "MCP：官方 connector 不夠用時，接第三方或本機自架（127.0.0.1，不用走外網）；難度中等、授權要自己過，而且工具會壞 — 別太相信別人寫的 code",
+      "API key：最底層、「等於天神」，但要 Cloud 專案＋啟用 API＋OAuth 憑證，流程繁瑣、風險 100% 自負",
+      "判斷法則由上往下：能用 connector 解決就別往下掉；connector 做不到才用 MCP，MCP 還不行才動 API key",
+      "每往下一層＝能力變大、設定變繁瑣、風險從服務商移到你身上 — 選的不是「厲害」，是「你扛不扛得起」"
+    ],
+    "demoIdea": "一個「任務 × 三層軌道」的對照台。上方是四個任務按鈕：讀最新 10 封信／幫信件加標籤／下載附件打包到資料夾／每週自動排程跑。下方是三條並排的層級軌道：Connector、MCP、API Key，每條軌道右邊掛著三根代價量表（設定成本、權限範圍、風險自負）。\n\n點任何一個任務，三條軌道即時亮燈：綠燈＝做得到、黃燈＝做得到但有附帶條件、紅燈＝這一層根本沒有這個能力，並在燈旁寫出理由（例如 connector 那格會攤開它的工具清單，讓你親眼看到「下載附件」不在裡面）。\n\n導演節奏：先用「讀信、加標籤」證明 connector 全包（三根量表都很低，風險條寫「服務商扛」）→ 切到「下載附件打包」，connector 那格變紅、清單抖動、標出缺口 → 往下掉一層，MCP 軌道亮起，同時三根量表跟著長高、風險條從「服務商扛」翻成「一半自負」→ 再掉到 API Key，全綠但量表全滿、風險條寫「100% 自負」→ 最後開放 sandbox，讓使用者自由切任務、自己讀出「能用 connector 就別往下掉」這條心法。",
+    "questions": [
+      "你現在最想叫 AI 做的那件事，connector 夠不夠？你有真的去翻過它的能力清單嗎？",
+      "「connector 全開，一般 user 弄出事誰負責？」— 這個問題怎麼影響你選哪一層？",
+      "你手上有哪個任務，是真的值得你跑一趟 Google Cloud Console 去申請 API key 的？哪些其實不值得？"
+    ],
+    "quotes": [
+      "MCP 就是 connector 底下實作的協定；connector 是有服務商幫你封裝好的 MCP。",
+      "connector 幫你鎖起來，這樣很合理 —— 畢竟 connector 全開，一般 user 弄出事誰負責？Claude 要負責嗎？Gmail 要負責嗎？那是你的風險要自管。",
+      "你拿到 API key，你就等於天神了。",
+      "它們其實都是 API，只是 package 過的 API。",
+      "你夠強可以啊，不是每個人都可以。",
+      "這時候就很適合退回 connector，因為 connector 都幫你封起來。"
+    ]
+  },
+  {
+    "num": "21",
+    "file": "21-data-literacy.md",
     "id": "data-literacy",
     "title": "資料友善、資料轉換、資料接口",
     "subtitle": "Data Literacy",
@@ -775,8 +810,8 @@
     ]
   },
   {
-    "num": "21",
-    "file": "21-product-map.md",
+    "num": "22",
+    "file": "22-product-map.md",
     "id": "product-map",
     "title": "同一顆大腦，不同的身體",
     "subtitle": "The Product Map",
@@ -816,8 +851,8 @@
     ]
   },
   {
-    "num": "22",
-    "file": "22-tool-verification.md",
+    "num": "23",
+    "file": "23-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -852,8 +887,8 @@
     ]
   },
   {
-    "num": "23",
-    "file": "23-memory-map.md",
+    "num": "24",
+    "file": "24-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -895,8 +930,8 @@
     ]
   },
   {
-    "num": "24",
-    "file": "24-self-improving-agent.md",
+    "num": "25",
+    "file": "25-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -939,8 +974,8 @@
     ]
   },
   {
-    "num": "25",
-    "file": "25-agent-vs-workflow.md",
+    "num": "26",
+    "file": "26-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -976,8 +1011,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-hooks.md",
+    "num": "27",
+    "file": "27-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -1013,8 +1048,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-harness.md",
+    "num": "28",
+    "file": "28-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -1056,8 +1091,8 @@
     ]
   },
   {
-    "num": "28",
-    "file": "28-prompt-cache.md",
+    "num": "29",
+    "file": "29-prompt-cache.md",
     "id": "prompt-cache",
     "title": "算過的，別再算",
     "subtitle": "Prompt Cache / KV Cache",
@@ -1093,8 +1128,40 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-sub-agents.md",
+    "num": "30",
+    "file": "30-subscription-vs-api-key.md",
+    "id": "subscription-vs-api-key",
+    "title": "你有兩個錢包",
+    "subtitle": "訂閱制 vs API key",
+    "chapter": 5,
+    "chapterTitle": "Agent 工程",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "你以為只有一個帳戶，其實有兩個完全不同的錢包 —— 而自動化，只吃得下其中一個。",
+    "script": "大家每個月都在付錢給 AI，但很少人真的搞清楚一件事：**你付出去的錢，其實分成兩個完全不同的錢包**，而且它們之間不互通。\n\n第一個錢包叫**訂閱制**。每個月固定金額 —— 20 塊、100 塊、200 塊美金，看你買哪一階。它有額度上限，用超過就等下個月重置。重點是：它是設計給誰用的？**給「人坐在對話框前面」用的。** 你打開 Claude Code，打幾行字問它問題、看它回、再問下一句 —— 這整條路吃的都是訂閱。\n\n第二個錢包叫 **API key**。它不包月，它是**按 token 計費**：你儲值一筆錢進去，跑一次扣一次，像儲值玩電動一樣，餘額看得見地往下掉。這個錢包設計給誰？**給「程式自己跑」用的。** 你寫一支腳本半夜自動跑、你排一個每週一早上自動撈信的流程 —— 那不是人在打字，是程式在發請求，吃的就是 API key。像 Replicate 這類服務商，本質上就是在賣打包好的 API key，讓你把自動化流程接上去。\n\n然後就會撞到那個**斷點**。很多人學到第三方常駐 agent —— 就是那隻 OpenClaw 龍蝦 —— 就會想：「我有訂閱啊，讓龍蝦幫我跑就好。」**不行。第三方 agent 吃不到你的訂閱，它只能吃 API key。** 你去查技術原因會查不到，因為**這不是技術問題，是商業問題**：Claude 不想賣這個東西說「給你吃 200 塊美金用到爽」，它要你每一次發詢問就吃我 token。就這麼簡單。\n\n那為什麼你會聽說「某某工具現在可以繞著訂閱用」？有，確實有。但你要看清楚那是什麼性質 —— **那是在鑽漏洞，不是架構**。現在能鑽，是因為廠商還在搶市占率、暫時容忍。Claude 六月十九號就宣布過要全面封鎖，後來怕市占被搶走又縮回去。**它們要封隨時可以封掉。** 所以我的建議很直接：紅利你可以享受，但**不要把「現在能鑽」寫進你的系統假設裡** —— 哪天封了，你整套自動化直接停擺。\n\n最後補一個學員最常混的點：**不是所有 API key 都吃 token。** Gmail 的 API key、Google Calendar 的 API key，那種只是**身分憑證** —— 證明「是我，我有權限讀這個信箱」。它不生產內容，所以不計費，你怎麼呼叫都是零元，我叫它例行公事型。會按 token 收錢的是 **Claude、OpenAI 這種「生產內容」的 API**：它要動模型、燒 GPU，才收你錢。一個是刷門禁卡，一個是叫工人幹活 —— 名字都叫 API key，帳單天差地遠。\n\n心法給你一句話。以後每次要決定用哪個錢包，就問自己：**「這件事跑的時候，我人在不在？」** 人坐在對話框前面、一句一句跟它來回 —— 訂閱就夠了。無人排程、通宵跑、第三方 agent 代你跑 —— 準備 API key，而且要有心理準備：**這是按量計費，它會真的燒錢。**",
+    "keyPoints": [
+      "訂閱制＝固定月費（20/100/200 美金）＋額度上限＋每月重置，設計給「人坐在對話框前面」用",
+      "API key＝按 token 計費、儲值扣款，設計給「程式自己跑」用；Replicate 這類服務就是在賣打包好的 API key",
+      "第三方常駐 agent（OpenClaw 龍蝦）**吃不到訂閱**，只能吃 API key —— 原因不是技術，是商業",
+      "現在有些第三方繞得過去，那是**在鑽漏洞**，廠商搶市占暫時容忍；隨時可以封，別寫進你的系統假設",
+      "不是所有 API key 都計費：Gmail 這種只是**身分憑證**（例行公事型，$0）；Claude/OpenAI 這種**生產內容**才按 token 收錢",
+      "判斷法則：**「這件事跑的時候，我人在不在？」** 人在 → 訂閱夠用；人不在 → 準備 API key 並準備燒錢"
+    ],
+    "demoIdea": "畫面上兩個錢包並排：左邊「訂閱制」是一條固定額度條（$200/月、有上限、每月重置），右邊「API key」是一個儲值餘額（$50.00，用多少扣多少）。上方一排任務卡片：`我在對話框問問題` / `排程每週自動撈信` / `第三方 agent 通宵跑` / `Gmail 抓附件`。使用者選一張卡、再點一個錢包丟進去，看它被接住還是被彈回來。\n\n導演節奏：先丟「我在對話框問問題」到訂閱 —— 接住，額度扣一格；再丟「第三方 agent 通宵跑」到訂閱 —— **被彈回來、蓋上拒絕章**（戲劇高潮：不是技術，是商業）；同一張卡改丟 API key —— 接住了，但餘額真的往下掉；接著丟 Gmail —— 一樣進 API key，帳單卻是 $0.00（身分憑證，不生產內容）。最後演「側門」：畫面上出現一道虛線側門讓第三方繞進訂閱，玩幾秒後**閘門喀一聲關上**、剛剛鑽進去的任務被踢出來 —— 收在「它們要封隨時可以封掉」。sandbox 讓學員自由組合四張卡 × 兩個錢包，還能自己按下「廠商封鎖側門」，並把訂閱額度用到滿看它拒收。",
+    "questions": [
+      "你現在手上跑的自動化流程，如果第三方明天就封鎖訂閱繞道，哪一條會直接停擺？",
+      "你手上這幾把 API key，哪些是「身分憑證」、哪些是「按 token 計費」？分得出來嗎？",
+      "「這件事跑的時候，我人在不在？」—— 用這句話重新檢查你這週想做的三件事，各自該用哪個錢包？"
+    ],
+    "quotes": [
+      "Claude 不想賣這個東西說「給你吃 200 塊美金用到爽」，它要你每一次發詢問就吃我 token。",
+      "它們要封隨時可以封掉。",
+      "按 token 計費、儲值扣款，就像儲值玩電動一樣。"
+    ]
+  },
+  {
+    "num": "31",
+    "file": "31-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1130,8 +1197,8 @@
     ]
   },
   {
-    "num": "30",
-    "file": "30-agent-communication.md",
+    "num": "32",
+    "file": "32-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1167,8 +1234,8 @@
     ]
   },
   {
-    "num": "31",
-    "file": "31-long-running-agent.md",
+    "num": "33",
+    "file": "33-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1226,8 +1293,8 @@
     ]
   },
   {
-    "num": "32",
-    "file": "32-relocating-rigor.md",
+    "num": "34",
+    "file": "34-relocating-rigor.md",
     "id": "relocating-rigor",
     "title": "嚴謹搬家",
     "subtitle": "Relocating Rigor",
@@ -1271,8 +1338,8 @@
     ]
   },
   {
-    "num": "33",
-    "file": "33-agentic-engineering.md",
+    "num": "35",
+    "file": "35-agentic-engineering.md",
     "id": "agentic-engineering",
     "title": "三條反轉與不能外包的邊界",
     "subtitle": "Agentic Engineering",
@@ -1308,8 +1375,8 @@
     ]
   },
   {
-    "num": "34",
-    "file": "34-permission-boundary.md",
+    "num": "36",
+    "file": "36-permission-boundary.md",
     "id": "permission-boundary",
     "title": "約定不是牆",
     "subtitle": "Boundaries Are Not Walls",
@@ -1353,8 +1420,8 @@
     ]
   },
   {
-    "num": "35",
-    "file": "35-agent-eval.md",
+    "num": "37",
+    "file": "37-agent-eval.md",
     "id": "agent-eval",
     "title": "每次亂講，都變成一條 regression",
     "subtitle": "Agent Evals",
@@ -1391,8 +1458,8 @@
     ]
   },
   {
-    "num": "36",
-    "file": "36-verification-friction.md",
+    "num": "38",
+    "file": "38-verification-friction.md",
     "id": "verification-friction",
     "title": "迭代速度 ≈ 1 / 驗證摩擦",
     "subtitle": "Verification Friction",
@@ -1439,8 +1506,8 @@
     ]
   },
   {
-    "num": "37",
-    "file": "37-eight-levels.md",
+    "num": "39",
+    "file": "39-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1475,8 +1542,8 @@
     ]
   },
   {
-    "num": "38",
-    "file": "38-vampire-gremlin.md",
+    "num": "40",
+    "file": "40-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1513,8 +1580,8 @@
     ]
   },
   {
-    "num": "39",
-    "file": "39-taste.md",
+    "num": "41",
+    "file": "41-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",

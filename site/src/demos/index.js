@@ -39,4 +39,6 @@ export const demoRegistry = {
   'cognitive-load': () => import('./cognitive-load.js'),
   'data-literacy': () => import('./data-literacy.js'),
   'round-robin': () => import('./round-robin.js'),
+  'access-spectrum': () => import('./access-spectrum.js'),
+  'subscription-vs-api-key': () => import('./subscription-vs-api-key.js'),
 }
