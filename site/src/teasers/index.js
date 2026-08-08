@@ -44,6 +44,7 @@ const custom = {
   'round-robin': () => import('./round-robin.js'),
   'access-spectrum': () => import('./access-spectrum.js'),
   'subscription-vs-api-key': () => import('./subscription-vs-api-key.js'),
+  'execution-environment': () => import('./execution-environment.js'),
 }
 
 export async function loadTeaser(id) {

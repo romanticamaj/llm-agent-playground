@@ -15,6 +15,8 @@
 // 場景 DOM 放在 stage.body；會被 dim 的視覺單元加 class="ds-unit"。
 
 const EASE_OUT = 'cubic-bezier(.16,1,.3,1)'
+const NEXT_LABEL = '下一步 →'
+const SANDBOX_LABEL = 'SANDBOX · 自由實驗'
 
 let cssInjected = false
 function injectCSS() {
@@ -41,18 +43,23 @@ function injectCSS() {
     background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:10px 20px;cursor:pointer}
   .ds-unit{transition:opacity .5s ${EASE_OUT}, filter .5s ${EASE_OUT}}
   .ds-dim{opacity:.22;filter:blur(1.5px) saturate(.6);pointer-events:none}
-  .ds-bar{flex:none;position:relative;display:flex;align-items:center;justify-content:center;
-    min-height:76px;padding:14px 250px 16px;
+  /* 三欄 bar：左「進度＋鍵盤提示」／中「旁白」／右「操作」。
+     兩側欄寬 = --ds-side：JS 每拍量出左右哪邊比較寬，兩側都留那麼多 →
+     旁白永遠對稱置中，而且不可能疊到任何一側（欄位互斥，不再是絕對定位疊上去）。 */
+  .ds-bar{flex:none;position:relative;display:grid;align-items:center;
+    grid-template-columns:var(--ds-side,220px) minmax(0,1fr) var(--ds-side,220px);
+    column-gap:12px;min-height:76px;padding:14px 20px 16px;
     border-top:1px solid var(--line);background:rgba(8,9,10,.55);backdrop-filter:blur(14px)}
-  .ds-dots{display:flex;gap:7px;flex:none;position:absolute;left:32px;top:50%;transform:translateY(-50%)}
+  .ds-side{display:flex;align-items:center;gap:12px;justify-self:start;padding-left:12px;min-width:0}
+  .ds-dots{display:flex;gap:7px;flex:none}
   .ds-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.16);transition:all .3s}
   .ds-dot.on{background:var(--accent);box-shadow:0 0 10px var(--accent);transform:scale(1.3)}
   .ds-dot.done{background:rgba(255,255,255,.4)}
-  .ds-narr{flex:none;min-width:0;max-width:min(64vw,980px);text-align:center;
+  .ds-narr{justify-self:center;min-width:0;max-width:min(64vw,980px,100%);text-align:center;
     font-size:clamp(20px,1.9vw,28px);font-weight:500;line-height:1.55;
     color:var(--text);letter-spacing:-0.011em}
   .ds-narr b,.ds-narr strong{color:var(--accent)}
-  .ds-nav{display:flex;gap:10px;flex:none;align-items:center;position:absolute;right:24px;top:50%;transform:translateY(-50%)}
+  .ds-nav{display:flex;gap:10px;align-items:center;justify-self:end;padding-right:4px}
   .ds-back{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);background:none;
     border:1px solid var(--line);border-radius:999px;width:38px;height:38px;cursor:pointer;transition:all .25s}
   .ds-back:hover{color:var(--text);border-color:var(--text)}
@@ -65,10 +72,17 @@ function injectCSS() {
     color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;white-space:nowrap;
     animation:dsPulse 2s ease-in-out infinite}
   @keyframes dsPulse{50%{opacity:.55}}
-  .ds-hintkey{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--text-dim)}
-  @media (max-width:900px){.ds-bar{padding:14px 16px 64px;min-height:0}.ds-narr{max-width:100%;font-size:17px}
-  .ds-dots{left:16px;top:auto;bottom:18px;transform:none}
-  .ds-nav{right:12px;top:auto;bottom:10px;transform:none}}
+  .ds-hintkey{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--text-dim);flex:none}
+  /* 疊層版：旁白獨佔一行、控制項落到下面那條 —— 手機，或桌機窄到連 300px 旁白都排不出來時 */
+  .ds-bar.ds-stack{grid-template-columns:minmax(0,1fr);padding:14px 16px 62px;min-height:0}
+  .ds-bar.ds-stack .ds-narr{max-width:100%}
+  .ds-bar.ds-stack .ds-side{position:absolute;left:16px;bottom:16px;padding-left:0}
+  .ds-bar.ds-stack .ds-nav{position:absolute;right:12px;bottom:10px;padding-right:0}
+  @media (max-width:900px){
+  .ds-bar{grid-template-columns:minmax(0,1fr);padding:14px 16px 62px;min-height:0}
+  .ds-narr{max-width:100%;font-size:17px}
+  .ds-side{position:absolute;left:16px;bottom:16px;padding-left:0}
+  .ds-nav{position:absolute;right:12px;bottom:10px;padding-right:0}}
   `
   document.head.appendChild(s)
 }
@@ -150,17 +164,21 @@ export function createStage(el, ctx, config) {
   root.innerHTML = `
     <div class="ds-body"></div>
     <div class="ds-bar">
-      <div class="ds-dots"></div>
+      <div class="ds-side">
+        <div class="ds-dots"></div>
+        <span class="ds-hintkey">←→</span>
+      </div>
       <div class="ds-narr"></div>
       <div class="ds-nav">
-        <span class="ds-hintkey">←→</span>
         <button class="ds-back" aria-label="上一步">←</button>
-        <button class="ds-next">下一步 →</button>
+        <button class="ds-next">${NEXT_LABEL}</button>
       </div>
     </div>`
   el.appendChild(root)
 
   const body = root.querySelector('.ds-body')
+  const barEl = root.querySelector('.ds-bar')
+  const sideEl = root.querySelector('.ds-side')
   const dotsEl = root.querySelector('.ds-dots')
   const narrEl = root.querySelector('.ds-narr')
   const backBtn = root.querySelector('.ds-back')
@@ -173,6 +191,19 @@ export function createStage(el, ctx, config) {
     d.className = 'ds-dot'
     dotsEl.appendChild(d)
   })
+
+  /* ---- bar 版面：量這一拍左右兩邊實際佔多寬，取大的那邊對稱保留 ----
+     每拍重算：只有 sandbox 那拍（標籤比較寬）才會縮旁白，其餘拍維持滿版。
+     旁白本來就是逐拍換文字＋滑入重播，寬度跟著換不會被看成跳動。 */
+  function syncBar() {
+    const barW = barEl.clientWidth
+    if (!barW) return
+    const need = Math.ceil(Math.max(sideEl.offsetWidth, navEl.offsetWidth))
+    barEl.style.setProperty('--ds-side', `${need}px`)
+    // 側欄吃掉太多 → 旁白連 300px 都排不出來，改成「旁白一行、控制項一行」
+    barEl.classList.toggle('ds-stack', barW - 2 * need - 64 < 300)
+  }
+  const barRO = new ResizeObserver(syncBar)
 
   const stage = {
     root, body, ctx, index: -1, alive: true,
@@ -218,14 +249,15 @@ export function createStage(el, ctx, config) {
         if (!navEl.querySelector('.ds-sandbox-tag')) {
           const tag = document.createElement('span')
           tag.className = 'ds-sandbox-tag'
-          tag.textContent = 'SANDBOX · 自由實驗'
+          tag.textContent = SANDBOX_LABEL
           navEl.insertBefore(tag, backBtn)
         }
       } else {
         nextBtn.style.display = ''
         navEl.querySelector('.ds-sandbox-tag')?.remove()
-        nextBtn.textContent = b.nextLabel || '下一步 →'
+        nextBtn.textContent = b.nextLabel || NEXT_LABEL
       }
+      syncBar()
       stage.setNarration(b.narration || '')
       if (b.focus) stage.focus(b.focus)
       else if (!b.sandbox) stage.clearFocus()
@@ -238,9 +270,13 @@ export function createStage(el, ctx, config) {
       const cur = beats[stage.index]
       if (cur?.exit) { try { cur.exit(stage) } catch {} }
       document.removeEventListener('keydown', onKey)
+      barRO.disconnect()
       root.remove()
     },
   }
+
+  barRO.observe(barEl)                     // 視窗縮放 → 重算側欄
+  document.fonts?.ready?.then?.(() => { if (stage.alive) syncBar() })  // 字型載入後尺寸會變
 
   nextBtn.addEventListener('click', stage.next)
   backBtn.addEventListener('click', stage.prev)

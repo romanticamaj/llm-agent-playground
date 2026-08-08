@@ -117,15 +117,15 @@
     "sources": [],
     "classroom": true,
     "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
-    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 38）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
+    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 39）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
     "keyPoints": [
       "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
       "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
       "「一次只能做一件事」在 AI 時代是完全不 ok 的",
       "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
-      "與後面的驗證摩擦（概念 38）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
+      "與後面的驗證摩擦（概念 39）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
     ],
-    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 38）串起來。",
+    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 39）串起來。",
     "questions": [
       "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
       "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
@@ -826,7 +826,7 @@
     ],
     "classroom": true,
     "oneLiner": "ChatGPT、Cowork、Claude Code、OpenClaw 龍蝦，背後可能是同一顆大腦 —— 差別不在腦子，在你給了它多大的身體。",
-    "script": "學員最常問我的問題就是：「這麼多產品，ChatGPT、Cowork、Claude Code、OpenClaw…我到底該用哪個？」\n\n答案是：先搞懂它們的差別在哪。這些產品，背後可能都是同一顆大腦 —— 同一個模型。**真正的差別，是這顆大腦被裝進了多大的身體、拿到了多少工具、能碰到你哪些東西。** 我幫你排成一張表，從最保守到最開放：\n\n**第一種，ChatGPT / Claude 網頁版。** 這是純聊天，加上少量內建工具，比如 web search。它能做的事就到這裡 —— 而且它**只能動它們那端的電腦**，碰不到你的任何檔案。最安全，但也最受限。\n\n**第二種，Cowork。** 我直接講白：**它就是一個 agent，只是行銷幫它取了個好聽的名字。** 它有有限度的工具、介面做得漂亮，而且已經可以寫東西到你的電腦了。比純聊天多一截。\n\n**第三種，Claude Code。** 這是正式的 agent，工具最多，可以**控制你整台電腦** —— 開 terminal、跑指令、讀寫檔案。威力最大，因為它幾乎什麼都能碰。\n\n**第四種，OpenClaw，就是那隻OpenClaw 龍蝦。** 它是常駐型的 agent，權限全開，而且**記憶全都在你這端**，一直幫你待命。\n\n喔對，還有 Manus 之類的，本質上**也都是 agent**。你只要看懂「它有多大的身體、能碰你多少東西」，任何一個新產品出來，你都能一眼歸類。\n\n如果四種太多記不住，給你一條最好記的軸線：**chat 就是遠端，cowork 就是本地端。** chat（不管網頁版叫什麼名字）跑在「他們的機房」—— 它只能動它們那端的電腦，碰不到你桌上的檔案；cowork 這類桌機版跑在「你的機房」—— 裝在你電腦上，才真的長出手跟腳，能開 terminal、讀寫你的檔案。**桌機版才有手腳，網頁版沒有。** 至於各家取的那些名字，全是行銷 —— 你只要一句話看穿它：**這東西是遠端還是本地？工具給到多強？** 兩個維度一套，任何新產品出來都歸得了位。\n\n所以下次選工具，別再問「哪個最厲害」。要問的是：**這件事，我需要多大的身體？** 只是查資料、寫個文案，網頁版就夠了；要它動我電腦裡的檔案、跑一整套流程，才需要 Claude Code 或OpenClaw 龍蝦。腦子都一樣強，身體給對了，事情才做得成。",
+    "script": "學員最常問我的問題就是：「這麼多產品，ChatGPT、Cowork、Claude Code、OpenClaw…我到底該用哪個？」\n\n答案是：先搞懂它們的差別在哪。這些產品，背後可能都是同一顆大腦 —— 同一個模型。**真正的差別，是這顆大腦被裝進了多大的身體、拿到了多少工具、能碰到你哪些東西。** 我幫你排成一張表，從最保守到最開放：\n\n**第一種，ChatGPT / Claude 網頁版。** 這是純聊天，加上少量內建工具，比如 web search。它能做的事就到這裡 —— 而且它**只能動它們那端的電腦**，碰不到你的任何檔案。最安全，但也最受限。\n\n**第二種，Cowork。** 我直接講白：**它就是一個 agent，只是行銷幫它取了個好聽的名字。** 它有有限度的工具、介面做得漂亮，而且已經可以寫東西到你的電腦了。比純聊天多一截。\n\n**第三種，Claude Code。** 這是正式的 agent，工具最多，可以**控制你整台電腦** —— 開 terminal、跑指令、讀寫檔案。威力最大，因為它幾乎什麼都能碰。不過它有權限模式，預設是動手前會停下來問你一聲（後面談權限邊界時會再展開）。\n\n**第四種，OpenClaw，就是那隻OpenClaw 龍蝦。** 它是常駐型的 agent，權限全開，而且**記憶全都在你這端**，一直幫你待命。\n\n喔對，還有 Manus 之類的，本質上**也都是 agent**。你只要看懂「它有多大的身體、能碰你多少東西」，任何一個新產品出來，你都能一眼歸類。\n\n如果四種太多記不住，還有第二條軸線也很關鍵：**遠端還是本地？** 東西是跑在「他們的機房」還是「你的機房」，直接決定它碰得到你哪些檔案。\n\n不過這裡我要老實修正一件事。這條軸線我以前是這樣教的：「chat 就是遠端，cowork 就是本地端；桌機版才有手腳，網頁版沒有。」**現在這個講法已經不成立了。** 維度沒錯，錯的是我把維度**綁死在產品名字上** —— 遠端／本地其實是**每個產品內部的一個開關，不是產品的固定屬性**。同一個產品，這次可以跑在雲端、下次可以跑在你機器上；廠商還會直接改預設值，而且不一定會跳出來通知你。\n\n所以問法要換掉：**別再問「這個產品跑在哪」，要問「我這個 session 現在跑在哪」。** 這是你自己要負責去確認的事 —— 到設定裡把那個開關找出來，看一眼今天它是開還是關。至於雲端跟本地各自實際怎麼跑、誰碰得到你的檔案，**下一課（概念 23）會拆開來講**，這裡先把問法記住就好。\n\n順帶說一句：這件事本身就是個示範 —— **概念會過期，你得定期回頭校準。** 至於各家取的那些名字，全是行銷 —— 你只要一句話看穿它：**這個 session 是遠端還是本地？工具給到多強？** 兩個維度一套，任何新產品出來都歸得了位。\n\n所以下次選工具，別再問「哪個最厲害」。要問的是：**這件事，我需要多大的身體？** 只是查資料、寫個文案，網頁版就夠了；要它動我電腦裡的檔案、跑一整套流程，才需要 Claude Code 或OpenClaw 龍蝦。腦子都一樣強，身體給對了，事情才做得成。",
     "keyPoints": [
       "同一顆大腦（模型），可以裝進不同的身體；差別在工具多寡與能碰到你多少東西",
       "ChatGPT / Claude 網頁：純聊天＋少量內建工具（web search），只能動服務商那端",
@@ -834,7 +834,7 @@
       "Claude Code：正式 agent，工具最多，控制你整台電腦、有 terminal",
       "OpenClaw 龍蝦：常駐 agent，權限全開、記憶全在你這端；Manus 之類也都是 agent",
       "選工具的問法：不是「哪個最厲害」，而是「這件事需要多大的身體」",
-      "最好記的軸線：chat＝遠端（他們的機房，碰不到你的檔案）、cowork＝本地端（你的機房，桌機版才有手腳）",
+      "遠端／本地仍是關鍵維度，但它是**每個產品內部的一個開關**，不是產品的固定屬性 —— 問法要從「這個產品跑在哪」改成「我這個 session 現在跑在哪」；廠商會改預設，自己去把開關找出來看一眼（細節見概念 23）",
       "名字都是行銷 —— 看穿它就兩個維度：遠端/本地 ＋ 工具強度"
     ],
     "demoIdea": "一張四欄產品對照互動表（ChatGPT 網頁 / Cowork / Claude Code / OpenClaw 龍蝦），每欄標示「本質」與「工具/權限」。核心互動：使用者輸入同一句任務（例如「把這份自費表核對後存成報表」），按執行後看四個產品各自能走到哪一步 —— 網頁版止步於「只能聊、給你步驟」、Cowork「幫你寫出檔案」、Claude Code「開 terminal 跑完整流程」、OpenClaw 龍蝦「常駐並記住結果待命」。用同一句話、四種結局，讓學員秒懂「身體大小」的差異。",
@@ -845,14 +845,48 @@
     ],
     "quotes": [
       "Cowork 就是 agent，只是行銷取了一個好聽的名字。",
-      "差別不在腦子 —— 在它有多大的身體、能碰你多少東西。",
-      "chat 就是遠端，他們的機房；cowork 就是本地端，你的機房。",
-      "桌機版才有手腳，網頁版沒有。"
+      "差別不在腦子 —— 在它有多大的身體、能碰你多少東西。"
     ]
   },
   {
     "num": "23",
-    "file": "23-tool-verification.md",
+    "file": "23-execution-environment.md",
+    "id": "execution-environment",
+    "title": "跑在哪，是開關，不是屬性",
+    "subtitle": "Execution Environment",
+    "chapter": 3,
+    "chapterTitle": "從聊天到 Agent",
+    "sources": [],
+    "classroom": true,
+    "oneLiner": "別問「這個產品跑在哪」—— 問「我這個 session 現在跑在哪、開了哪幾個口」。",
+    "script": "上一課結尾我留了一句：遠端／本地不是產品的固定屬性，是產品內部的一個開關。這一課就把它拆開來看。\n\n先講課堂那一幕。我們在 Cowork 裡想裝一個 MCP，照文件下指令，**裝不動**；最後改開 Claude Code，一下就好。當下大家的結論很自然：「喔，Cowork 就是比較弱嘛。」\n\n**這個結論是錯的。** 不是 Cowork 比較弱 —— 是我們那個 session **根本沒開 shell 這個口，也沒開 MCP 這個口**。同一個 Cowork，換一個模式跑，那兩個口就在。\n\n要看懂，先把兩件常被混在一起的事分開：**agent loop 在哪裡跑**（想 → 呼叫工具 → 再想的迴圈，引擎在誰的機器上轉），跟**程式碼在哪裡執行**（跑一行指令、開一個檔案，發生在哪台機器上）。大部分人以為這是同一件事。不是。\n\n拿 Cowork 當標本。**Cloud session** 是 agent loop 跟程式執行**都在** Anthropic 雲端的隔離 sandbox 裡，每個 session 一個、結束即銷毀；它連不到你的內網，對外流量走它管的通道，繞不過去。**Local session** 則是 agent loop 跑在**你的裝置上**，程式執行在**你電腦裡的一台隔離 VM**。\n\n那問題來了：cloud session 整個跑在人家機房，怎麼還讀得到我桌面的檔案？答案是 —— **它繞回來。** 請求經 Anthropic 中介，繞回**你電腦上的 Claude Desktop app**，只限你明確連結的那幾個資料夾。推論很實際：**Desktop app 一離線，雲端 session 就碰不到你的電腦了。**\n\n再來是最實用的一段，**四個口，哪些是開的**：cloud session 有 web 工具、（繞回 Desktop 的）本地資料夾、connector；**local session 才額外有 shell 指令和 plugin MCP server**，在那台隔離 VM 裡跑。\n\n回頭看課堂那一幕，答案就跳出來了：我們跑在 cloud session。這不是「比較弱」的籠統印象，是一個具體、可以查證的開關狀態。\n\n接著是最要你警覺的：**預設會被改，而且不一定通知你。** 2026 年 7 月 7 號起，Anthropic 逐步把 Cowork 預設改成雲端執行，**沒有 in-app 提示**。你昨天在本地跑得好好的，今天打開已經在雲端，畫面長得一模一樣。開關在 **Claude Desktop → Settings → Cowork →「Run new tasks in the cloud」**，自己去看一眼。\n\n還要打掉另一個直覺：**「跑在我自己機器上就安全」。** 2026 年 7 月 27 號，研究者揭露 Cowork 在 Mac 上的**沙箱逃逸**漏洞 —— 跳出那台 VM、讀寫整台機器的檔案。隔離牆是軟體做的，軟體就會有洞。\n\n別家一樣。**Codex** 兩邊都有，雲端是預載你 repo 的隔離容器，所以「codex 就是本地的」不成立；**ChatGPT** 的 Agent mode 是雲端虛擬電腦，碰不到你本機的檔案、除非你上傳，Work 版還要在桌面版授權才用得到本地資料夾。\n\n收尾三句。問法換掉：不是「這個**產品**跑在哪」，是「**我這個 session 現在跑在哪、開了哪些口**」。三個口一次問完：**shell？MCP？本地資料夾？** 還有，**預設值是廠商的商業決定，不是物理定律** —— 它會改，而且不一定跟你說。\n\n最後跟概念 20 對起來看：20 問的是**你拿多大的鑰匙**（權限的深度），這一課問的是**你在哪裡開鎖**（程式在誰的機器上跑、開了哪幾個口）。兩張圖疊起來，才是你這個 session 完整的邊界圖。",
+    "keyPoints": [
+      "「agent loop 在哪跑」和「程式碼在哪執行」是兩件事 —— 混為一談就會問錯問題",
+      "Cowork 兩種模式：cloud（loop＋執行都在 Anthropic 隔離 sandbox，每 session 一個、結束即銷毀、連不到內網／metadata、對外強制走 proxy）／local（loop 在你裝置上，執行在本機隔離 VM：macOS Virtualization.framework、Windows Hyper-V）",
+      "雲端 session 碰你的檔案，是**繞回你電腦上的 Claude Desktop**，只限你明確連結的資料夾、每次呼叫都對權限 —— Desktop 離線，這條線就斷",
+      "口不一樣：cloud 有 web 工具／（經 Desktop 的）本地檔案／connector；**只有 local 才有 shell 和 plugin MCP** —— 課堂上 Cowork 裝不動 MCP 就是這個原因，不是「比較弱」",
+      "預設會被廠商改且不一定通知：2026-07-07 起 Cowork 預設轉雲端、無 in-app 提示；開關在 Claude Desktop → Settings → Cowork →「Run new tasks in the cloud」",
+      "本地 ≠ 零風險：2026-07-27 有研究者揭露 Mac 上的沙箱逃逸 —— 可跳出 VM 讀寫整台機器",
+      "別家一樣是開關不是屬性：Codex 有雲端容器（預設關網路）與本地 CLI sandbox；ChatGPT Agent mode 是雲端虛擬電腦、碰不到本機除非上傳，ChatGPT Work 要桌面版授權才有本地資料夾",
+      "跟概念 20 合起來看：20 問「拿多大的鑰匙」（權限深度），這篇問「在哪裡開鎖」（執行位置與開的口）"
+    ],
+    "demoIdea": "一個產品（Cowork）＋一個執行模式開關。畫面上方是模式切換（Local session / Cloud session），中間是三欄示意圖：左邊「Anthropic 雲端 sandbox」框、右邊「你的電腦」框（內含「本機隔離 VM」與「你連結的資料夾」），中間是「Claude Desktop」當代理通道，兩側各一條線。一顆「agent loop」膠囊會在左右兩框之間移動。下方是四個能力口的燈號：web 工具 / 本地資料夾 / shell / MCP，點任一個口就在下面攤開它在目前模式下的實際狀態說明。\n\n導演節奏：先看 local 模式，agent loop 停在右邊的本機 VM，四口全亮 → 切到 cloud，膠囊飛到左邊雲端框，**shell 與 MCP 兩顆燈直接熄掉**，並重現課堂那一幕：想下指令裝 MCP，指令送不出去（抖動）→ 那本地檔案怎麼還碰得到？畫出經 Claude Desktop 的代理路徑、封包沿線流動，接著把 Desktop 關掉，整條線斷開、本地資料夾燈也熄 → 廠商改預設：開關自己被撥到 cloud、沒有任何提示，旁邊浮出「你以為：還在本地」→ 本地也不是保險箱：本機 VM 的框上裂開一道縫，有東西漏到 VM 外的整台機器 → 最後開放 sandbox，自由切模式、開關 Desktop、點每個口讀說明，自己讀出「我這個 session 開了哪三個口」。",
+    "questions": [
+      "你現在正在用的那個 session，agent loop 跑在哪？shell、MCP、本地資料夾這三個口，你確定哪幾個是開的？",
+      "如果廠商今天把你的預設從本地改成雲端、而且不通知你，你會從哪個徵兆先發現？",
+      "「跑在我自己機器上就安全」—— 知道有沙箱逃逸這回事之後，你會怎麼修正這個直覺？"
+    ],
+    "quotes": [
+      "不是 Cowork 比較弱 —— 是那個模式根本沒開 shell 跟 MCP 這兩個口。",
+      "別問「這個產品跑在哪」，要問「我這個 session 現在跑在哪」。",
+      "Desktop app 一離線，雲端 session 就碰不到你的電腦了。",
+      "預設值是廠商的商業決定，不是物理定律。",
+      "概念 20 問你拿多大的鑰匙，這一課問你在哪裡開鎖。"
+    ]
+  },
+  {
+    "num": "24",
+    "file": "24-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -887,8 +921,8 @@
     ]
   },
   {
-    "num": "24",
-    "file": "24-memory-map.md",
+    "num": "25",
+    "file": "25-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -930,8 +964,8 @@
     ]
   },
   {
-    "num": "25",
-    "file": "25-self-improving-agent.md",
+    "num": "26",
+    "file": "26-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -974,8 +1008,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-agent-vs-workflow.md",
+    "num": "27",
+    "file": "27-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -1011,8 +1045,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-hooks.md",
+    "num": "28",
+    "file": "28-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -1048,8 +1082,8 @@
     ]
   },
   {
-    "num": "28",
-    "file": "28-harness.md",
+    "num": "29",
+    "file": "29-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -1091,8 +1125,8 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-prompt-cache.md",
+    "num": "30",
+    "file": "30-prompt-cache.md",
     "id": "prompt-cache",
     "title": "算過的，別再算",
     "subtitle": "Prompt Cache / KV Cache",
@@ -1128,8 +1162,8 @@
     ]
   },
   {
-    "num": "30",
-    "file": "30-subscription-vs-api-key.md",
+    "num": "31",
+    "file": "31-subscription-vs-api-key.md",
     "id": "subscription-vs-api-key",
     "title": "你有兩個錢包",
     "subtitle": "訂閱制 vs API key",
@@ -1160,8 +1194,8 @@
     ]
   },
   {
-    "num": "31",
-    "file": "31-sub-agents.md",
+    "num": "32",
+    "file": "32-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1197,8 +1231,8 @@
     ]
   },
   {
-    "num": "32",
-    "file": "32-agent-communication.md",
+    "num": "33",
+    "file": "33-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1234,8 +1268,8 @@
     ]
   },
   {
-    "num": "33",
-    "file": "33-long-running-agent.md",
+    "num": "34",
+    "file": "34-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1293,8 +1327,8 @@
     ]
   },
   {
-    "num": "34",
-    "file": "34-relocating-rigor.md",
+    "num": "35",
+    "file": "35-relocating-rigor.md",
     "id": "relocating-rigor",
     "title": "嚴謹搬家",
     "subtitle": "Relocating Rigor",
@@ -1338,8 +1372,8 @@
     ]
   },
   {
-    "num": "35",
-    "file": "35-agentic-engineering.md",
+    "num": "36",
+    "file": "36-agentic-engineering.md",
     "id": "agentic-engineering",
     "title": "三條反轉與不能外包的邊界",
     "subtitle": "Agentic Engineering",
@@ -1375,8 +1409,8 @@
     ]
   },
   {
-    "num": "36",
-    "file": "36-permission-boundary.md",
+    "num": "37",
+    "file": "37-permission-boundary.md",
     "id": "permission-boundary",
     "title": "約定不是牆",
     "subtitle": "Boundaries Are Not Walls",
@@ -1420,8 +1454,8 @@
     ]
   },
   {
-    "num": "37",
-    "file": "37-agent-eval.md",
+    "num": "38",
+    "file": "38-agent-eval.md",
     "id": "agent-eval",
     "title": "每次亂講，都變成一條 regression",
     "subtitle": "Agent Evals",
@@ -1458,8 +1492,8 @@
     ]
   },
   {
-    "num": "38",
-    "file": "38-verification-friction.md",
+    "num": "39",
+    "file": "39-verification-friction.md",
     "id": "verification-friction",
     "title": "迭代速度 ≈ 1 / 驗證摩擦",
     "subtitle": "Verification Friction",
@@ -1506,8 +1540,8 @@
     ]
   },
   {
-    "num": "39",
-    "file": "39-eight-levels.md",
+    "num": "40",
+    "file": "40-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1542,8 +1576,8 @@
     ]
   },
   {
-    "num": "40",
-    "file": "40-vampire-gremlin.md",
+    "num": "41",
+    "file": "41-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1580,8 +1614,8 @@
     ]
   },
   {
-    "num": "41",
-    "file": "41-taste.md",
+    "num": "42",
+    "file": "42-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",
