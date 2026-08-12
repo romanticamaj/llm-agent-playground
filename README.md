@@ -2,7 +2,7 @@
 
 **Live: [garyhsieh.com/ai-lab](https://www.garyhsieh.com/ai-lab)**
 
-把 Gary Hsieh（garyhsieh.com）的 AI 心得文章，整理成可直接上課使用的教學概念庫 + 互動式教學網站 — 目前共 **9 章、42 個概念**。
+把 Gary Hsieh（garyhsieh.com）的 AI 心得文章，整理成可直接上課使用的教學概念庫 + 互動式教學網站 — 目前共 **9 章、43 個概念**。
 
 - **教學概念檔**：`concepts/` — 每個概念一個檔案，含一句話、三分鐘講稿、關鍵重點、互動示範構想、課堂提問、原文金句與出處連結
 - **互動教學網站**：`site/` — Vite + three.js，上課展示（Presentation 模式）與自由體驗（Explore 模式）兩用
@@ -19,7 +19,7 @@ npm run dev   # 打開 http://localhost:5173
 
 ## 課綱總覽
 
-全站 **9 章、42 概念**，分三條路徑：**Ch1–Ch3 是入門・授課主線**（診所／一般團隊上課用的核心概念），**Ch4–Ch8 是進階・工程師路線**（多在工程師場才展開），**Ch9 是視野・工作型態與品味**（全站收束，談 AI 之後的工作型態與最後決勝的品味）。標「課堂實錄」的概念來自 2026-07-22 授課實錄整理。
+全站 **9 章、43 概念**，分三條路徑：**Ch1–Ch3 是入門・授課主線**（診所／一般團隊上課用的核心概念），**Ch4–Ch8 是進階・工程師路線**（多在工程師場才展開），**Ch9 是視野・工作型態與品味**（全站收束，談 AI 之後的工作型態與最後決勝的品味）。標「課堂實錄」的概念來自 2026-07-22 授課實錄整理。
 
 ### Chapter 1 — 開場：為什麼是概念　`🟢 入門・授課主線`
 
@@ -54,59 +54,60 @@ npm run dev   # 打開 http://localhost:5173
 | 17 | 一次性 prompt 是 leverage，Builder 是複利 | The Prompt Builder | [每個人都應該有一個 Prompt Builder](https://www.garyhsieh.com/blog/2026-06-23-prompt-builder)、[Higher-Order Prompting](https://www.garyhsieh.com/blog/2026-06-23-higher-order-prompting) |
 | 18 | GPTs、Gem、Project — 只是接龍的開頭 | Project = Fixed Prefix | 課堂實錄 + [聊聊為什麼需要沒事多按「編輯」？](https://www.garyhsieh.com/blog/2026-04-22-ai-prompt-ai) |
 | 19 | MCP — 工具的 USB 接口 | Model Context Protocol | [資訊落差超級大的事情（AI 整理 Gmail）](https://www.garyhsieh.com/blog/2026-05-24-ai-gmail-chatgpt) |
-| 20 | 拿多大的鑰匙，扛多大的風險 | Connector → MCP → API Key | 課堂實錄 |
+| 20 | 拿多大的鑰匙，扛多大的風險 | Connector → CLI → MCP → API Key | 課堂實錄 |
 | 21 | 資料友善、資料轉換、資料接口 | Data Literacy | 課堂實錄 |
 | 22 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
 | 23 | 跑在哪，是開關，不是屬性 | Execution Environment | 課堂實錄 |
-| 24 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
+| 24 | Agent 沒有開關 | Trigger & Cadence | 課堂實錄 |
+| 25 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
 
 ### Chapter 4 — Memory：讓 AI 記得　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 25 | 記憶不在 AI 裡，在外面 | From Stateless to Stateful | [AI 從 Stateless 到 Stateful](https://www.garyhsieh.com/blog/2026-05-27-ai-stateless-stateful)、[AI Memory 工具實測](https://www.garyhsieh.com/blog/2026-05-30-ai-memory-llm) |
-| 26 | 自我學習，就是超有紀律的記憶管理 | The Self-Improving Agent | [AI Agent 是怎麼自我學習的？](https://www.garyhsieh.com/blog/2026-05-13-ai-agent)、[讓 coding agent 不停下來的招](https://www.garyhsieh.com/blog/2026-06-11-long-running-rules) |
+| 26 | 記憶不在 AI 裡，在外面 | From Stateless to Stateful | [AI 從 Stateless 到 Stateful](https://www.garyhsieh.com/blog/2026-05-27-ai-stateless-stateful)、[AI Memory 工具實測](https://www.garyhsieh.com/blog/2026-05-30-ai-memory-llm) |
+| 27 | 自我學習，就是超有紀律的記憶管理 | The Self-Improving Agent | [AI Agent 是怎麼自我學習的？](https://www.garyhsieh.com/blog/2026-05-13-ai-agent)、[讓 coding agent 不停下來的招](https://www.garyhsieh.com/blog/2026-06-11-long-running-rules) |
 
 ### Chapter 5 — Agent 工程　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 27 | Agent 還是 Workflow？ | Agent vs. Workflow | [我們要的是 AI Agent 還是一個 Workflow？](https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow) |
-| 28 | 說服是修辭，約束是工程 | Hooks & Anti-Rationalization | [為什麼會有 Hook 存在？](https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent) |
-| 29 | 從「會動」到「可控」 | The Agent Harness | [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code)、[到底什麼是 Harness？](https://www.garyhsieh.com/blog/2026-06-19-what-is-harness) |
-| 30 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
-| 31 | 你有兩個錢包 | 訂閱制 vs API key | 課堂實錄 |
+| 28 | Agent 還是 Workflow？ | Agent vs. Workflow | [我們要的是 AI Agent 還是一個 Workflow？](https://www.garyhsieh.com/blog/2026-03-30-ai-agent-workflow) |
+| 29 | 說服是修辭，約束是工程 | Hooks & Anti-Rationalization | [為什麼會有 Hook 存在？](https://www.garyhsieh.com/blog/2026-05-09-hook-anti-rationalization-agent) |
+| 30 | 從「會動」到「可控」 | The Agent Harness | [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code)、[到底什麼是 Harness？](https://www.garyhsieh.com/blog/2026-06-19-what-is-harness) |
+| 31 | 算過的，別再算 | Prompt Cache / KV Cache | [為什麼會有 prompt cache？](https://www.garyhsieh.com/blog/2026-06-03-prompt-cache) |
+| 32 | 你有兩個錢包 | 訂閱制 vs API key | 課堂實錄 |
 
 ### Chapter 6 — Multi-Agent 與長時間運行　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 32 | 卡住了？叫 AI 去找幫手 | Sub-agents | [跟 AI Coding Agent 工作卡住的時候](https://www.garyhsieh.com/blog/2026-03-28-ai-coding-agent) |
-| 33 | Agent 怎麼聊天？作業系統早就演過了 | Agent Communication | [AI Agent 是怎麼溝通的？](https://www.garyhsieh.com/blog/2026-04-17-ai-agent-agent) |
-| 34 | 不是撐得久，是交接零成本 | Long-running Agent | [原來我一直搞錯 Long-running Agent](https://www.garyhsieh.com/blog/2026-03-21-long-running-agent-loop)、[Session Handoff](https://www.garyhsieh.com/blog/2026-04-06-session-handoff-long-running)、[Harness Engineering](https://www.garyhsieh.com/blog/2026-04-11-llm-session-long-running)、[210 個 agent 開始跑](https://www.garyhsieh.com/blog/2026-07-10-dynamic-workflow-hit-limit)、[睡前 token 焦慮](https://www.garyhsieh.com/blog/2026-07-19-token-anxiety) |
+| 33 | 卡住了？叫 AI 去找幫手 | Sub-agents | [跟 AI Coding Agent 工作卡住的時候](https://www.garyhsieh.com/blog/2026-03-28-ai-coding-agent) |
+| 34 | Agent 怎麼聊天？作業系統早就演過了 | Agent Communication | [AI Agent 是怎麼溝通的？](https://www.garyhsieh.com/blog/2026-04-17-ai-agent-agent) |
+| 35 | 不是撐得久，是交接零成本 | Long-running Agent | [原來我一直搞錯 Long-running Agent](https://www.garyhsieh.com/blog/2026-03-21-long-running-agent-loop)、[Session Handoff](https://www.garyhsieh.com/blog/2026-04-06-session-handoff-long-running)、[Harness Engineering](https://www.garyhsieh.com/blog/2026-04-11-llm-session-long-running)、[210 個 agent 開始跑](https://www.garyhsieh.com/blog/2026-07-10-dynamic-workflow-hit-limit)、[睡前 token 焦慮](https://www.garyhsieh.com/blog/2026-07-19-token-anxiety) |
 
 ### Chapter 7 — 與 AI 協作的方法　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 35 | 嚴謹搬家 | Relocating Rigor | [嚴謹度只是換了位置](https://www.garyhsieh.com/blog/2026-06-04-relocating-rigor)、[閱讀 AI 產出為什麼累](https://www.garyhsieh.com/blog/2026-06-10-cognitive-load-review) |
-| 36 | 三條反轉與不能外包的邊界 | Agentic Engineering | [Karpathy：Vibe Coding → Agentic Engineering](https://www.garyhsieh.com/blog/2026-05-06-andrej-karpathy-vibe) |
+| 36 | 嚴謹搬家 | Relocating Rigor | [嚴謹度只是換了位置](https://www.garyhsieh.com/blog/2026-06-04-relocating-rigor)、[閱讀 AI 產出為什麼累](https://www.garyhsieh.com/blog/2026-06-10-cognitive-load-review) |
+| 37 | 三條反轉與不能外包的邊界 | Agentic Engineering | [Karpathy：Vibe Coding → Agentic Engineering](https://www.garyhsieh.com/blog/2026-05-06-andrej-karpathy-vibe) |
 
 ### Chapter 8 — 安全與評測　`🟡 進階・工程師路線`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 37 | 約定不是牆 | Boundaries Are Not Walls | [某 AI Agent App 的權限邊界實測](https://www.garyhsieh.com/blog/2026-06-26-agent-permission-boundary)、[AI Native Agent App 的安全邊界](https://www.garyhsieh.com/blog/2026-06-27-agent-app-security) |
-| 38 | 每次亂講，都變成一條 regression | Agent Evals | [怎麼驗證你的 AI Agent 不會亂講話？](https://www.garyhsieh.com/blog/2026-07-15-promptfoo-agent-eval) |
+| 38 | 約定不是牆 | Boundaries Are Not Walls | [某 AI Agent App 的權限邊界實測](https://www.garyhsieh.com/blog/2026-06-26-agent-permission-boundary)、[AI Native Agent App 的安全邊界](https://www.garyhsieh.com/blog/2026-06-27-agent-app-security) |
+| 39 | 每次亂講，都變成一條 regression | Agent Evals | [怎麼驗證你的 AI Agent 不會亂講話？](https://www.garyhsieh.com/blog/2026-07-15-promptfoo-agent-eval) |
 
 ### Chapter 9 — 視野：工作型態與品味　`🔵 視野・工作型態與品味`
 
 | # | 概念 | 英文 | 原文出處 |
 |---|------|------|----------|
-| 39 | 迭代速度 ≈ 1 / 驗證摩擦 | Verification Friction | [2026 開發趨勢：遠離開發機](https://www.garyhsieh.com/blog/2026-06-15-tailscale-dev-loop)、[無限大 Engineering](https://www.garyhsieh.com/blog/2026-07-02-infinity-engineering)、[Remote Engineering](https://www.garyhsieh.com/blog/2026-07-23-remote-engineering) |
-| 40 | 你在 Agentic Engineering 第幾級？ | The 8 Levels | [Martin Fowler 的 8 個 agentic engineering Level](https://www.garyhsieh.com/blog/2026-03-20-martin-fowler-agentic) |
-| 41 | AI 把簡單的事做完了，剩下的全是難題 | The Vampire Gremlin | [AI 把簡單的事全做完了，剩下的全是難題](https://www.garyhsieh.com/blog/2026-02-20-ai) |
-| 42 | 最後決定勝負的，是品味 | Taste Wins | [AI 會取代工程師和音樂人嗎？](https://www.garyhsieh.com/blog/2026-02-18-ai)、[有想法的人應該自己出來做](https://www.garyhsieh.com/blog/2026-03-04-ai) |
+| 40 | 迭代速度 ≈ 1 / 驗證摩擦 | Verification Friction | [2026 開發趨勢：遠離開發機](https://www.garyhsieh.com/blog/2026-06-15-tailscale-dev-loop)、[無限大 Engineering](https://www.garyhsieh.com/blog/2026-07-02-infinity-engineering)、[Remote Engineering](https://www.garyhsieh.com/blog/2026-07-23-remote-engineering) |
+| 41 | 你在 Agentic Engineering 第幾級？ | The 8 Levels | [Martin Fowler 的 8 個 agentic engineering Level](https://www.garyhsieh.com/blog/2026-03-20-martin-fowler-agentic) |
+| 42 | AI 把簡單的事做完了，剩下的全是難題 | The Vampire Gremlin | [AI 把簡單的事全做完了，剩下的全是難題](https://www.garyhsieh.com/blog/2026-02-20-ai) |
+| 43 | 最後決定勝負的，是品味 | Taste Wins | [AI 會取代工程師和音樂人嗎？](https://www.garyhsieh.com/blog/2026-02-18-ai)、[有想法的人應該自己出來做](https://www.garyhsieh.com/blog/2026-03-04-ai) |
 
 ## 概念檔格式
 

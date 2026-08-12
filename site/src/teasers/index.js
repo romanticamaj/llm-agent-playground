@@ -45,6 +45,7 @@ const custom = {
   'access-spectrum': () => import('./access-spectrum.js'),
   'subscription-vs-api-key': () => import('./subscription-vs-api-key.js'),
   'execution-environment': () => import('./execution-environment.js'),
+  'agent-has-no-switch': () => import('./agent-has-no-switch.js'),
 }
 
 export async function loadTeaser(id) {

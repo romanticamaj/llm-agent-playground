@@ -42,4 +42,5 @@ export const demoRegistry = {
   'access-spectrum': () => import('./access-spectrum.js'),
   'subscription-vs-api-key': () => import('./subscription-vs-api-key.js'),
   'execution-environment': () => import('./execution-environment.js'),
+  'agent-has-no-switch': () => import('./agent-has-no-switch.js'),
 }
