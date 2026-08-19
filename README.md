@@ -59,7 +59,7 @@ npm run dev   # 打開 http://localhost:5173
 | 22 | 同一顆大腦，不同的身體 | The Product Map | 課堂實錄 + [OpenClaw 跟 Claude Code 都用 Opus 4.6](https://www.garyhsieh.com/blog/2026-04-26-openclaw-claude-code) |
 | 23 | 跑在哪，是開關，不是屬性 | Execution Environment | 課堂實錄 |
 | 24 | Agent 沒有開關 | Trigger & Cadence | 課堂實錄 |
-| 25 | 叫 AI 上網，它多半沒開瀏覽器 | Web Search vs. Browser Use | [AI Agent 怎麼操作瀏覽器？](https://www.garyhsieh.com/blog/2026-05-08-ai-agent) |
+| 25 | AI 怎麼上網、怎麼操作瀏覽器？ | Web Search vs. Browser Use | [AI Agent 怎麼操作瀏覽器？](https://www.garyhsieh.com/blog/2026-05-08-ai-agent) |
 | 26 | 先確認 Tool 真的有動 | Verify the Tool Fired | 課堂實錄 + [不要追求 AI 多快生出 code](https://www.garyhsieh.com/blog/2026-03-26-ai-code) |
 
 ### Chapter 4 — Memory：讓 AI 記得　`🟡 進階・工程師路線`

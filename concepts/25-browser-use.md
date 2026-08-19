@@ -1,6 +1,6 @@
 ---
 id: browser-use
-title: 叫 AI 上網，它多半沒開瀏覽器
+title: AI 怎麼上網、怎麼操作瀏覽器？
 subtitle: Web Search vs. Browser Use
 chapter: 3
 chapterTitle: 從聊天到 Agent
