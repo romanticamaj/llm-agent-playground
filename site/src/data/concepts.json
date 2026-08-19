@@ -118,15 +118,15 @@
     "sources": [],
     "classroom": true,
     "oneLiner": "AI 任務丟下去在跑的那段等待，不是休息時間 —— 那是你的第二條產線，立刻轉去做下一件。",
-    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 40）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
+    "script": "先講一個很多人還沒調過來的心態。人腦是**單線性**的，一次只能真的專注在一件事上；而且你每次切換任務，都有 **context switch 的成本** —— 換個腦、重新載入、找回狀態，這都要花力氣。所以過去我們的直覺是：一件事做完，再做下一件。\n\n但 AI 時代這個直覺會害死你。**你叫一個 Agent 去跑一個任務，它可能要跑好幾分鐘。那段時間你在幹嘛？** 如果你就坐在那盯著它跑、等它回來，那你一天的產出就被綁死在「一次一件」上。**我要很直接地說：你一次只能做一件事情，是完全不 ok 的。**\n\n正確的動作是 **Round Robin** —— 輪流輪詢。任務 A 丟下去在跑，你的等待時間**立刻轉到任務 B**；B 也丟下去了，轉到 C；C 在跑，回頭看 A 好了沒。一圈一圈轉。**那段等待時間，就是你的第二條、第三條產線。**\n\n這裡要破除一個迷思。你在網路上會看到有人說他「同時開 100 個 coding session」，聽起來像超人。但真相是：**他不是真的一次面向 100 個。人腦做不到。他是每次只面向一個，一直轉、一直轉 —— 轉得夠快，看起來就像同時開 100 個。** 關鍵從來不是「同時處理」，是「輪詢的節奏」。\n\n那要怎麼轉得動？這個心法在後面的 **驗證摩擦（概念 41）** 會再深化。這兩個概念是姊妹作：**一個在降摩擦，一個在填等待。** 驗證摩擦低，你每次「回頭看 A 好了沒」才能快速看懂、快速放行，這樣你才轉得動；如果每次回頭都要花十分鐘搞懂它幹了啥，那你根本輪詢不起來，等待時間就白白流掉了。**降摩擦是為了能輪詢，輪詢是為了不浪費等待 —— 兩件事合起來，才是 AI 時代真正的產能。**",
     "keyPoints": [
       "人腦單線性、context switch 有成本 —— 但 AI 的等待時間絕不能拿來乾等",
       "任務丟下去在跑，等待時間立刻轉去下一個任務（Round Robin 輪詢）",
       "「一次只能做一件事」在 AI 時代是完全不 ok 的",
       "開 100 個 session 不是真的同時面向 100 個，是每次面向一個、轉得夠快",
-      "與後面的驗證摩擦（概念 40）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
+      "與後面的驗證摩擦（概念 41）是姊妹作：一個降摩擦、一個填等待 —— 摩擦低才轉得動"
     ],
-    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 40）串起來。",
+    "demoIdea": "兩條時間軸並排跑一整天。上排「線性」：任務一件接一件，每件中間那段 AI 在跑的等待都是空白（灰色），一天結束產出計數很低。下排「Round Robin」：同樣的等待段，被下一個任務填滿，游標在 A→B→C→A 之間快速跳動，空白幾乎消失，產出計數一路飆高。使用者可以拉一個「驗證摩擦」滑桿：摩擦調高時，下排的輪詢跳動變慢、開始塞車、產出掉下來 —— 直接看到「摩擦低才轉得動」，把 Round Robin 跟後面的驗證摩擦（概念 41）串起來。",
     "questions": [
       "你今天 AI 在跑任務的那些等待時間，是拿去做下一件事，還是就盯著它看？",
       "「一次只能做一件事是完全不 ok 的」—— 這句話讓你不舒服嗎？不舒服的點在哪？",
@@ -932,7 +932,56 @@
   },
   {
     "num": "25",
-    "file": "25-tool-verification.md",
+    "file": "25-browser-use.md",
+    "id": "browser-use",
+    "title": "叫 AI 上網，它多半沒開瀏覽器",
+    "subtitle": "Web Search vs. Browser Use",
+    "chapter": 3,
+    "chapterTitle": "從聊天到 Agent",
+    "sources": [
+      {
+        "title": "AI Agent 怎麼操作瀏覽器？",
+        "url": "https://www.garyhsieh.com/blog/2026-05-08-ai-agent",
+        "date": "2026-05-08"
+      }
+    ],
+    "classroom": false,
+    "oneLiner": "你叫 AI「上網查一下」，它多半沒開瀏覽器 — 它讀的是搜尋引擎**事先收錄好**的那份副本。",
+    "script": "先問一個問題：你跟 AI 說「幫我上網查一下這個」，你腦中浮現的畫面是什麼？大概是它打開一個瀏覽器，把網頁捲一捲、讀一讀，然後回來跟你講。\n\n**其實大部分時候，它根本沒開瀏覽器。**\n\n它走的是一條叫 **Web Search** 的路 — 直接打搜尋 API，把結果拿回來讀。沒有視窗、沒有捲動、不用等網頁載入。又快又便宜，所以現在所有付費的 LLM 訂閱都內建了這條：Claude、ChatGPT、Gemini、Perplexity，全部都有。你平常叫 AI 查資料，九成走的是這條。\n\n那既然這麼好用，為什麼還有人要大費周章讓 AI 去「操作瀏覽器」？\n\n關鍵在這一句，這是全篇最重要的一句：**Web Search 拿到的，是搜尋引擎「事先收錄好」的版本。**\n\n它不是即時去看那個網頁，是去搜尋引擎的倉庫裡，調一份早就抄好的副本。副本什麼時候抄的、抄到多少，你管不了。\n\n想通這件事，四個限制自己就掉出來了。\n\n第一，**內容要靠瀏覽器跑起來才會出現的**。現在很多網站，抓回來是一個空殼，真正的內容是瀏覽器執行完程式才塞進畫面的。搜尋引擎收錄的時候拿到的就是那個空殼 — 它看到一片空白，AI 也就一片空白。（相對的，內容在伺服器端就組好、直接吐出來的那種網站，大致拿得到。這兩種寫法各有名字，但名詞不重要，你只要記得：**有些網站的內容，是到你眼前才長出來的**。）\n\n第二，**要登入才看得到的**。你的 Gmail、公司的 Notion、你的訂單記錄 — 搜尋引擎沒有你的帳號，它完全看不到。這不是抓不全，是零。\n\n第三，**要點按鈕才出現的**。要展開、要切分頁、要按「載入更多」的那些內容，副本上就是沒有。\n\n第四，**太新的**。剛發布的東西還沒被收錄，去倉庫裡調也調不到。\n\n**只有撞到這四種情況，才需要真的把瀏覽器開起來。**\n\n而開起來又有兩條路。分水嶺很好記：**是共用你已經登入的那個瀏覽器，還是另外開一個乾淨的？**\n\n第一條是 **Claude in Chrome** — 共用你的瀏覽器。它接管你平常在用的那個 Chrome，你已經登入的 Gmail、Notion，它一開就讀得到，不用再授權一次。碰到登入頁或 CAPTCHA，它會**停下來、把控制權交還給你**，等你手動處理完再繼續 — 這是它最貼心的設計。它有三個入口：Claude 網頁裡的 connector、Claude Desktop、Claude Code 的 `--chrome`；但你不用記，因為背後是同一套東西。缺點是它偏封閉，主要服務 Claude 自家生態。\n\n第二條是 **Playwright** — 另外開一個乾淨的。它在你電腦上起一個全新的瀏覽器，跟你日常那個**完全隔離**：沒有你的登入狀態、沒有你的 cookie、沒有你裝的擴充套件。聽起來像缺點，但這正是它的賣點 — 因為乾淨，所以每次跑出來的結果都一樣；因為可重複，所以能丟到自動化流程裡天天跑。這就是為什麼寫 E2E 測試沒有第二個選擇。代價是它吃 token 很兇，每操作一步就把整頁的結構回傳給 AI 看一次。\n\n講一個真實例子，這個例子一次打中兩個限制。我要幫我媽從蝦皮把訂單清單抄下來。蝦皮**沒有開放 API**，訂單又**要登入才看得到**。Web Search 在這裡完全廢掉 — 那份副本裡根本沒有我的訂單頁。最後怎麼解？用 Claude Code 的 `--chrome`，讓 AI 在我已經登入的瀏覽器裡，一頁一頁慢慢操作抄下來。\n\n所以判斷法則就很清楚了，按你要做的事：\n\n一般查資料 — **Web Search 為主**，撞到剛剛那四種情況，才退回去開瀏覽器。\n要讀「你已經登入」的東西 — Claude in Chrome。\n要抓沒開放 API 的服務 — Claude in Chrome 或 Playwright。\n要寫 E2E 測試 — Playwright，沒得選，因為只有它同時給你乾淨、可重複、能上自動化流程。\n\n最後補一句底層的洞察。這幾條路看起來差很多，其實底下都在做同一件事 — **讓 AI 跟瀏覽器的控制介面講話**。瀏覽器本來就開了一個給程式操控的入口（你按 F12 開開發者工具，用的就是同一套），這幾條路只是中間那層包裝不一樣：有的繞雲端、有的走本機。\n\n所以不要問「哪一個最強」。要問的是：**我這件事，卡在哪一關？** 卡在內容拿不到？卡在要登入？卡在要可重複？你把卡點講清楚，答案自己就浮出來了。\n\n這跟概念 20 是同一種思路 — 那邊說「能用 connector 就別往下掉」，這邊說「Web Search 夠用就別開瀏覽器」。同一句話：**選最淺可行的那一層，往下掉是有代價的。**",
+    "keyPoints": [
+      "**翻轉**：叫 AI「上網查」，它多半沒開瀏覽器 — 走的是 Web Search，直接打搜尋 API，又快又便宜；所有付費 LLM 訂閱（Claude／ChatGPT／Gemini／Perplexity）都內建這條",
+      "**全篇最重要的一句**：Web Search 拿到的是搜尋引擎**事先收錄好**的版本 — 不是現在那個網頁，是倉庫裡一份抄好的副本",
+      "副本拿不到的剛好四種：**要跑起來才長出來的動態內容**（收錄到的是空殼）、**要登入才看得到的**（完全是零）、**要點按鈕才出現的**、**太新還沒被收錄的**（伺服器端就組好的內容則大致拿得到）",
+      "撞到這四種，才需要真的開瀏覽器；而開起來的分水嶺是：**共用你已登入的瀏覽器，還是另開一個乾淨的**",
+      "**Claude in Chrome（共用你的）**：直接沿用已登入狀態，Gmail、Notion 一開就讀；碰到登入頁或 CAPTCHA 會停下來把控制權交還給你。三個入口（網頁 connector／Desktop／Claude Code `--chrome`）背後是同一套。缺點偏封閉",
+      "**Playwright（開乾淨的）**：本機起一個跟你日常瀏覽器完全隔離的瀏覽器 — 沒有你的登入狀態，但因為乾淨、可重複、能上自動化流程，所以是 E2E 測試的標配；代價是吃 token 兇（每步回傳整頁結構）",
+      "**真實案例**：幫媽媽從蝦皮抄訂單 — 沒開放 API ＋ 要登入 → Web Search 完全廢掉，最後用 Claude Code `--chrome` 慢慢操作",
+      "判斷法則：一般查資料 → Web Search 為主；讀已登入的東西 → Claude in Chrome；抓沒 API 的服務 → Chrome 或 Playwright；寫 E2E → Playwright 沒得選",
+      "底層都在做同一件事（讓 AI 跟瀏覽器的控制介面講話），差別只在中間那層包裝 — 所以不要問「哪個最強」，要問「**我這件事卡在哪一關**」；與概念 20「選最淺可行的一層」是同一種思路"
+    ],
+    "demoIdea": "一台「同一個網頁 × 三種讀法」的對照機。左邊三張讀法卡：`Web Search`／`Claude in Chrome`／`Playwright`；右邊是目標網頁，用抽象區塊呈現，每塊標好它的性質（伺服器端就組好／要跑起來才長出來／要登入才看得到／要點按鈕才出現／今天剛發布）。上方可切換目標頁面：公開說明文件、一般現代網站、你的蝦皮訂單頁、你要測的結帳流程。\n\n選一種讀法，一道掃描光帶從網頁上方掃下來，每塊即時判定：讀得到就把內容線條填滿並打勾，讀不到就塌成空心虛線的空殼，右邊寫出理由。三種讀法的視覺外殼也不一樣 —— Web Search 是虛線框的「收錄副本」，標著「抄於 3 天前」；Claude in Chrome 是真的瀏覽器外殼，右上掛著綠點「你的登入狀態 · 已帶入」；Playwright 也是瀏覽器外殼，但明白標示「全新的隔離環境 · 沒有你的登入狀態」，旁邊蓋一個「可重複 · 能上 CI」的印章。\n\n導演節奏：先用公開說明文件證明 Web Search 全綠、又快又便宜（而且沒開任何瀏覽器）→ 掀開「你讀的是收錄好的副本」這張底牌，副本戳章蓋下去 → **高潮**：換成一般現代網站，四塊區塊接連塌成空殼、標紅抖動，四個盲區一次現形 → 切到 Claude in Chrome，瀏覽器真的開起來，登入牆後面的區塊解鎖亮起 → 切到 Playwright，動態內容一樣讀得到，但登入牆那塊重新上鎖變紅，「乾淨隔離」的代價當場看見 → 蝦皮那一題：沒 API ＋ 要登入，只剩一條路，而且演出 CAPTCHA 那一拍 —— 畫面停住、控制權交還給你，你按下「我處理好了」它才繼續 → 最後 sandbox：自由切頁面 × 讀法，底下的判讀條即時算出「這一題卡在哪一關、走得通的是哪一條」。",
+    "questions": [
+      "你上一次叫 AI 幫你查資料，如果它拿到的只是一份三天前抄好的副本，答案會不會不一樣？你怎麼發現？",
+      "你手上有哪件事，是非得「用你已經登入的身分」才做得到的？那件事適合交給 AI 嗎？",
+      "「不要問哪個最強，要問我卡在哪一關」— 換到概念 20 的四層鑰匙上，這句話會變成什麼？"
+    ],
+    "quotes": [
+      "Web Search 有一個致命缺點：SSR / 動態載入抓不到。Web Search 拿到的是 search engine 已經 index 過的版本。",
+      "大部分情況 Web Search 夠用，又快又便宜。只有遇到 SSR / 登入 / 動態內容才需要動 browser。",
+      "之前幫我媽從蝦皮抄訂單清單——蝦皮沒開 API，此外還要登入，所以 Web Search 完全廢掉，最後是用 Claude Code —chrome 讓 AI 慢慢操作。",
+      "Claude 共用你 browser 的 login state — 已登入的 Gmail、Notion 直接讀。",
+      "遇到登入頁或 CAPTCHA 會停下來請你手動處理。",
+      "三個入口、同一個 remote MCP server、同一套 tools。",
+      "它在你本機起一個獨立的 Chromium process，跟你日常 browser 完全隔離。",
+      "E2E 測試 → Playwright，沒得選。",
+      "根據你的任務，讓 AI 選用最適合的操作方式。",
+      "底層其實都在做同一件事——讓 LLM 跟 browser control plane 溝通，差別只在中間那層 wrapper。",
+      "想清楚要解決什麼問題，Browser Use 的途徑自然就跟著確定了。"
+    ]
+  },
+  {
+    "num": "26",
+    "file": "26-tool-verification.md",
     "id": "tool-verification",
     "title": "先確認 Tool 真的有動",
     "subtitle": "Verify the Tool Fired",
@@ -967,8 +1016,8 @@
     ]
   },
   {
-    "num": "26",
-    "file": "26-memory-map.md",
+    "num": "27",
+    "file": "27-memory-map.md",
     "id": "memory-map",
     "title": "記憶不在 AI 裡，在外面",
     "subtitle": "From Stateless to Stateful",
@@ -1010,8 +1059,8 @@
     ]
   },
   {
-    "num": "27",
-    "file": "27-self-improving-agent.md",
+    "num": "28",
+    "file": "28-self-improving-agent.md",
     "id": "self-improving-agent",
     "title": "自我學習，就是超有紀律的記憶管理",
     "subtitle": "The Self-Improving Agent",
@@ -1054,8 +1103,8 @@
     ]
   },
   {
-    "num": "28",
-    "file": "28-agent-vs-workflow.md",
+    "num": "29",
+    "file": "29-agent-vs-workflow.md",
     "id": "agent-vs-workflow",
     "title": "Agent 還是 Workflow？",
     "subtitle": "Agent vs. Workflow",
@@ -1091,8 +1140,8 @@
     ]
   },
   {
-    "num": "29",
-    "file": "29-hooks.md",
+    "num": "30",
+    "file": "30-hooks.md",
     "id": "hooks",
     "title": "說服是修辭，約束是工程",
     "subtitle": "Hooks & Anti-Rationalization",
@@ -1128,8 +1177,8 @@
     ]
   },
   {
-    "num": "30",
-    "file": "30-harness.md",
+    "num": "31",
+    "file": "31-harness.md",
     "id": "harness",
     "title": "從「會動」到「可控」",
     "subtitle": "The Agent Harness",
@@ -1171,8 +1220,8 @@
     ]
   },
   {
-    "num": "31",
-    "file": "31-prompt-cache.md",
+    "num": "32",
+    "file": "32-prompt-cache.md",
     "id": "prompt-cache",
     "title": "算過的，別再算",
     "subtitle": "Prompt Cache / KV Cache",
@@ -1208,8 +1257,8 @@
     ]
   },
   {
-    "num": "32",
-    "file": "32-subscription-vs-api-key.md",
+    "num": "33",
+    "file": "33-subscription-vs-api-key.md",
     "id": "subscription-vs-api-key",
     "title": "你有兩個錢包",
     "subtitle": "訂閱制 vs API key",
@@ -1240,8 +1289,8 @@
     ]
   },
   {
-    "num": "33",
-    "file": "33-sub-agents.md",
+    "num": "34",
+    "file": "34-sub-agents.md",
     "id": "sub-agents",
     "title": "卡住了？叫 AI 去找幫手",
     "subtitle": "Sub-agents",
@@ -1277,8 +1326,8 @@
     ]
   },
   {
-    "num": "34",
-    "file": "34-agent-communication.md",
+    "num": "35",
+    "file": "35-agent-communication.md",
     "id": "agent-communication",
     "title": "Agent 怎麼聊天？作業系統早就演過了",
     "subtitle": "Agent Communication",
@@ -1314,8 +1363,8 @@
     ]
   },
   {
-    "num": "35",
-    "file": "35-long-running-agent.md",
+    "num": "36",
+    "file": "36-long-running-agent.md",
     "id": "long-running-agent",
     "title": "不是撐得久，是交接零成本",
     "subtitle": "Long-running Agent",
@@ -1373,8 +1422,8 @@
     ]
   },
   {
-    "num": "36",
-    "file": "36-relocating-rigor.md",
+    "num": "37",
+    "file": "37-relocating-rigor.md",
     "id": "relocating-rigor",
     "title": "嚴謹搬家",
     "subtitle": "Relocating Rigor",
@@ -1418,8 +1467,8 @@
     ]
   },
   {
-    "num": "37",
-    "file": "37-agentic-engineering.md",
+    "num": "38",
+    "file": "38-agentic-engineering.md",
     "id": "agentic-engineering",
     "title": "三條反轉與不能外包的邊界",
     "subtitle": "Agentic Engineering",
@@ -1455,8 +1504,8 @@
     ]
   },
   {
-    "num": "38",
-    "file": "38-permission-boundary.md",
+    "num": "39",
+    "file": "39-permission-boundary.md",
     "id": "permission-boundary",
     "title": "約定不是牆",
     "subtitle": "Boundaries Are Not Walls",
@@ -1500,8 +1549,8 @@
     ]
   },
   {
-    "num": "39",
-    "file": "39-agent-eval.md",
+    "num": "40",
+    "file": "40-agent-eval.md",
     "id": "agent-eval",
     "title": "每次亂講，都變成一條 regression",
     "subtitle": "Agent Evals",
@@ -1538,8 +1587,8 @@
     ]
   },
   {
-    "num": "40",
-    "file": "40-verification-friction.md",
+    "num": "41",
+    "file": "41-verification-friction.md",
     "id": "verification-friction",
     "title": "迭代速度 ≈ 1 / 驗證摩擦",
     "subtitle": "Verification Friction",
@@ -1586,8 +1635,8 @@
     ]
   },
   {
-    "num": "41",
-    "file": "41-eight-levels.md",
+    "num": "42",
+    "file": "42-eight-levels.md",
     "id": "eight-levels",
     "title": "你在 Agentic Engineering 第幾級？",
     "subtitle": "The 8 Levels",
@@ -1622,8 +1671,8 @@
     ]
   },
   {
-    "num": "42",
-    "file": "42-vampire-gremlin.md",
+    "num": "43",
+    "file": "43-vampire-gremlin.md",
     "id": "vampire-gremlin",
     "title": "AI 把簡單的事做完了，剩下的全是難題",
     "subtitle": "The Vampire Gremlin",
@@ -1660,8 +1709,8 @@
     ]
   },
   {
-    "num": "43",
-    "file": "43-taste.md",
+    "num": "44",
+    "file": "44-taste.md",
     "id": "taste",
     "title": "最後決定勝負的，是品味",
     "subtitle": "Taste Wins",

@@ -43,4 +43,5 @@ export const demoRegistry = {
   'subscription-vs-api-key': () => import('./subscription-vs-api-key.js'),
   'execution-environment': () => import('./execution-environment.js'),
   'agent-has-no-switch': () => import('./agent-has-no-switch.js'),
+  'browser-use': () => import('./browser-use.js'),
 }
