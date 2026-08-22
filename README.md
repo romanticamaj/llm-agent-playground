@@ -1,25 +1,180 @@
-# LLM Agent Playground — AI 概念實驗室
+<sub>An interactive lab for AI/LLM/agent concepts — every concept ships with a hand-built, directed demo you can play with. Content in Traditional Chinese.</sub>
 
-**Live: [garyhsieh.com/ai-lab](https://www.garyhsieh.com/ai-lab)**
+# AI 概念實驗室 · LLM Agent Playground
 
-把 Gary Hsieh（garyhsieh.com）的 AI 心得文章，整理成可直接上課使用的教學概念庫 + 互動式教學網站 — 目前共 **9 章、44 個概念**。
+[![Live](https://img.shields.io/badge/live-garyhsieh.com%2Fai--lab-f7f8f8?style=flat-square&labelColor=08090a)](https://www.garyhsieh.com/ai-lab)&nbsp;[![Concepts](https://img.shields.io/badge/concepts-9%20chapters-8ea9e8?style=flat-square&labelColor=08090a)](#課綱總覽)&nbsp;[![Code: MIT](https://img.shields.io/badge/code-MIT-72c2ae?style=flat-square&labelColor=08090a)](LICENSE)&nbsp;[![Content: © reserved](https://img.shields.io/badge/content-%C2%A9%20reserved-d9a866?style=flat-square&labelColor=08090a)](LICENSE-CONTENT.md)&nbsp;[![Built with](https://img.shields.io/badge/vite%20%2B%20three.js-8a8f98?style=flat-square&labelColor=08090a)](site/package.json)
 
-- **教學概念檔**：`concepts/` — 每個概念一個檔案，含一句話、三分鐘講稿、關鍵重點、互動示範構想、課堂提問、原文金句與出處連結
-- **互動教學網站**：`site/` — Vite + three.js，上課展示（Presentation 模式）與自由體驗（Explore 模式）兩用
+把 [garyhsieh.com](https://www.garyhsieh.com) 的 AI 心得文章，做成一座**可以親手玩的教學實驗室** —— 九章、44 個概念，從 LLM 的本質一路走到 Agent 工程，每一個概念都有自己的互動 demo。
 
-## 使用方式
+### ▶︎ [開啟網站 — garyhsieh.com/ai-lab](https://www.garyhsieh.com/ai-lab)
+
+![首頁 hero](docs/images/hero.png)
+
+---
+
+## 這是什麼，特別在哪
+
+這不是「文章整理」，是一套**為了站在台前講課而做的教材**。
+
+- **每個概念都是一個可玩的 demo，不是一張圖。** 每一個概念都對應一支手寫的 vanilla JS 互動模組（`site/src/demos/`），全部本地模擬、不打任何 API。文字接龍、貨車 compaction、context 汙染與時光機、四層權限鑰匙……概念的「對比」是玩出來的，不是讀出來的。
+- **導演式分鏡，不是儀表板。** demo 用自製的 `DemoStage` 框架跑：一次只教一件事、同時會動的東西 ≤ 1、主角以外的元素自動變暗模糊、說明走底部字幕式大旁白，最後一拍才把控制權整個交還給你自由實驗。（[往下看](#demo-框架-demostage)）
+- **每張概念卡都在自己動。** 概念頁上常駐一支 live teaser micro-animation（`site/src/teasers/`），滾進畫面才掛載、滾出就卸掉，點下去就展開完整 demo。
+- **內建上課簡報模式。** 按 `P` 切換，`←`/`→` 換頁、`Enter` 開互動、`Esc` 離開；`K` 叫出概念目錄。同一個站，自己讀跟投影上課兩用。
+- **概念檔是唯一內容來源。** 講稿、重點、課堂提問、原文金句全寫在 `concepts/*.md`，網站資料由 build script 產生 —— 改教材只改 Markdown，不碰前端。
+
+---
+
+## 快速開始
 
 ```bash
 cd site
 npm install
-npm run dev   # 打開 http://localhost:5173
+npm run dev   # http://localhost:5173
 ```
 
-網站操作：滾動瀏覽 → 每個概念可「進入互動」；按 `P` 進入上課簡報模式（←/→ 換頁、`Enter` 開互動、`Esc` 離開）。
+`npm run dev` / `npm run build` 前會自動跑 `scripts/build-data.mjs` 重建內容資料。要掛在子路徑下部署（例如 `/ai-lab/`）時設 `AI_LAB_BASE=/ai-lab/ npm run build`。
+
+**網站操作**：滾動瀏覽 → 每張概念卡點「進入互動」；`P` 上課簡報模式、`K` 概念目錄、`←`/`→` 換頁或換分鏡、`Esc` 離開。
+
+---
+
+## 專案結構
+
+```
+concepts/              # 教學概念檔（單一內容來源）— NN-<id>.md
+docs/                  # 設計研究與落差分析
+  interaction-analysis.md    # 拆解 Nicky Case / Seeing Theory / R2D3 等互動教學標竿，提煉出 DemoStage 的六條法則
+  teaching-gap-analysis.md   # 授課實錄 vs 網站內容的落差清單（哪些概念要補、怎麼補）
+site/
+  DEMO_GUIDE.md        # demo 模組合約與 DemoStage 規範（寫 demo 前必讀）
+  index.html
+  scripts/
+    build-data.mjs     # concepts/*.md → src/data/concepts.json
+  src/
+    main.js            # 章節組版、滾動、簡報模式、概念目錄、demo overlay
+    style.css          # 設計系統（Lab HUD）
+    bg3d.js            # three.js 星空背景
+    data/concepts.json # 自動產生，不要手改
+    demos/
+      _stage.js        # DemoStage 導演框架（beats / spotlight / juice utils）
+      index.js         # demo 註冊表（懶載入）
+      <concept-id>.js  # 每個概念一支
+    teasers/
+      index.js         # teaser 註冊表
+      _generic.js      # 沒有自訂 teaser 時的預設動畫
+      <concept-id>.js
+```
+
+---
+
+## 內容怎麼運作
+
+`concepts/NN-<id>.md` 是**唯一內容來源（single source of truth）**。每個檔案 = frontmatter + 六個固定小節：
+
+```markdown
+---
+id: browser-use
+title: AI 怎麼上網、怎麼操作瀏覽器？
+subtitle: Web Search vs. Browser Use
+chapter: 3
+chapterTitle: 從聊天到 Agent
+source:
+  - title: "AI Agent 怎麼操作瀏覽器？"
+    url: https://www.garyhsieh.com/blog/2026-05-08-ai-agent
+    date: 2026-05-08
+---
+
+## 一句話        投影片級 punchline
+## 三分鐘講稿     保留原文口吻、可直接唸出來
+## 關鍵重點       條列
+## 互動示範構想    這一節就是該支 demo 的設計稿
+## 課堂提問       條列
+## 原文金句       引用區塊，逐句對應原文
+```
+
+沒有對應文章、整理自課堂實錄的概念，frontmatter 另標 `classroom: true`。
+
+```
+concepts/*.md  ──  npm run data  ──▶  site/src/data/concepts.json  ──▶  site/src/main.js
+                (build-data.mjs)                                        章節組版 / 講稿 / 出處連結
+```
+
+`build-data.mjs` 自己解析 frontmatter 與小節標題（無外部依賴），輸出 `num / id / title / subtitle / chapter / sources / classroom / oneLiner / script / keyPoints / demoIdea / questions / quotes`。**`concepts.json` 是產物，不要手改。**
+
+---
+
+## Demo 框架 DemoStage
+
+![demo 進行中：貨車 compaction](docs/images/demo-stage.png)
+
+一般的教學互動很容易做成「一個滿是控制項的儀表板」—— 使用者看不懂要按哪、也不知道要看哪。`site/src/demos/_stage.js` 是為了避免這件事寫的**導演框架**：把一支 demo 拆成幾拍分鏡（beats），像影片一樣演給你看，最後才放你自己玩。
+
+設計法則（推導過程見 [`docs/interaction-analysis.md`](docs/interaction-analysis.md)）：**一次只教一件事、同時會動的東西 ≤ 1、每次點擊都有 juice、先導遊後放生。**
+
+框架提供：
+
+- **beats 分鏡** —— 一支 demo 3–6 拍，每拍一句旁白、一個焦點；`enter(stage)` / `exit(stage)` 掛動畫與互動。beat 之間**用動畫轉場，不重繪**，狀態轉換要「值得看」。
+- **spotlight 視線引導** —— 每拍用 `focus: ['.selector']` 指定主角，其餘標了 `.ds-unit` 的視覺單元自動變暗＋模糊（上圖底部那條 token 計量就是被 dim 掉的）。
+- **字幕式旁白** —— 說明文字全部進 beat 的 `narration`，走底部大旁白條（20–28px、`<b>` 自動上主色），畫面上不再有大段引導文。
+- **juice 動效工具** —— `pop()` / `shake()` / `enterFly()` / `countUp()` / `confettiBurst()`，讓每次互動都有即時的因果回饋。
+- **分鏡導航** —— 底部進度點 + 上一步/下一步，`←`/`→` 由框架接管，demo 內不必自己掛鍵盤。
+- **sandbox 收尾** —— 最後一拍標 `sandbox: true`：解除 dim、隱藏「下一步」、開放所有控制自由實驗。
+
+```js
+import { createStage, pop, countUp } from './_stage.js'
+
+export default function mount(el, ctx) {
+  const stage = createStage(el, ctx, {
+    beats: [
+      { narration: '大旁白，一次一句，可用 <b>重點</b>。', focus: ['.xx-truck'],
+        enter(s) { /* 對 s.body 裡的場景做動畫、掛互動 */ }, exit(s) {} },
+      // ... 3-6 拍
+      { narration: '換你玩 — 全部解鎖。', sandbox: true, enter(s) { /* 開放所有控制 */ } },
+    ],
+  })
+  stage.body.innerHTML = `...`   // 場景一次蓋好，之後只做動畫
+  return stage.destroy           // cleanup 契約
+}
+```
+
+完整合約（mount 簽名、cleanup 規則、樣式隔離、無網路、效能上限、版面建議）看 **[`site/DEMO_GUIDE.md`](site/DEMO_GUIDE.md)** —— 寫任何一支 demo 之前都該先讀它。
+
+---
+
+## 怎麼新增一個概念
+
+1. **寫概念檔** —— 新增 `concepts/NN-<id>.md`，補齊 frontmatter 與六個小節。**「互動示範構想」那節要當成 demo 的設計稿來寫**：畫面上有什麼、按什麼、看什麼、分鏡怎麼走、哪一拍是「啊哈時刻」。
+2. **產資料** —— `cd site && npm run data`，確認 `concepts.json` 裡多了這一筆（`npm run dev` 會自動先跑一次）。
+3. **寫 demo** —— 依 [`site/DEMO_GUIDE.md`](site/DEMO_GUIDE.md) 新增 `site/src/demos/<id>.js`，用 `createStage` 把上一步的設計稿實作成 3–6 拍 + 一拍 sandbox。可以為了清楚與可行而簡化，但**核心對比不能丟**。
+4. **寫 teaser**（選用）—— 新增 `site/src/teasers/<id>.js`，做一支概念卡上常駐播放的 micro-animation；不寫就自動用 `_generic.js`。
+5. **接上兩個註冊表** —— 在 `site/src/demos/index.js` 與 `site/src/teasers/index.js` 各加一行懶載入。**漏接 demo 註冊表 = 概念卡點下去沒反應**，這是最常見的坑。
+6. **驗收** —— `npm run dev`：概念卡有動、點進去分鏡走得順、`Esc` 離開後沒有殘留 timer；`P` 進簡報模式再看一次投影效果。
+
+章節本身的中英標題、主色與路徑分類定義在 `site/src/main.js` 頂端的 `CHAPTERS`；要開新章節就在那裡加一筆。
+
+---
+
+## 設計系統
+
+![章節分隔頁](docs/images/chapter-divider.png)
+
+深色編輯風的 **Lab HUD**（`site/src/style.css`）—— 參考 Lando Norris SOTY 2025 的紙白／髮絲線與 Igloo Inc SOTY 2024 的 mono HUD 語彙。
+
+- **深色底 `#08090a` + 紙白 `#f7f8f8`**，髮絲線 `rgba(255,255,255,.09)` 分割，全站蓋一層極淡膠片顆粒。
+- **每章一個低飽和主色**（藍 → 青 → 琥珀 → 紫 → 玫瑰 → 橄欖 → 陶土 → 金），滾到該章時 `--accent` 整站漸變切換，連 three.js 星空背景一起換色 —— 顏色就是「你在第幾章」的定位訊號。
+- **字體**：`Noto Sans TC`（正文）／`Inter`（西文）／`JetBrains Mono`（HUD 微標籤、章節編號、`//` 前綴）。
+- **禁用 emoji** —— UI 需要圖示時一律內嵌 SVG 手繪：幾何極簡、`stroke="currentColor"`、`fill="none"`、`stroke-width="1.6"`、圓端點。
+- **投影優先的字級** —— demo 內文 ≥15px、主要標籤 16–18px、旁白 20px 起跳，因為這些畫面會被投到教室的布幕上。
+- **自訂游標**（dot + ring，hover 熱區放大），觸控裝置自動關閉；響應式底線是 1024×640 完整可用，窄螢幕時 demo 旁白條自動改成疊層版。
+
+---
 
 ## 課綱總覽
 
-全站 **9 章、44 概念**，分三條路徑：**Ch1–Ch3 是入門・授課主線**（診所／一般團隊上課用的核心概念），**Ch4–Ch8 是進階・工程師路線**（多在工程師場才展開），**Ch9 是視野・工作型態與品味**（全站收束，談 AI 之後的工作型態與最後決勝的品味）。標「課堂實錄」的概念來自 2026-07-22 授課實錄整理。
+分三條路徑：**Ch1–Ch3 入門・授課主線**（診所／一般團隊上課用的核心概念）、**Ch4–Ch8 進階・工程師路線**（多在工程師場才展開）、**Ch9 視野・工作型態與品味**（全站收束）。標「課堂實錄」的概念來自 2026-07-22 授課實錄整理。
+
+<details>
+<summary><b>展開完整課綱（章節 · 概念 · 原文出處）</b></summary>
 
 ### Chapter 1 — 開場：為什麼是概念　`🟢 入門・授課主線`
 
@@ -110,8 +265,26 @@ npm run dev   # 打開 http://localhost:5173
 | 43 | AI 把簡單的事做完了，剩下的全是難題 | The Vampire Gremlin | [AI 把簡單的事全做完了，剩下的全是難題](https://www.garyhsieh.com/blog/2026-02-20-ai) |
 | 44 | 最後決定勝負的，是品味 | Taste Wins | [AI 會取代工程師和音樂人嗎？](https://www.garyhsieh.com/blog/2026-02-18-ai)、[有想法的人應該自己出來做](https://www.garyhsieh.com/blog/2026-03-04-ai) |
 
-## 概念檔格式
+</details>
 
-每個 `concepts/NN-id.md` 都有 frontmatter（id / title / subtitle / chapter / chapterTitle / source[]，課堂實錄的概念另標 `classroom: true`）加六節：**一句話**（投影片級 punchline）、**三分鐘講稿**（保留原文口吻可直接唸）、**關鍵重點**、**互動示範構想**、**課堂提問**、**原文金句**。
+---
 
-網站的內容資料由 `site/scripts/build-data.mjs` 從這些 MD 檔自動產生（`npm run data`），概念檔是唯一的內容來源（single source of truth）。
+## 授權
+
+這個 repo 採**雙授權** —— 程式碼與教學內容分開：
+
+| 範圍 | 授權 |
+|------|------|
+| **程式碼** — `site/` 原始碼、`DemoStage` 導演框架、`scripts/` 建置流程 | [MIT](LICENSE) |
+| **教學內容** — `concepts/` 講稿與金句、`docs/` 分析文件、網站上呈現的文字 | © 2026 Gary Hsieh，保留一切權利（[詳見](LICENSE-CONTENT.md)） |
+
+這樣切的理由很簡單：`DemoStage` 這套導演式 demo 框架和 `concepts/*.md → JSON`
+的內容流水線，是這個專案想分享的**做法**，歡迎拿去用；`concepts/` 裡的講稿則是
+作者的文章與課堂積累，是**素材**，性質不同。
+
+**歡迎複製這套教學的骨架，內容請寫你自己的。**
+
+教學內容的引用、轉載與商業使用條款見 [LICENSE-CONTENT.md](LICENSE-CONTENT.md)。
+每個概念檔的 frontmatter 都標了原文出處，網站上也附連結。
+
+<sub>Screenshots in `docs/images/` are of this project's own UI.</sub>
